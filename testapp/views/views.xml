@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="testapp.list">
+      <field name="name">testapp list</field>
+      <field name="model">testapp.testapp</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="testapp.action_window">
+      <field name="name">testapp window</field>
+      <field name="res_model">testapp.testapp</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="testapp.action_server">
+      <field name="name">testapp server</field>
+      <field name="model_id" ref="model_testapp_testapp"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="testapp" id="testapp.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="testapp.menu_1" parent="testapp.menu_root"/>
+    <menuitem name="Menu 2" id="testapp.menu_2" parent="testapp.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="testapp.menu_1_list" parent="testapp.menu_1"
+              action="testapp.action_window"/>
+    <menuitem name="Server to list" id="testapp" parent="testapp.menu_2"
+              action="testapp.action_server"/>
+-->
+  </data>
+</odoo>
