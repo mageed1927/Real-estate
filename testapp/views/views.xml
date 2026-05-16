@@ -1,28 +1,43 @@
 <odoo>
   <data>
     <!-- explicit list view definition -->
-<!--
-    <record model="ir.ui.view" id="testapp.list">
-      <field name="name">testapp list</field>
-      <field name="model">testapp.testapp</field>
+
+    <record model="ir.ui.view" id="testapp_am_list">
+      <field name="name">Misurati list</field>
+      <field name="model">my.app</field>
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
           <field name="value"/>
           <field name="value2"/>
+          <field name="description"/>
+          <field name="truefalse"/>
+          <field name="date"/>
+          <field name="date_time"/>
         </tree>
       </field>
     </record>
--->
+
 
     <!-- actions opening views on models -->
-<!--
-    <record model="ir.actions.act_window" id="testapp.action_window">
-      <field name="name">testapp window</field>
-      <field name="res_model">testapp.testapp</field>
+    <record model="ir.actions.act_window" id="testapp_misurati_action_window">
+      <field name="name">misurati</field>
+      <field name="res_model">my.app</field>
+      <field name="view_mode">tree,form,kanban,pivot,graph</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="testapp_orders_action_window">
+      <field name="name">Orders</field>
+      <field name="res_model">my.orders</field>
       <field name="view_mode">tree,form</field>
     </record>
--->
+
+    <record model="ir.actions.act_window" id="testapp_items_action_window">
+      <field name="name">Items</field>
+      <field name="res_model">my.orders.items</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
 
     <!-- server action to the one above -->
 <!--
@@ -41,20 +56,21 @@
 -->
 
     <!-- Top menu item -->
-<!--
-    <menuitem name="testapp" id="testapp.menu_root"/>
--->
+
+    <menuitem name="New app" id="testapp.menu_root"/>
+
     <!-- menu categories -->
-<!--
-    <menuitem name="Menu 1" id="testapp.menu_1" parent="testapp.menu_root"/>
-    <menuitem name="Menu 2" id="testapp.menu_2" parent="testapp.menu_root"/>
--->
+
+    <menuitem name="main" id="testapp.menu_main" parent="testapp.menu_root"
+              action="testapp_misurati_action_window"/>
+    <menuitem name="My Orders" id="testapp.menu_orders" parent="testapp.menu_root"/>
+
     <!-- actions -->
-<!--
-    <menuitem name="List" id="testapp.menu_1_list" parent="testapp.menu_1"
-              action="testapp.action_window"/>
-    <menuitem name="Server to list" id="testapp" parent="testapp.menu_2"
-              action="testapp.action_server"/>
--->
+
+    <menuitem name="Orders" id="testapp.menu_order_list" parent="testapp.menu_orders"
+              action="testapp_orders_action_window"/>
+    <menuitem name="items" id="testapp.menu_order_item_list" parent="testapp.menu_orders"
+              action="testapp_items_action_window"/>
+
   </data>
 </odoo>
