@@ -2,19 +2,40 @@
   <data>
     <!-- explicit list view definition -->
 
-    <record model="ir.ui.view" id="testapp_am_list">
-      <field name="name">Misurati list</field>
+    <record model="ir.ui.view" id="testapp_am_form">
+      <field name="name">Misurati form</field>
       <field name="model">my.app</field>
       <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-          <field name="description"/>
-          <field name="truefalse"/>
-          <field name="date"/>
-          <field name="date_time"/>
-        </tree>
+        <form string="my form">
+          <sheet>
+            <h1>hello</h1>
+            <h2><field name="name" default_focus="Enter name"/></h2>
+            <hr/>
+            <group string="info 01">
+          <field name="value" string="age"/>
+          <field name="value2" string="salary" sum="salary"/>
+          <field name="description" decoration-bf="1"/>
+            </group>
+            <group string="info 02">
+          <field name="truefalse" string="isActive"/>
+          <field name="date" optional="hide"/>
+          <field name="date_time" />
+          <button name="button_action" type="object" string="Email" icon="fa-envelope"/>
+            </group>
+            <notebook>
+              <page string="html scheme">
+                <group>
+                  <field name="html" />
+                </group>
+              </page>
+              <page string="notes">
+                <group>
+                  <field name="description" />
+                </group>
+              </page>
+            </notebook>
+          </sheet>
+        </form>
       </field>
     </record>
 
@@ -73,6 +94,6 @@
               action="testapp_items_action_window"/>
 
 
-    
+
   </data>
 </odoo>
