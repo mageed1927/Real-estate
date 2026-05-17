@@ -72,5 +72,7 @@
     <menuitem name="items" id="testapp.menu_order_item_list" parent="testapp.menu_orders"
               action="testapp_items_action_window"/>
 
+
+    
   </data>
 </odoo>
