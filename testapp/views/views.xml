@@ -9,7 +9,7 @@
         <form string="my form">
           <sheet>
             <h1>hello</h1>
-            <h2><field name="name" default_focus="Enter name"/></h2>
+            <h2><field name="name" default_focus="Enter name" placeholder='enter name'/></h2>
             <hr/>
             <group string="info 01">
           <field name="value" string="age"/>
@@ -21,6 +21,13 @@
           <field name="date" optional="hide"/>
           <field name="date_time" />
           <button name="button_action" type="object" string="Email" icon="fa-envelope"/>
+            </group>
+            <group string="calculator">
+              <field name="cal1"/>
+              <field name="cal2"/>
+              <hr/>
+              <field name="result"/>
+
             </group>
             <notebook>
               <page string="html scheme">
