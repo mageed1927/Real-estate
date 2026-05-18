@@ -25,7 +25,7 @@
             <group string="calculator">
               <field name="cal1"/>
               <field name="cal2"/>
-              <hr/>
+              <hr/><br/>
               <field name="result"/>
 
             </group>
