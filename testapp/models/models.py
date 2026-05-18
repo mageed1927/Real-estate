@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from odoo.addons.account_consolidation.report.builder import default
 
 
 class testapp(models.Model):
@@ -10,11 +11,11 @@ class testapp(models.Model):
     def button_action(self):
         pass
 
-    name = fields.Char()
-    value = fields.Integer()
+    name = fields.Char(string="My Name", required=True, placeholder='enter name')
+    value = fields.Integer(default=30)
     value2 = fields.Float()
-    description = fields.Text()
-    truefalse = fields.Boolean()
+    description = fields.Text(default="ENTER DESCRIPTION")
+    truefalse = fields.Boolean(default=True)
     html = fields.Html()
     date = fields.Date()
     date_time = fields.Datetime()
