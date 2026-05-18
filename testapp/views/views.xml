@@ -39,7 +39,6 @@
       </field>
     </record>
 
-
     <!-- actions opening views on models -->
     <record model="ir.actions.act_window" id="testapp_misurati_action_window">
       <field name="name">misurati</field>
