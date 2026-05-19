@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-
 from odoo import models, fields, api
-
+from odoo.exceptions import ValidationError
 
 class testapp(models.Model):
     _name = 'my.app'
     _description = 'N/A'
+    _inherit = ['mail.thread','mail.activity.mixin']
 
-    name = fields.Char(string="My Name", required=True)
+    name = fields.Char(string="My Name", required=True, tracking=True)
     value = fields.Integer(default=30)
     value2 = fields.Float()
     description = fields.Text(default="ENTER DESCRIPTION")
@@ -28,6 +28,13 @@ class testapp(models.Model):
     result = fields.Float(string="val1 + val2", compute='_value_pc')
     computed = fields.Float(string="Computed", compute='_compute_value')
 
+    _sql_constraints = [
+        ('uniq_name','unique(name)','name is taken',)
+    ]
+    @api.constrains('value')
+    def _check_age(self):
+        if self.value <= 18 or self.value >= 36:
+            raise ValidationError('age must be between 18 and 36')
     @api.depends('cal1', 'cal2')
     def _value_pc(self):
         for record in self:
