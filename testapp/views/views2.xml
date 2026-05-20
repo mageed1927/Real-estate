@@ -1,20 +1,11 @@
 <odoo>
   <data>
     <!-- explicit list view definition -->
-
     <record model="ir.ui.view" id="testapp_am_form">
       <field name="name">Misurati form</field>
       <field name="model">my.app</field>
       <field name="arch" type="xml">
         <form string="my form">
-          <header>
-          <button name="event_reviewed" string="Reviewed" invisible="state != 'new'" type="object"/>
-          <button name="event_approved" string="Approved" invisible="state != 'new'" type="object"/>
-          <button name="event_refused" string="Refused" invisible="state != 'new'" type="object"/>
-          <button name="event_new" string="Reviewed" invisible="state != 'new'" type="object"/>
-
-            <field name="state" widget="statusbar"/>
-          </header>
           <sheet>
             <h1>hello</h1>
             <h2><field name="name" default_focus="Enter name" placeholder='enter name'/></h2>
@@ -35,7 +26,6 @@
               <field name="cal2"/>
               <hr/><br/>
               <field name="result"/>
-
             </group>
             <notebook>
               <page string="html scheme">
@@ -58,61 +48,33 @@
         </form>
       </field>
     </record>
-
     <!-- actions opening views on models -->
     <record model="ir.actions.act_window" id="testapp_misurati_action_window">
       <field name="name">misurati</field>
       <field name="res_model">my.app</field>
       <field name="view_mode">tree,form,kanban,pivot,graph</field>
     </record>
-
     <record model="ir.actions.act_window" id="testapp_orders_action_window">
       <field name="name">Orders</field>
       <field name="res_model">my.orders</field>
       <field name="view_mode">tree,form</field>
     </record>
-
     <record model="ir.actions.act_window" id="testapp_items_action_window">
       <field name="name">Items</field>
       <field name="res_model">my.orders.items</field>
       <field name="view_mode">tree,form</field>
     </record>
-
-
-    <!-- server action to the one above -->
-<!--
-    <record model="ir.actions.server" id="testapp.action_server">
-      <field name="name">testapp server</field>
-      <field name="model_id" ref="model_testapp_testapp"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": model._name,
-        }
-      </field>
-    </record>
--->
-
     <!-- Top menu item -->
-
     <menuitem name="New app" id="testapp.menu_root"/>
-
     <!-- menu categories -->
-
     <menuitem name="main" id="testapp.menu_main" parent="testapp.menu_root"
               action="testapp_misurati_action_window"/>
     <menuitem name="My Orders" id="testapp.menu_orders" parent="testapp.menu_root"/>
-
     <!-- actions -->
-
     <menuitem name="Orders" id="testapp.menu_order_list" parent="testapp.menu_orders"
               action="testapp_orders_action_window"/>
     <menuitem name="items" id="testapp.menu_order_item_list" parent="testapp.menu_orders"
               action="testapp_items_action_window"/>
-
-
 
   </data>
 </odoo>

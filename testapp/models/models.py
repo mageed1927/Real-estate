@@ -22,6 +22,7 @@ class testapp(models.Model):
         ('3', 'val3'),
         ('4', 'val4')
     ])
+    state = fields.Selection([('new','New'),('reviewed','Reviewed'),('approved','Approved'),('refused','Refused')],default='new')
 
     cal1 = fields.Float(string="val 01")
     cal2 = fields.Float(string="val 02")
@@ -52,3 +53,14 @@ class testapp(models.Model):
     def _compute_result(self):
         for record in self:
             record.result = (record.cal1 + record.cal2) / 100
+    def event_reviewed(self):
+        self.state = 'reviewed'
+
+    def event_approved(self):
+        self.state = 'approved'
+
+    def event_refused(self):
+        self.state = 'refused'
+
+    def event_new(self):
+        self.state = 'new'
