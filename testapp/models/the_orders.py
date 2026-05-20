@@ -12,5 +12,5 @@ class MyOrdersitems(models.Model):
     name = fields.Char()
     itemPrice = fields.Float()
     qty = fields.Integer()
-    order_id = fields.Many2one('my.orders')
+    order_id = fields.Many2one('my.orders', domain="[('state','=','ready')]")
 
