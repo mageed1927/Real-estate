@@ -57,7 +57,28 @@
         </form>
       </field>
     </record>
-    
+
+
+    <record model="ir.ui.view" id="testapp_am_orders_form">
+      <field name="name">orders form</field>
+      <field name="model">my.orders</field>
+      <field name="arch" type="xml">
+        <form string="my order">
+          <header>
+          <button name="event_ready" string="Ready" type="object" invisible="state != 'new'"/>
+            <field name="state" widget="statusbar"/>
+          </header>
+          <sheet>
+            <group>
+          <field name="name" string="Order Name"/>
+          <field name="date_time" string="Order Date"/>
+          <field name="isActive" string="Is Active"/>
+
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
 
     <!-- actions opening views on models -->
     <record model="ir.actions.act_window" id="testapp_misurati_action_window">
