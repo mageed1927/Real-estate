@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+<t t-name="mataa_product_management.FilterAlertSystray">
+    <Dropdown position="'bottom-end'" beforeOpen.bind="onBeforeOpen">
+        <t t-set-slot="toggler">
+            <div class="d-flex align-items-center px-2">
+                <i t-attf-class="fa fa-filter {{ totalCount > 0 ? 'text-danger fa-2x' : 'fa-lg' }}" 
+                   role="img" 
+                   aria-label="Product Alerts"/>
+                
+                <t t-if="totalCount > 0">
+                    <span class="text-danger fw-bold ms-2 fs-5 d-none d-md-inline">
+                        ALERTS
+                    </span>
+                    
+                    <span class="badge rounded-pill bg-danger ms-2 px-3 py-2 fs-6">
+                        <t t-esc="totalCount"/>
+                    </span>
+                </t>
+            </div>
+        </t>
+        <t t-set-slot="default">
+            <t t-if="state.alerts.length === 0">
+                <DropdownItem class="'text-muted'">
+                    No filters configured
+                </DropdownItem>
+            </t>
+            <t t-foreach="state.alerts" t-as="alert" t-key="alert.id">
+                <DropdownItem class="'d-flex justify-content-between align-items-center'"
+                              onSelected="() => this.openProductsList(alert)">
+                    <span t-esc="alert.name"/>
+                    <span class="badge rounded-pill bg-primary ms-3" t-esc="alert.product_count"/>
+                </DropdownItem>
+            </t>
+        </t>
+    </Dropdown>
+</t>
+
+</templates>

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_delivery_carrier_dms_user,delivery.carrier.dms.user,delivery.model_delivery_carrier,base.group_user,1,0,0,0
+access_delivery_carrier_dms_stock_user,delivery.carrier.dms.stock.user,delivery.model_delivery_carrier,stock.group_stock_user,1,1,1,0
+access_delivery_carrier_dms_manager,delivery.carrier.dms.manager,delivery.model_delivery_carrier,stock.group_stock_manager,1,1,1,1

@@ -1,0 +1,20 @@
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form_mataa_inventory" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.mataa.inventory</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <app data-string="Mataa Inventory" string="Mataa Inventory" name="mataa_inventory">
+                        <block title="Inventory Settings" name="mataa_inventory_settings">
+                            <setting string="Inventory User" id="inventory_user_setting">
+                                <field name="inventory_user_id"/>
+                            </setting>
+                        </block>
+                    </app>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

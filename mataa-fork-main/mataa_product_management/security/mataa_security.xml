@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="group_product_audit_trail_viewer" model="res.groups">
+            <field name="name">View Product Audit Trail</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+        
+        <record id="group_edit_lines_barcodes" model="res.groups">
+            <field name="name">Allow to edit lines in barcode app</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+        <record id="group_product_archive_manager" model="res.groups">
+            <field name="name">Allow to archive product</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+        <record id="group_product_unarchive_manager" model="res.groups">
+            <field name="name">Allow to unarchive product</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+    </data>
+</odoo>

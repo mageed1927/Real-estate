@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_template_form_view_inherit_discount" model="ir.ui.view">
+            <field name="name">product.template.form.inherit.discount</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='create_repair']" position="after">
+                    <field name="last_discount_reason_id" invisible="not last_discount_reason_id"/>
+                    <field name="last_discount_description" invisible="not last_discount_description"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

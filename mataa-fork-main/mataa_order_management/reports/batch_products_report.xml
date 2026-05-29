@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="action_report_batch_products" model="ir.actions.report">
+            <field name="name">Batch Products Report</field>
+            <field name="model">stock.picking.batch</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mataa_order_management.report_batch_products_template</field>
+            <field name="report_file">mataa_order_management.report_batch_products_template</field>
+            <field name="print_report_name">'Batch Products - %s' % (object.name)</field>
+            <field name="binding_model_id" eval="False"/>
+        </record>
+
+<template id="report_batch_products_template">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="batch">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2 style="text-align:center;">Products in Batch <t t-esc="batch.name"/></h2>
+                    <br/>
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width:5%;">#</th>
+                                <th>Product</th>
+                                <th>Code</th>
+                                <th class="text-center">Quantity</th>
+                                <th>UoM</th>
+<!--                                <th>From</th>-->
+<!--                                <th>To</th>-->
+                                <th>Transfer</th>
+                                <th>Vendor Bill</th>
+                                <th>Bill Reference</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="enumerate(lines)" t-as="it">
+                                <tr>
+                                    <td><t t-esc="it[0] + 1"/></td>
+                                    <td><t t-esc="it[1]['product_name']"/></td>
+                                    <td><t t-esc="it[1]['product_code']"/></td>
+                                    <td class="text-end"><t t-esc="it[1]['quantity']"/></td>
+                                    <td><t t-esc="it[1]['uom']"/></td>
+<!--                                    <td><t t-esc="it[1]['source']"/></td>-->
+<!--                                    <td><t t-esc="it[1]['destination']"/></td>-->
+                                    <td><t t-esc="it[1]['picking_name']"/></td>
+                                    <td><t t-esc="it[1].get('vendor_bill_name', '-')"/></td>
+                                    <td><t t-esc="it[1].get('vendor_bill_ref', '-')"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+    </data>
+</odoo>
+

@@ -1,6 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_am_my_app,my.app,model_my_app,base.group_user,1,1,1,1
-access_am_my_orders,my.orders,model_my_orders,base.group_user,1,1,1,1
+access_am_my_order,my.order,model_my_order,base.group_user,1,1,1,1
 access_am_my_orders_items,my.orders.items,model_my_orders_items,base.group_user,1,1,1,1
-
-
+access_am_my_app_user,my.app,model_my_app,testapp.my_app_category_user,1,0,0,0
+access_am_my_app_admin,my.app,model_my_app,testapp.my_app_category_admin,1,1,1,1

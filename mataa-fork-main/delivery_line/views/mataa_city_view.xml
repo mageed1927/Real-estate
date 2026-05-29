@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_mataa_city_tree_inherit" model="ir.ui.view">
+        <field name="name">mataa.city.tree</field>
+        <field name="model">mataa.city</field>
+        <field name="inherit_id" ref="mataa_base_delivery.view_mataa_city_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position='after'>
+                <field name="line_zone_id"/>
+                <field name="line_subzone_id"/>
+                <field name="line_total_cost"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_mataa_city_form_inherit" model="ir.ui.view">
+        <field name="name">mataa.city.form</field>
+        <field name="model">mataa.city</field>
+        <field name="inherit_id" ref="mataa_base_delivery.view_mataa_city_form"/>
+        <field name="arch" type="xml">
+            <group name="city_base_name" position="after">
+                <group string="Line">
+                    <field name="line_zone_id"/>
+                    <field name="line_subzone_id"/>
+                    <field name="line_total_cost"/>
+                </group>
+            </group>
+        </field>
+    </record>
+
+</odoo>

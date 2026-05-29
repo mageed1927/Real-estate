@@ -1,0 +1,47 @@
+<odoo>
+    <record id="view_attendance_tree_inherited" model="ir.ui.view">
+        <field name="name">hr.attendance.tree.inherit</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="decoration-danger">worked_hours == 0 or worked_hours == (1/3600.0)</attribute>
+            </xpath>
+            <xpath expr="//tree" position="inside">
+                <header>
+                    <button name="action_open_zkteco_fetch_wizard" type="object" string="جلب بصمات ZKTeco" class="oe_highlight"/>
+                </header>
+            </xpath>
+
+            <xpath expr="//tree" position="inside" multi_edit="1">
+                <field name="negative_hours" optional="show"/>
+                <field name="plus_hours" optional="show"/>
+                <field name="early_in" optional="show"/>
+                <field name="early_out" optional="show"/>
+                <field name="late_in" optional="show"/>
+                <field name="late_out" optional="show"/>
+                <field name="is_time_off" optional="hide"/>
+
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_attendance_form_inherited" model="ir.ui.view">
+        <field name="name">hr.attendance.form.inherit</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="inside">
+               <group string="Time Accuracy">
+                    <field name="is_time_off" string="paid time off"/>
+                    <field name="negative_hours" string="negative_hours" readonly="1"/>
+                    <field name="plus_hours" string="plus_hours" readonly="1"/>
+                    <field name="early_in" string="early_in" readonly="1"/>
+                    <field name="early_out" string="early_out" readonly="1"/>
+                    <field name="late_in" string="late_in" readonly="1"/>
+                    <field name="late_out" string="late_out" readonly="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

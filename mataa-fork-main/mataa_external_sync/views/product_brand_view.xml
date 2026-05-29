@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       <record id="mataa_view_product_brand_form" model="ir.ui.view">
+           <field name="name">product.brand.form</field>
+           <field name="model">product.brand</field>
+           <field name="inherit_id" ref="product_brand.view_product_brand_form"/>
+           <field name="arch" type="xml">
+               <xpath expr="//notebook" position="after">
+                   <br/>
+                    <group>
+                        <field name="mataa_id" string="External System ID" placeholder="External System ID"/>
+                        <field name="is_synced" widget="boolean_toggle" readonly="1" groups="!__custom__.Allow_Editing_Is_Synced_Field"/>
+                        <field name="is_synced" widget="boolean_toggle" groups="__custom__.Allow_Editing_Is_Synced_Field"/>
+                    </group>
+               </xpath>
+           </field>
+       </record>
+    </data>
+</odoo>

@@ -1,0 +1,38 @@
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form_mataa_advanced_import" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.mataa.advanced.import</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <app data-string="Advanced Import" string="Advanced Import" name="advanced_import">
+                        <block title="Quick Import Settings" name="quick_import_settings parameters">
+                            <setting string="Quick Sync Url"
+                                     help="Quick Product Syncing External Service URL"
+                                     id="quick_sync_url_setting">
+                                <field name="quick_sync_url"/>
+                            </setting>
+                        </block>
+                        <block title="EMS Sync Report Settings" name="ems_sync_report_settings">
+                            <setting string="EMS Import Issues Daily Link"
+                                     help="The URL that generates the daily excel report">
+                                <field name="ems_import_issues_daily"/>
+                            </setting>
+                            <setting string="EMS Import Issues Monthly Link"
+                                     help="The URL that generates the monthly excel report">
+                                <field name="ems_import_issues_monthly"/>
+                            </setting>
+                        </block>
+                        <block title="Receipt operation Settings" name="receipt_operation_settings parameters">
+                            <setting string="Default receipt operation"
+                                     help="Default receipt operation for imported PO">
+                                <field name="import_pick_type_id"/>
+                            </setting>
+                        </block>
+                    </app>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

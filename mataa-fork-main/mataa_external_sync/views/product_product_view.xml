@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <record id="view_product_product_tree_mataa" model="ir.ui.view">
+            <field name="name">product.product.tree.mataa</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <field name="mataa_id" string="External System ID"/>
+                    <field name="is_synced" widget="boolean_toggle" readonly="1" groups="!__custom__.Allow_Editing_Is_Synced_Field"/>
+                    <field name="is_synced" widget="boolean_toggle" groups="__custom__.Allow_Editing_Is_Synced_Field"/>
+                    <field name="mataa_status" widget="statusbar"
+                           options="{'clickable': True}"
+                           statusbar_visible="draft,published"
+                           readonly="True"/>
+                    <field name="synced_date" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_product_product_date_filter" model="ir.ui.view">
+            <field name="name">product.product.search.date.filter</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_search_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_tmpl_id']" position="after">
+                    <field name="synced_date" string="Synced date" readonly="1"/>
+                 </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

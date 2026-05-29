@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       <record id="price_adjustement_history_tree_view" model="ir.ui.view">
+           <field name="name">price.adjustement.history.tree</field>
+           <field name="model">price.adjustement.history</field>
+           <field name="arch" type="xml">
+               <tree string="Price adjustement history" delete="false" create="false" edit="false">
+                   <field name="name"/>
+                   <field name="vendor_id" column_invisible="context.get('hide_vendor')"/>
+                   <field name="date"/>
+                   <field name="expiration_date" optional="show"/>
+                   <field name="active" widget="boolean_toggle"/>
+               </tree>
+           </field>
+       </record>
+
+        <record id="price_adjustement_history_form_view" model="ir.ui.view">
+           <field name="name">price.adjustement.history.form</field>
+           <field name="model">price.adjustement.history</field>
+           <field name="arch" type="xml">
+               <form string="Price adjustement history">
+                    <header>
+                        <button string="Start Manually" type="object" name="action_start_manually"
+                                class="btn-primary"/>
+                        <button string="Redo manually" type="object" name="action_redo_prices" invisible="not active"/>
+                    </header>
+
+                   <sheet>
+                       <widget name="web_ribbon" title="Disable" invisible="active == True" bg_color="bg-danger"/>
+                       <field name="active" invisible="1"/>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+                       <group>
+                           <group>
+                               <field name="vendor_id" class="oe_inline"/>
+                               <field name="product_tag_ids" widget="many2many_tags" readonly="1" options="{'no_open': True}"/>
+                           </group>
+                           <group>
+                               <field name="date"/>
+                               <field name="start_date" readonly="1"/> <field name="expiration_date"/>
+                           </group>
+                       </group>
+                       <field name="note"/>
+                       <notebook>
+                           <page string="History lines">
+                               <field name="history_lines" readonly="1" editable="top">
+                                   <tree string="History lines">
+                                       <field name="product_id"/>
+                                       <field name="affected_field"/>
+                                       <field name="price"/>
+                                   </tree>
+                               </field>
+                           </page>
+                           <page string="Adjustement details">
+<!--                                <group>-->
+<!--                                    <group>-->
+<!--                                        <field name="fields_affected" widget="many2many_tags" required="1" class="oe_inline"  options="{'no_create': True, 'no_open': True}"/>-->
+<!--                                    </group>-->
+<!--                                </group>-->
+                                <group class="group_top">
+                                    <group string="Adjustment Type" class="oe_selection_group">
+                                        <field name="adjustment_type" widget="radio"
+                                               options="{'horizontal': true}" readonly="1"/>
+                                    </group>
+
+                                    <group string="Adjustment Method">
+                                        <field name="adjustment_method" widget="radio"
+                                               options="{'horizontal': true}" readonly="1"/>
+                                    </group>
+                                </group>
+                                <div class="mt-3"/>
+                                <separator string="adjustment value"/>
+                                <div invisible="adjustment_method == 'fixed'">
+                                    <field name="base_amount" class="oe_inline" placeholder="adjustement based on ..."
+                                           options="{'no_create': True, 'no_open': True}" required="adjustment_method == 'percentage'" readonly="1"/>
+                                    <t invisible="adjustment_type != 'increase'" class="ms-2"> + </t>
+                                    <t invisible="adjustment_type != 'decrease'" class="ms-2"> - </t>
+                                    <field name="adjustment_value" placeholder="Enter adjustment value..." class="oe_inline" readonly="1"/> %
+                                </div>
+<!--                                <div invisible="adjustment_method == 'percentage'">-->
+<!--                                    <label for="adjustment_value"/>-->
+<!--                                    <span class="ms-2"/>-->
+<!--                                    <field name="adjustment_value" readonly="1"/>-->
+<!--                                </div>-->
+<!--                                <div class="alert alert-warning mt-2" colspan="2">-->
+<!--                                    <t invisible="not base_amount">-->
+<!--                                        <field name="base_amount" readonly="1"/>-->
+<!--                                    </t>-->
+<!--                                </div>-->
+                           </page>
+                       </notebook>
+                   </sheet>
+               </form>
+           </field>
+       </record>
+
+        <record id="price_adjustement_history_search_view" model="ir.ui.view">
+           <field name="name">price.adjustement.history.tree</field>
+           <field name="model">price.adjustement.history</field>
+            <field name="arch" type="xml">
+                <search string="Price adjustement history">
+                    <filter string="Active" name="active"
+                            domain="[('active','=', True)]"/>
+                    <filter string="Disable" name="disable"
+                            domain="[('active','=', False)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Vendor" name="vendor_id" domain="[]" context="{'group_by': 'vendor_id'}"/>
+                    </group>
+                </search>
+           </field>
+        </record>
+
+        <record id="price_adjustement_history_action" model="ir.actions.act_window">
+            <field name="name">Price adjustement history</field>
+            <field name="res_model">price.adjustement.history</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('active', 'in', [True, False])]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="price_adjustement_history_menu" parent="vendor_page_root" action="price_adjustement_history_action"/>
+    </data>
+</odoo>

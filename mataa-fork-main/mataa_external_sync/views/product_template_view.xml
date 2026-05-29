@@ -1,0 +1,63 @@
+<odoo>
+    <data>
+        <record id="view_product_template_form_mataa" model="ir.ui.view">
+            <field name="name">product.template.form.mataa</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <field name="is_synced" invisible="1"/>
+                    <group>
+                        <field name="mataa_id" string="External System ID"
+                               placeholder="External System ID"/>
+                        <field name="is_synced" widget="boolean_toggle" readonly="1" groups="!__custom__.Allow_Editing_Is_Synced_Field"/>
+                        <field name="is_synced" widget="boolean_toggle" groups="__custom__.Allow_Editing_Is_Synced_Field"/>
+                        <field name="mataa_status" widget="statusbar"
+                               options="{'clickable': True}"
+                               statusbar_visible="draft,published"/>
+                    </group>
+                    <group>
+                        <button name="create_on_external_v2"
+                                type="object"
+                                string="Sync Template and Variants"
+                                class="oe_highlight"
+                                invisible="is_synced == True"/>
+                    </group>
+                </xpath>
+                <xpath expr="//header" position="inside">
+                    <button name="toggle_mataa_status"
+                            type="object"
+                            string="Publish/Unpublish"
+                            class="oe_highlight"
+                            invisible="(mataa_status == 'unpecified') or (is_synced == False)"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_product_template_tree_mataa" model="ir.ui.view">
+            <field name="name">product.template.tree.mataa</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <field name="mataa_id" string="External System ID"/>
+                    <field name="is_synced" widget="boolean_toggle" readonly="1" groups="!__custom__.Allow_Editing_Is_Synced_Field"/>
+                    <field name="is_synced" widget="boolean_toggle" groups="__custom__.Allow_Editing_Is_Synced_Field"/>
+                    <!--                    <field name="product_temp_synced_date" column_invisible="not is_synced"/>-->
+                    <field name="product_temp_synced_date" string="Synced date" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_product_template_date_filter" model="ir.ui.view">
+            <field name="name">product.template.search.date.filter</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <!--                    <field name="is_synced" invisible="1"/>-->
+                    <field name="product_temp_synced_date" string="Synced date" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

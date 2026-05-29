@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="picking_validate_print_wizard_view" model="ir.ui.view">
+        <field name="name">picking.validate.print.wizard.form</field>
+        <field name="model">picking.validate.print.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Confirm Validation &amp; Printing">
+                <group>
+                    <field name="message" readonly="1"/>
+                </group>
+                <footer>
+                    <button string="Confirm" name="action_print_and_validate" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

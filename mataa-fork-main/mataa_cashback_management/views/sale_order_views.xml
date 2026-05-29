@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_inherit_cashback" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.cashback</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+            <field name="cashback_approval_required" invisible="1"/>
+            <button name="action_approve_cashback"
+                    type="object"
+                    string="Approve &amp; Grant Cashback"
+                    class="btn-primary"
+                    invisible="not cashback_approval_required"/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+
+                <field name="cashback_payment_ids" invisible="1"/>
+
+                <button class="oe_stat_button"
+                        type="object"
+                        name="action_view_cashback_payments"
+                        icon="fa-gift"
+                        invisible="not cashback_payment_ids">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">Cashback</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

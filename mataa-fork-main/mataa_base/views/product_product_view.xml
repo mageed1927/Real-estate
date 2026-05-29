@@ -1,0 +1,90 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="Mataa_product_kanban_stock_view">
+            <field name="name">Product Kanban Stock</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='product_lst_price']" position="after">
+                    <t groups="stock.group_stock_user">
+                        <div>
+                            Mataa On Hand:
+                            <field name="mataa_on_hand_qty"/>
+                            <span class="mx-1"/>
+                            <field name="uom_id"/>
+                        </div>
+                    </t>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mataa_product_tree_inherit" model="ir.ui.view">
+            <field name="name">product.product.stock.tree.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="stock.view_stock_product_tree"/>
+            <field name="arch" type="xml">
+                <!-- Make qty_available optional and hidden by default -->
+                <xpath expr="//field[@name='qty_available']" position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </xpath>
+                <!-- Add custom mataa_on_hand_qty field after 'type' -->
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="mataa_on_hand_qty" string="Mataa On Hand" groups="stock.group_stock_user"/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+
+        <record id="view_product_product_tree_mataa" model="ir.ui.view">
+            <field name="name">product.product.tree.mataa</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <!-- nothing yet -->
+                </xpath>
+            </field>
+        </record>
+    </data>
+
+    <record id="product_form_view_procurement_button_inherit" model="ir.ui.view">
+        <field name="name">product.product.form.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="stock.product_form_view_procurement_button"/>
+        <field name="arch" type="xml">
+
+            <field name="show_forecasted_qty_status_button" position="after">
+                <button class="oe_stat_button" name="action_update_mataa_quantity_on_hand" icon="fa-cubes"
+                        type="object">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value d-flex gap-1">
+                            <field name="mataa_on_hand_qty" nolabel="1" class="oe_inline"/>
+                            <field name="uom_name" class="oe_inline"/>
+                        </span>
+                        <span class="o_stat_text">Mataa On Hand</span>
+                    </div>
+                </button>
+
+            </field>
+
+        </field>
+    </record>
+
+    <record id="product_search_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.product.search</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_search_form_view"/>
+        <field name="arch" type="xml">
+
+            <filter name="consumable" position="after">
+                <separator/>
+                <filter string="Was/Is In House" name="was_in_house" domain="[('was_in_house','=',True)]"/>
+            </filter>
+
+        </field>
+    </record>
+
+</odoo>

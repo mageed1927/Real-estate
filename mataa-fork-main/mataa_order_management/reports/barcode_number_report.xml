@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- stock.report_picking temp-->
+    <template id="barcode_num_report_picking_inherit" inherit_id="stock.report_picking">
+        <xpath expr="//th[@name='th_barcode']" position="after">
+              <th name="th_barcode_number" class="text-center" t-if="has_barcode">
+                <strong>Product Barcode Number</strong>
+            </th>
+        </xpath>
+         <!-- Add a new column in the table body to display the product barcode number -->
+        <xpath expr="//td[@t-if='has_barcode']" position="after">
+            <td class="text-center" t-if="has_barcode">
+                <span t-if="ml.product_id and ml.product_id.barcode" t-field="ml.product_id.barcode"/>
+            </td>
+        </xpath>
+    </template>
+</odoo>

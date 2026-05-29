@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       <record id="mataa_product_supplierinfo_tree_view" model="ir.ui.view">
+           <field name="name">product.supplierinfo.tree.view</field>
+           <field name="model">product.supplierinfo</field>
+           <field name="inherit_id" ref="product.product_supplierinfo_tree_view"/>
+           <field name="arch" type="xml">
+               <xpath expr="//tree" position="inside">
+                   <field name="published" optional="show" widget="boolean_toggle"/>
+               </xpath>
+           </field>
+       </record>
+    </data>
+</odoo>

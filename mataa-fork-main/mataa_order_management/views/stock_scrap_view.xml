@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="stock_scrap_form_view2_inherit" model="ir.ui.view">
+            <field name="name">stock.scrap.form2</field>
+            <field name="model">stock.scrap</field>
+            <field name="inherit_id" ref="stock.stock_scrap_form_view2"/>
+            <field name="arch" type="xml">
+                <field name="lot_id" position="after">
+                    <field name="responsible_partner_id"/>
+                    <field name="mataa_analytic_account_id"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

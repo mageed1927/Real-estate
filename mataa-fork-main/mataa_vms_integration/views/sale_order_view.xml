@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit sale.order form view to add VMS fields -->
+        <record id="sale_order_vms_form" model="ir.ui.view">
+            <field name="name">sale.order.vms.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <!-- Add VMS section after the Other Information section -->
+                <xpath expr="//page[@name='other_information']" position="after">
+                    <page string="VMS Integration" name="vms_integration">
+                        <group>
+                            <group string="VMS Status">
+                                <field name="vms_clearance_created" readonly="1"/>
+                            </group>
+                            <group string="VMS Actions">
+                                <button name="action_view_vms_clearance" 
+                                        type="object" 
+                                        string="View Clearance Entry"
+                                        class="btn-secondary"
+                                        invisible="not vms_clearance_created"/>
+                                <button name="action_view_vms_bills" 
+                                        type="object" 
+                                        string="View Vendor Bills"
+                                        class="btn-secondary"
+                                        invisible="not vms_bill_ids"/>
+                            </group>
+                        </group>
+                        
+                        <!-- VMS Clearance Entry -->
+                        <group string="VMS Clearance Entry" invisible="not vms_clearance_created">
+                            <field name="vms_clearance_move_id" readonly="1"/>
+                        </group>
+                        
+                        <!-- VMS Vendor Bills -->
+                        <group string="VMS Vendor Bills" invisible="not vms_bill_ids">
+                            <field name="vms_bill_ids" readonly="1"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherit sale.order search view to add VMS filters -->
+        <record id="sale_order_vms_search" model="ir.ui.view">
+            <field name="name">sale.order.vms.search</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='activities_upcoming_all']" position="after">
+                    <separator/>
+                    <filter string="VMS Clearance Created" name="vms_clearance_created" domain="[('vms_clearance_created', '=', True)]"/>
+                    <filter string="VMS Bills Exist" name="vms_bills_exist" domain="[('vms_bill_ids', '!=', False)]"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

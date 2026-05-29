@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form_purchase_inherit" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.mataa.order.management</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase"/>
+            <field name="arch" type="xml">
+                <app name="purchase" position="inside">
+                    <block title="In-House Products" name="in_house_products">
+                        <setting string="In-House Difference Journal"
+                                 help="In-House Difference Journal"
+                                 id="inhouse_difference_journal">
+                            <field name="inhouse_difference_journal_id"/>
+                        </setting>
+                        <setting string="In-House Difference-Value Account"
+                                 help="In-House Difference-Value Account"
+                                 id="inhouse_difference_value_account">
+                            <field name="inhouse_difference_value_account_id"/>
+                        </setting>
+                        <setting string="Mataa InStock Auto Tags"
+                                 help="Select automatic tags that would be set on products when instock"
+                                 id="mataa_instock_products_auto_tags">
+                            <field name="mataa_instock_products_auto_tags" widget="many2many_tags"/>
+                        </setting>
+                    </block>
+                    <block title="Product Attribute Restrictions" name="product_attribute_restrictions">
+                        <setting string="Restricted Attributes"
+                                 help="Select attributes that should not be added to products."
+                                 id="restricted_attributes">
+                            <field name="restricted_attribute_ids" widget="many2many_tags" placeholder="e.g. Old Brand, Discontinued Color..."/>
+                        </setting>
+                    </block>
+
+                </app>
+            </field>
+        </record>
+
+    </data>
+</odoo>

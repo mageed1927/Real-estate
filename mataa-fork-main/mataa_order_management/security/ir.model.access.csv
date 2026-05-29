@@ -1,0 +1,43 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mataa_so_payment_user,Access mataa_so_payment_user,model_mataa_so_payment,sales_team.group_sale_salesman,1,1,1,1
+access_mataa_sales_coupon_user,Access mataa_sales_coupon_user,model_mataa_sales_coupon,sales_team.group_sale_salesman,1,1,1,1
+access_mataa_in_house_report_user,Access mataa.in.house.report_user,model_mataa_in_house_report,,1,1,1,1
+access_mataa_in_house_report_by_product_user,Access mataa.in.house.report.by.product_user,model_mataa_in_house_report_by_product,,1,1,1,1
+access_mataa_in_house_report_per_vendor_user,Accessmataa.in.house.report.per.vendor_user,model_mataa_in_house_report_per_vendor,,1,1,1,1
+access_vendor_page,Access vendor.page,model_vendors_page,,1,1,1,1
+access_so_tag,Access so.tag,model_so_tag,,1,1,1,1
+access_so_bundle,Access so.bundle,model_so_bundle,,1,1,1,1
+access_vendor_products_sold,Access vendor.products.sold,model_vendor_products_sold,,1,1,1,1
+access_vendor_products_related,Access vendor.products.related,model_vendor_products_related,,1,1,1,1
+access_price_adjustment_wizard,Access price.adjustment.wizard,model_price_adjustment_wizard,,1,1,1,1
+access_bundle_pack_confirmation_wizard,Access bundle.pack.confirmation.wizard,model_bundle_pack_confirmation_wizard,,1,1,1,1
+access_adjustement_price_affected_field,Access adjustement.price.affected.field,model_adjustement_price_affected_field,,1,1,1,1
+access_product_vendor_blacklist_field,Access product.vendor.blacklist,model_product_vendor_blacklist,,1,1,1,0
+access_sol_reject_wizard_user,Access sol.reject.wizard_user,model_sol_reject_wizard,,1,1,1,1
+access_orders_closing_wizard_user,Access orders.closing.wizard_user,model_orders_closing_wizard,,1,1,1,1
+access_sale_order_line_rejection,sale.order.line.rejection,model_sale_order_line_rejection,,1,1,1,1
+access_price_adjustement_history,price.adjustement.history,model_price_adjustement_history,,1,1,1,1
+access_price_adjustement_history_line,price.adjustement.history.line,model_price_adjustement_history_line,,1,1,1,1
+access_import_packages_wizard,access_import_packages_wizard,model_import_packages_wizard,,1,1,1,1
+access_compensation_reason,compensation.reason,model_compensation_reason,,1,1,1,1
+access_sale_order_compensation_wizard,sale.order.compensation.wizard,model_sale_order_compensation_wizard,,1,1,1,1
+access_switch_payment_method_wizard,switch.payment.method.wizard,model_switch_payment_method_wizard,,1,1,1,1
+access_sale_order_refund_reason_wizard,access.sale.order.refund.reason.wizard,model_sale_order_refund_reason_wizard,base.group_user,1,1,1,1
+access_sale_order_refund_reason_wizard_line,access.sale.order.refund.reason.wizard.line,model_sale_order_refund_reason_wizard_line,base.group_user,1,1,1,1
+access_component_sale_report_user,component.sale.report.user,model_component_sale_report,sales_team.group_sale_salesman,1,1,1,1
+access_sale_order_reason_user,access.sale.order.reason.user,model_sale_order_reason,base.group_user,1,1,1,1
+access_price_adjustment_reason_all,price.adjustment.reason all,model_price_adjustment_reason,base.group_user,1,1,1,1
+access_loyalty_rule_customer_usage_user,loyalty.rule.customer.usage user,model_loyalty_rule_customer_usage,base.group_user,1,0,0,0
+access_loyalty_rule_customer_usage_sales_manager,loyalty.rule.customer.usage sales manager,model_loyalty_rule_customer_usage,sales_team.group_sale_manager,1,1,1,1
+access_loyalty_rule_customer_usage_admin,loyalty.rule.customer.usage admin,model_loyalty_rule_customer_usage,base.group_system,1,1,1,1
+access_vendor_return_location_report,access_vendor_return_location_report,model_vendor_return_location_report,base.group_user,1,1,1,1
+access_vendor_return_action,access_vendor_return_action,model_vendor_return_location_report,stock.group_stock_user,1,1,1,1
+access_picking_validate_print_wizard,picking.validate.print.wizard,model_picking_validate_print_wizard,base.group_user,1,1,1,1
+access_order_cancel_wizard_user,order cancel wizard,model_order_cancel_wizard,base.group_user,1,1,1,1
+access_order_cancel_reason_user,order cancel reason,model_order_cancel_reason,base.group_user,1,1,1,1
+access_choose_package_wizard,access_choose_package_wizard,model_choose_package_wizard,,1,1,1,1
+access_order_and_supplier,order.and.supplier,model_order_and_supplier,base.group_user,1,1,1,1
+access_vendor_bill_discount_wizard,vendor.bill.discount.wizard,model_vendor_bill_discount_wizard,base.group_user,1,1,1,1
+access_vendor_bill_discount_line,vendor.bill.discount.line,model_vendor_bill_discount_line,base.group_user,1,1,1,1
+access_mataa_note_tag_rule,mataa.note.tag.rule,model_mataa_note_tag_rule,base.group_user,1,1,1,1
+access_sale_suspension_wizard,sale.suspension.wizard,model_sale_suspension_wizard,base.group_user,1,1,1,1

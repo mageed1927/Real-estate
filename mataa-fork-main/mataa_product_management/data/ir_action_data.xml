@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="create_difference_entries" model="ir.actions.server">
+        <field name="name">Create Difference Entries</field>
+        <field name="model_id" ref="mataa_product_management.model_vendor_credit_difference_tracker"/>
+        <field name="binding_model_id" ref="mataa_product_management.model_vendor_credit_difference_tracker"/>
+        <field name="state">code</field>
+        <field name="code">
+            records.creat_difference_entry()
+        </field>
+    </record>
+
+</odoo>

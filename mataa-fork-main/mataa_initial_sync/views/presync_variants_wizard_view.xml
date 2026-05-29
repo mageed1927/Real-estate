@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_presync_variants_wizard" model="ir.ui.view">
+            <field name="name">presync.variants.wizard.form</field>
+            <field name="model">presync.variants.wizard</field>
+            <field name="arch" type="xml">
+                <form string="PreSync Variants">
+                    <group>
+                        <field name="import_file" widget="binary" filename="file_name"/>
+                        <field name="file_name"/>
+                    </group>
+                    <footer>
+                        <button string="Import" type="object" name="presync_variants" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_presync_variants" model="ir.actions.act_window">
+            <field name="name">PreSync Variants</field>
+            <field name="res_model">presync.variants.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_presync_variants"
+                  name="PreSync Variants"
+                  parent="menu_initial_sync_root"
+                  action="action_presync_variants"
+                  sequence="50"/>
+    </data>
+</odoo>

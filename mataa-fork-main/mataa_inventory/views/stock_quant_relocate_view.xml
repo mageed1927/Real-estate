@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_stock_quant_relocate_inherit_custom" model="ir.ui.view">
+            <field name="name">stock.quant.relocate.form.inherit</field>
+            <field name="model">stock.quant.relocate</field>
+            <field name="inherit_id" ref="stock.stock_quant_relocate_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='quant_ids']" position="after">
+                    <field name="is_single_quant" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='dest_location_id']" position="after">
+                    <field name="moved_qty" invisible="not is_single_quant"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_price_adjustment_wizard_form" model="ir.ui.view">
+            <field name="name">price.adjustment.wizard.form</field>
+            <field name="model">price.adjustment.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Price Adjustment Wizard">
+                    <header>
+                        <div>
+                            <h1>Price Adjustment Configuration</h1>
+                            <br/>
+                            <div class="oe_subtitle text-muted mb-4">
+                                Configure how you want to adjust prices for selected items
+                            </div>
+                        </div>
+                    </header>
+
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="show_with_template" invisible="1"/>
+                                <field name="fields_affected" widget="many2many_tags" required="1" class="oe_inline"  options="{'no_create': True, 'no_open': True}"/>
+                                <field name="with_template" invisible="not show_with_template"/>
+                            </group>
+                            <group>
+                                <field name="start_date"/>
+                                <field name="expiration_date"/>
+                                <field name="product_tag_ids" widget="many2many_tags" options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+                            <group>
+                                <field name="note" nolabel="1" placeholder="Note for the history" colspan="2"/>
+                            </group>
+                              <group>
+                                  <field name="expiration_date"/>
+                                  <field name="note" nolabel="1" placeholder="Note for the history" colspan="2"/>
+                                  <field name="discount_reason_id" options="{'no_create': True, 'no_open': True}"/>
+                                  <field name="discount_description" placeholder="Description..."/>
+                              </group>
+                        </group>
+                        <group class="group_top">
+                            <group string="Adjustment Type" class="oe_selection_group">
+                                <field name="adjustment_type" widget="radio"
+                                       options="{'horizontal': true}"/>
+                            </group>
+
+                            <group string="Adjustment Method">
+                                <field name="adjustment_method" widget="radio"
+                                       options="{'horizontal': true}"/>
+                                <div class="text-muted mt-2" colspan="2">
+                                    <span class="fa fa-info-circle mr-2"/>
+                                    <small>
+                                        Fixed: Absolute value added | Percentage: Relative percentage added
+                                    </small>
+                                </div>
+                            </group>
+                        </group>
+                        <div class="mt-3"/>
+                        <separator string="adjustment value"/>
+                        <div invisible="adjustment_method == 'fixed'">
+                            <field name="base_amount" class="oe_inline" placeholder="adjustement based on ..."
+                                   options="{'no_create': True, 'no_open': True}" required="adjustment_method == 'percentage'"/>
+                            <t invisible="adjustment_type != 'increase'" class="ms-2"> + </t>
+                            <t invisible="adjustment_type != 'decrease'" class="ms-2"> - </t>
+                            <field name="adjustment_value" placeholder="Enter adjustment value..." class="oe_inline"/> %
+                        </div>
+                        <div invisible="adjustment_method == 'percentage'">
+                            <label for="adjustment_value"/>
+                            <span class="ms-2"/>
+                            <field name="adjustment_value"/>
+                        </div>
+                        <div invisible="adjustment_method != 'percentage'" class="alert alert-warning mt-2" colspan="2">
+                            <span class="fa fa-exclamation-triangle ms-2"/>
+                            Percentage values will be calculated based on
+                            <t invisible="base_amount">
+                                current price
+                            </t>
+                            <t invisible="not base_amount">
+                                <field name="base_amount"/>
+                            </t>
+                        </div>
+                        <div invisible="adjustment_method == 'percentage'" class="alert alert-warning mt-2" colspan="2">
+                            <span class="fa fa-exclamation-triangle mr-2"/>
+                            Absolute value will be added to the
+                            <t invisible="base_amount">
+                                current price
+                            </t>
+                            <t invisible="not base_amount">
+                                <field name="base_amount"/>
+                            </t>
+                        </div>
+                    </sheet>
+
+                    <footer>
+                        <div class="oe_right">
+                            <button name="cancel" string="Cancel" type="object" special="cancel"/>
+                            <button name="action_apply" string="Apply Adjustment" type="object"
+                                    class="btn btn-primary"
+                                    invisible="adjustment_value &lt;=  0"/>
+                        </div>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

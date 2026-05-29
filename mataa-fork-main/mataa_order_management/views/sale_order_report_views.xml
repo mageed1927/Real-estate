@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 1. واجهة القائمة (Tree View) المحدثة -->
+    <record id="view_refund_reason_tree" model="ir.ui.view">
+        <field name="name">refund.reason.tree</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <tree string="Refund Reason Analysis" create="0">
+                <field name="name"/>
+                <field name="date_order"/>
+                <field name="partner_id"/>
+                <field name="refund_type"/>
+                <field name="refund_reason_ids" widget="many2many_tags"/>
+                <field name="refund_description"/>
+                <field name="refund_value_method"/>
+                <field name="amount_total" sum="Total"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- 2. الواجهة المحورية (Pivot View) المحدثة -->
+    <record id="view_refund_reason_pivot" model="ir.ui.view">
+        <field name="name">refund.reason.pivot</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <pivot string="Refund Reason Analysis">
+                <field name="refund_reason_ids" type="row"/>
+                <field name="refund_type" type="col"/>
+                <field name="amount_total" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- 3. الواجهة الرسومية (Graph View) المحدثة -->
+    <record id="view_refund_reason_graph" model="ir.ui.view">
+        <field name="name">refund.reason.graph</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <graph string="Refund Reason Analysis">
+                <field name="refund_reason_ids" type="row"/>
+                <field name="amount_total" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- 4. الإجراء (Action) لم يتغير -->
+    <record id="action_refund_reason_report" model="ir.actions.act_window">
+        <field name="name">Refund Reason Analysis</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">tree,pivot,graph,form</field>
+        <field name="view_id" ref="view_refund_reason_tree"/>
+        <field name="domain">[("is_refund_order", "=", True)]</field>
+    </record>
+
+    <!-- 5. عنصر القائمة لم يتغير -->
+    <menuitem
+        id="menu_refund_reason_report"
+        name="Refund Reason Analysis"
+        parent="sale.menu_sale_report"
+        action="action_refund_reason_report"
+        sequence="99"/>
+
+        <record id="view_refund_reason_order_line_tree" model="ir.ui.view">
+            <field name="name">refund.reason.order.line.tree</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <tree string="Refund Reason Analysis for order lines" create="0">
+                    <field name="product_id"/>
+                    <field name="order_id"/>
+                    <field name="refund_reason_id"/>
+                    <field name="product_uom_qty"/>
+                    <field name="mataa_qty_delivered"/>
+                    <field name="price_unit"/>
+                    <field name="price_subtotal"/>
+                </tree>
+            </field>
+        </record>
+    
+        <record id="view_refund_reason_order_line_pivot" model="ir.ui.view">
+            <field name="name">refund.reason.order.line.pivot</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <pivot string="Refund Reason Analysis for order lines">
+                    <field name="refund_reason_id" type="row"/>
+                    <field name="product_uom_qty" type="col"/>
+                    <field name="price_subtotal" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+    
+        <record id="view_refund_reason_order_line_graph" model="ir.ui.view">
+            <field name="name">refund.reason.order.line.graph</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <graph string="Refund Reason Analysis for order lines">
+                    <field name="refund_reason_id" type="row"/>
+                    <field name="price_subtotal" type="measure"/>
+                </graph>
+            </field>
+        </record>  
+        <record id="action_refund_reason_order_line_report" model="ir.actions.act_window">
+            <field name="name">Refund Reason Analysis for order lines</field>
+            <field name="res_model">sale.order.line</field>
+            <field name="view_mode">tree,pivot,graph,form</field>
+            <field name="view_id" ref="view_refund_reason_order_line_tree"/>
+            <field name="domain">[("order_id.is_refund_order", "=", True), ("is_delivery", "=", False)]</field>
+        </record>
+        <menuitem
+            id="menu_refund_reason_order_line_report"
+            name="Refund Reason Analysis for order lines"
+            parent="sale.menu_sale_report"
+            action="action_refund_reason_order_line_report"
+            sequence="99"/>
+</odoo>

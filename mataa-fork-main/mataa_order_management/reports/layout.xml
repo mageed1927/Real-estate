@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="mataa_layout_header">
+            <div class="header" style="font-family: Calibiri;">
+                <div class="row">
+                    <div dir="rtl" class="col-5 text-right"
+                         style="margin-right:5px;padding-right:5px; border-right: 2px solid #a1a6ad;">
+                        <table class="text-right float-right table-borderless">
+                            <tr>
+                                <td style="width:120px;font-size:15px;font-weight:bold">
+                                    تاريخ الفاتورة
+                                </td>
+                                <td style="width:100px;font-size:15px;height:20px;font-weight:bold">
+                                    <span t-field="so_id.date_order" t-options="{'widget': 'date'}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="height:20px;font-size:15px">
+                                    <span t-field="so_id.partner_id"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="height:20px;font-size:15px">
+                                    <span t-field="so_id.mata_shipping_address_1"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="height:20px;font-size:15px">
+                                    <span t-field="so_id.mata_shipping_phone"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="height:20px;font-size:15px">
+                                    <span t-field="so_id.mataa_city_id"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-5" style="padding-right:0px;">
+
+                        <table class="float-right table-borderless">
+                            <tr>
+                                <td colspan="2"
+                                    style="width:130px;height:20px;font-size:15px;font-weight:bold;color:#272626">
+                                    <div t-esc="so_id.get_pick_info().get('pick_name', 'null')"
+                                         t-options="{'widget': 'barcode', 'width': 220, 'height': 30, 'img_style': 'width:220px;height:30px;'}">
+                                        <div class="bg-light border-1 rounded d-flex flex-column align-items-left justify-content-left p-3 opacity-35 text-muted text-left">
+                                            (document barcode)
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="height:30px"/>
+                            <tr>
+                                <td style="width:140px;font-size:15px;font-weight:bold;color:#c98108">
+                                    Mataa Order No.
+                                </td>
+                                <td colspan="2"
+                                    style="width:130px;height:20px;font-size:15px;font-weight:bold;color:#c98108">
+<!--                                    <span t-esc="so_id.get_pick_info().get('pick_name', 'null')"-->
+<!--                                          style="margin-top: 10px;"/>-->
+                                    <span t-field="so_id.mata_order_id" style="margin-top: 10px;"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:140px;font-size:15px;font-weight:bold;color:#c98108">
+                                    Source
+                                </td>
+                                <td style="width:70px;font-size:15px;height:20px;font-weight:bold;color:#c98108">
+                                    <span t-field="so_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:140px;font-size:15px;font-weight:bold;color:#c98108">
+                                    Tracking Number
+                                </td>
+                                <td style="width:70px;font-size:15px;height:20px;font-weight:bold;color:#c98108">
+                                    <span t-esc="so_id.get_pick_info().get('pick_tracking', 'null')"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                    <div class="col-2" style="padding-top:3px;">
+                        <img t-if="company.logo"
+                             t-att-src="image_data_uri(company.logo)"
+                             style="max-height:70px; max-width:70px;" alt="Logo"/>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template id="mataa_layout_footer">
+            <div class="footer" style="font-family: Calibiri; font-size: 14px; color: gray; padding-top: 5px;">
+                <div class="row" style="border-top: 1px solid #3B5E91; padding-top: 5px; display: flex; justify-content: space-between; align-items: center;">
+                    <div class="col-1" style="color: Black;">
+                        <span class="page" style="background-color: #a1a6ad; padding: 6px"/>
+                    </div>
+                    <div class="col-3" style="display: flex; align-items: left;">
+                        <span style="float: right;">
+                            +218 92 054 1314
+                            <i class="fa fa-mobile" style="color: orange;"/>
+                        </span>
+                    </div>
+                    <div class="col-4" style="display: flex; align-items: left;">
+                        <span style="float: right;">
+                            +218 91 655 9595
+                            <i class="fa fa-mobile" style="color: orange;"/>
+                        </span>
+                    </div>
+                    <div class="col-4">
+                        <span style="float: right;">
+                            service@mataaa.com
+                            <i class="fa fa-envelope" style="color: orange;"/>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template id="mataa_new_layout">
+            <t t-if="not o" t-set="o" t-value="doc"/>
+            <t t-if="not company">
+                <!-- Multicompany -->
+                <t t-if="company_id">
+                    <t t-set="company" t-value="company_id"/>
+                </t>
+                <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                    <t t-set="company" t-value="o.company_id.sudo()"/>
+                </t>
+                <t t-else="else">
+                    <t t-set="company" t-value="res_company"/>
+                </t>
+            </t>
+
+            <t t-call="mataa_order_management.mataa_layout_header"/>
+
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                 t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <div class="pt-5">
+                    <!-- This div ensures that the address is not cropped by the header. -->
+                </div>
+                <t t-raw="0"/>
+            </div>
+
+            <t t-call="mataa_order_management.mataa_layout_footer"/>
+        </template>
+
+    </data>
+</odoo>

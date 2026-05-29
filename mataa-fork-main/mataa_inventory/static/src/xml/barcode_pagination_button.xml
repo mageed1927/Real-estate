@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="mataa_inventory.BarcodePaginationButton" t-inherit="stock_barcode.MainComponent" t-inherit-mode="extension">
+        <xpath expr="//button[hasclass('o_apply_page')]" position="after">
+            <button t-if="env.model.resModel === 'stock.quant'"
+                    t-on-click="() => env.model.openQuantPaginationView()" 
+                    class="btn btn-secondary me-1">
+                <i class="fa fa-list me-1"/> Quant List
+            </button>
+        </xpath>
+    </t>
+</templates>

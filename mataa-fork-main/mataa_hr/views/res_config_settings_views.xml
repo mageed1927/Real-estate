@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherit_mataa_hr" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.mataa.hr</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="hr_payroll.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//app[@name='hr_payroll']" position="inside">
+                <block title="Employee Default Accounts" name="mataa_employee_accounts">
+                    <setting string="Employee Accounts" help="Set default receivable and payable accounts for new employees.">
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label for="employee_account_receivable_id" class="col-lg-4 o_light_label" string="Receivable"/>
+                                <field name="employee_account_receivable_id"/>
+                            </div>
+                            <div class="row mt16">
+                                <label for="employee_account_payable_id" class="col-lg-4 o_light_label" string="Payable"/>
+                                <field name="employee_account_payable_id"/>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

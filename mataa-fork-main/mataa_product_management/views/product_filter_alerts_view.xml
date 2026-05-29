@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_filter_alert_form" model="ir.ui.view">
+        <field name="name">product.filter.alert.form</field>
+        <field name="model">product.filter.alert</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="domain" widget="domain" options="{'model': 'product.product'}"/>
+                    </group>
+                    <group>
+                        <field name="product_count" readonly="1"/>
+                        <field name="enabled" widget="boolean_toggle"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_product_filter_alert_tree" model="ir.ui.view">
+    <field name="name">product.filter.alert.tree</field>
+    <field name="model">product.filter.alert</field>
+    <field name="arch" type="xml">
+        <tree string="Product Filter Alerts">
+            <field name="name"/>
+            <field name="product_count" string="Current Matches"/>
+            <field name="enabled" string="Enabled" widget="boolean_toggle"/>
+            <field name="write_date" string="Last Updated"/>
+        </tree>
+    </field>
+</record>
+<record id="action_product_filter_alert" model="ir.actions.act_window">
+    <field name="name">Alert Filters</field>
+    <field name="res_model">product.filter.alert</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+            Create your first product filter alert!
+        </p>
+        <p>
+            Define a domain and the system will notify you in the systray when products match.
+        </p>
+    </field>
+</record>
+<menuitem id="menu_product_filter_alert"
+          name="Alert Filters"
+          parent="sale.product_menu_catalog"
+          action="action_product_filter_alert"
+          sequence="100"/>
+</odoo>

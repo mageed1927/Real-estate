@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_product_template_form_sync_tab" model="ir.ui.view">
+        <field name="name">product.template.form.sync.tab</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='inventory']" position="after">
+                <page name="external_sync" string="البيانات الأساسية">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field
+                                name="product_brand_id"
+                            />
+                            <field
+                                name="public_categ_ids"
+                                widget="many2many_tags"
+                            />
+                            <field name="last_leaf_category" readonly='1'/>
+                            <field
+                                name="barcode"
+                                readonly='1'
+                            />
+                        </group>
+                        <separator string="Variants Details" 
+                            invisible="product_variant_count &lt;= 1"/>
+        
+                        <field name="product_variant_ids" 
+                            mode="tree" 
+                            invisible="product_variant_count &lt;= 1">
+                        
+                        <tree string="Variants" create="0" delete="0" editable="bottom">
+                            <field name="product_template_attribute_value_ids" 
+                                widget="many2many_tags" 
+                                string="Variant Values" 
+                                readonly="1"/>
+                            
+                            <field name="default_code" string="Internal Reference" readonly='1'/>
+                            <field name="barcode" string="barcode" readonly='1'/>
+                        </tree>
+                        </field>
+                    </group>
+
+                    <separator string="Product Images"/>
+
+                    <button name="%(action_product_image_bulk_upload)d" 
+                    string="Bulk Upload Images" 
+                    type="action" 
+                    class="btn-secondary mb-2"
+                    icon="fa-upload"
+                    context="{'default_product_tmpl': active_id}"/>
+
+                    <field name="image_url_ids" nolabel="1">
+                        <tree editable="bottom" default_order="sequence asc">
+                            <field name="sequence" widget="handle"/>
+                            <field name="link_html" widget="html" invisible="not id"/>
+                            <field
+                                name="url"
+                                widget="image_url"
+                                string="Images"
+                                invisible="not id"
+                                style="width: 150px; height: 150px; object-fit: cover;"
+                            />
+                            <field
+                                name="file_data"
+                                widget="binary"
+                                filename="file_name"
+                                invisible="id"
+                                options="{'accepted_file_extensions': '.jpeg,.jpg,.png,.gif,.bmp,.tiff,.tif,.svg,.ico,.webp'}"
+                            />
+                            <field name="file_name" invisible="1"/>
+                        </tree>
+
+                    </field>
+
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

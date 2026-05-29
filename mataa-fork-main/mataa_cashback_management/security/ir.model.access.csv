@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cashback_program_user,cashback.program.user,model_cashback_program,base.group_user,1,1,1,1
+access_cashback_program_manager,cashback.program.manager,model_cashback_program,sales_team.group_sale_manager,1,1,1,1
+access_cashback_program_rule_user,cashback.program.rule.user,model_cashback_program_rule,base.group_user,1,1,1,1
+access_cashback_program_rule_manager,cashback.program.rule.manager,model_cashback_program_rule,sales_team.group_sale_manager,1,1,1,1

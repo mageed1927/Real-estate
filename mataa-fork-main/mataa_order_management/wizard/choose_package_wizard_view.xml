@@ -1,0 +1,17 @@
+<odoo>
+    <record id="view_choose_package_wizard" model="ir.ui.view">
+        <field name="name">choose.package.wizard.form</field>
+        <field name="model">choose.package.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Select Destination Package">
+                <group>
+                    <field name="package_id"/>
+                </group>
+                <footer>
+                    <button string="Confirm" type="object" name="apply" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="vendor_credit_difference_tracker_form" model="ir.ui.view">
+            <field name="name">vendor.credit.difference.tracker.form</field>
+            <field name="model">vendor.credit.difference.tracker</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="vendor_id"/>
+                                <field name="difference_amount"/>
+                            </group>
+                            <group>
+                                <field name="account_move_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="vendor_credit_difference_tracker_list" model="ir.ui.view">
+            <field name="name">vendor.credit.difference.tracker.tree</field>
+            <field name="model">vendor.credit.difference.tracker</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="vendor_id"/>
+                    <field name="difference_amount"/>
+                    <field name="account_move_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="vendor_credit_difference_tracker_search" model="ir.ui.view">
+            <field name="name">vendor.credit.difference.tracker.search</field>
+            <field name="model">vendor.credit.difference.tracker</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="vendor_id" string="Vendor"/>
+                    <field name="account_move_id" string="Entry"/>
+
+                    <filter name="todo" string="To Do" domain="[('account_move_id', '=', False),('difference_amount', 'not in', [False, 0]),]"/>
+					<separator />
+                    <filter name="vendor_id" string="Vendor" domain="[]"
+                            context="{'group_by':'vendor_id'}"/>
+                    <filter name="account_move_id" string="Entry" domain="[]"
+                            context="{'group_by':'account_move_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="vendor_credit_difference_tracker_action" model="ir.actions.act_window">
+            <field name="name">Vendor Credit Difference Tracker</field>
+            <field name="res_model">vendor.credit.difference.tracker</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_todo':1}</field>
+        </record>
+
+
+        <menuitem id="vendor_credit_difference_tracker_menu" parent="purchase.menu_purchase_products"
+                  action="vendor_credit_difference_tracker_action" sequence="200"/>
+    </data>
+</odoo>

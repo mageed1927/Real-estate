@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="seo_keywords_tree_view" model="ir.ui.view">
+            <field name="name">seo.keywords.tree.view</field>
+            <field name="model">product.seo.keyword</field>
+            <field name="arch" type="xml">
+                <tree string="SEO Keywords" editable="top">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_seo_keywords" model="ir.actions.act_window">
+            <field name="name">Product SEO Keywords</field>
+            <field name="res_model">product.seo.keyword</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first SEO keyword
+                </p>
+                <p>
+                    Add SEO keywords to improve your product visibility.
+                </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="menu_seo_keywords" parent="stock.menu_product_in_config_stock" action="action_seo_keywords"/>
+    </data>
+</odoo>

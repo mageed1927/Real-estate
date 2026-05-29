@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Updated Tree View for Sale Order Lines -->
+        <record id="manual_rejected_qty_view_tree" model="ir.ui.view">
+            <field name="name">manual.rejected.qty.view.tree</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <tree string="Rejected Order Lines">
+                    <field name="order_id" string="Order"/>
+                    <field name="order_partner_id" string="Customer"/>
+                    <field name="vendor_id" string="Vendor"/>
+                    <field name="product_id" string="Product"/>
+                    <field name="product_default_code" string="Internal Reference"/>
+                    <field name="product_brand_id" string="Brand"/>
+                    <field name="product_categ_id" string="Category"/>
+                    <field name="original_product_uom_qty" string="Original Ordered Qty"/>
+                    <field name="product_uom_qty" string="Current Ordered Qty"/>
+                    <field name="manual_rejected_qty" string="Rejected Qty"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Updated Search View -->
+        <record id="manual_rejected_qty_view_search" model="ir.ui.view">
+            <field name="name">manual.rejected.qty.view.search</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <search string="Search Rejected Order Lines">
+                    <field name="product_id" string="Product"/>
+                    <field name="product_brand_id" string="Brand"/>
+                    <field name="product_categ_id" string="Category"/>
+                    <field name="order_id" string="Order"/>
+                    <field name="vendor_id" string="Vendor"/>
+                    <field name="order_partner_id" string="Customer"/>
+                    <separator/>
+                    <group expand="0" name="group_by" string="Group By">
+                        <filter name="product_id_gb" context="{'group_by' : 'product_id'}" string="Product"/>
+                        <filter name="product_brand_id_gb" context="{'group_by' : 'product_brand_id'}" string="Brand"/>
+                        <filter name="product_categ_id_gb" context="{'group_by' : 'product_categ_id'}" string="Category"/>
+                        <separator/>
+                        <filter name="vendor_id_gb" context="{'group_by' : 'vendor_id'}" string="Vendor"/>
+                        <filter name="order_partner_id_gb" context="{'group_by' : 'order_partner_id'}" string="Customer"/>
+                        <filter name="order_id_gb" context="{'group_by' : 'order_id'}" string="Order"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Updated Action for Sale Order Lines -->
+        <record id="action_manual_rejected_qty" model="ir.actions.act_window">
+            <field name="name">Rejected Order Lines</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order.line</field>
+            <field name="view_mode">tree,pivot</field>
+            <field name="context" eval="{'create': False, 'edit': False}"/>
+            <field name="domain">[('manual_rejected_qty', '>', 0)]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                                          (0, 0, {'view_mode': 'tree', 'view_id': ref('manual_rejected_qty_view_tree')}),]"/>
+            <field name="search_view_id" ref="manual_rejected_qty_view_search"/>
+        </record>
+
+        <!-- Updated Menu Items -->
+        <menuitem id="menu_manual_rejected_qty" name="Rejected Order Lines"
+                  parent="sale.menu_sale_report" sequence="11"
+                  action="action_manual_rejected_qty"/>
+    </data>
+</odoo>

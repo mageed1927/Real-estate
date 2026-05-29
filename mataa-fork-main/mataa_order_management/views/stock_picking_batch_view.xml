@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="stock_picking_batch_form_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.batch.form</field>
+            <field name="model">stock.picking.batch</field>
+            <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_form"/>
+            <field name="arch" type="xml">
+                <header position="inside">
+                <button name="action_print_batch_products"
+                        type="object"
+                        string="Print Products"
+                        class="btn-primary"
+                        icon="fa-print"/>
+                <button name="action_verify_return_batch"
+                        type="object"
+                        string="Verify Return Batch"
+                        class="btn-primary"
+                        invisible="not is_customer_return_batch or return_batch_state != 'open'"/>
+            </header>
+                <field name="scheduled_date" position="after">
+                    <field name="blanket_order_id"/>
+                    <field name="vendor_id"/>
+                    <field name="is_customer_return_batch" invisible="1"/>
+                    <field name="return_batch_state" invisible="not is_customer_return_batch"/>
+                </field>
+                <xpath expr="//field[@name='picking_ids']" position="attributes">
+                    <attribute name="readonly">is_customer_return_batch and return_batch_state != 'open'</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="stock_barcode_batch_picking_view_kanban_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.batch.kanban</field>
+            <field name="model">stock.picking.batch</field>
+            <field name="inherit_id" ref="stock_barcode_picking_batch.stock_barcode_batch_picking_view_kanban"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[hasclass('o_kanban_record_top')]" position="after">
+                    <div class="row">
+                        <div class="col-6">
+                            <b>BO: </b>
+                            <field name="blanket_order_id"/>
+                        </div>
+                        <div class="col-6">
+                            <b>Vendor: </b>
+                            <field name="vendor_id" />
+                        </div>
+                    </div>
+                </xpath>
+
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

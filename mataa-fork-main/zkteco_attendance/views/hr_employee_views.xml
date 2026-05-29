@@ -1,0 +1,13 @@
+<odoo>
+    <record id="view_employee_form_zkteco" model="ir.ui.view">
+        <field name="name">hr.employee.form.zkteco</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/> <!-- inherit the normal employee form -->
+        <field name="arch" type="xml">
+            <field name="work_email" position="after">
+                <field name="ztkeco_id" string="ZKTeco ID"/>
+                <field name="time_off_balance" string="time off balance"/>
+            </field>
+        </field>
+    </record>
+</odoo>

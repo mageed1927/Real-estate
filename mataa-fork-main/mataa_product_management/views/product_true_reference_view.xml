@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_true_reference_form" model="ir.ui.view">
+            <field name="name">product.true.reference.form</field>
+            <field name="model">product.true.reference</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="product_product_id"/>
+                                <field name="product_template_id"/>
+                            </group>
+                            <group>
+                                <field name="regular_price_reference"/>
+                                <field name="sale_price_reference"/>
+                            </group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="vendor_price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_true_reference_list" model="ir.ui.view">
+            <field name="name">product.true.reference.tree</field>
+            <field name="model">product.true.reference</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="product_template_id"/>
+                    <field name="product_product_id"/>
+                    <field name="regular_price_reference"/>
+                    <field name="sale_price_reference"/>
+                    <field name="partner_id"/>
+                    <field name="vendor_price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_true_reference_search" model="ir.ui.view">
+            <field name="name">product.true.reference.search</field>
+            <field name="model">product.true.reference</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="product_product_id" string="Variant"/>
+                    <field name="product_template_id" string="Template"/>
+                    <field name="partner_id" string="Vendor"/>
+					<separator />
+                    <filter name="product_product_id" string="Variant" domain="[]"
+                            context="{'group_by':'product_product_id'}"/>
+                    <filter name="product_template_id" string="Template" domain="[]"
+                            context="{'group_by':'product_template_id'}"/>
+                    <filter name="partner_id" string="Vendor" domain="[]"
+                            context="{'group_by':'partner_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_true_reference_action" model="ir.actions.act_window">
+            <field name="name">Product True Reference</field>
+            <field name="res_model">product.true.reference</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem id="product_true_reference_menu" parent="sale.product_menu_catalog"
+                  action="product_true_reference_action"/>
+
+    </data>
+</odoo>

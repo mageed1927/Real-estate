@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="mataa_in_house_report_per_vendor_view_tree" model="ir.ui.view">
+            <field name="name">mataa.in.house.report.per.vendor_view_tree</field>
+            <field name="model">mataa.in.house.report.per.vendor</field>
+            <field name="arch" type="xml">
+                <tree>
+
+                    <field name="product_id"/>
+                    <field name="product_brand_id"/>
+                    <field name="vendor_id"/>
+                    <field name="min_qty"/>
+                    <field name="price"/>
+                    <field name="vendor_product_name" optional="hide"/>
+                    <field name="vendor_product_code" optional="hide"/>
+
+                    <field name="categ_id"/>
+                    <field name="uom_id"/>
+
+                    <field name="mataa_id"/>
+                    <field name="default_code"/>
+                    <field name="barcode"/>
+                    <field name="on_hand_qty"/>
+
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="mataa_in_house_report_per_vendor_view_search" model="ir.ui.view">
+            <field name="name">mataa.in.house.report.per.vendor_view_search</field>
+            <field name="model">mataa.in.house.report.per.vendor</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="product_id"/>
+                    <field name="product_brand_id"/>
+                    <field name="vendor_id"/>
+                    <field name="categ_id"/>
+                    <field name="mataa_id"/>
+                    <field name="default_code"/>
+                    <field name="barcode"/>
+                    <field name="on_hand_qty"/>
+
+                    <filter name="zero_qty" string="Zero Qty" domain="[('on_hand_qty','=',0)]"/>
+                    <filter name="in_house" string="In House" domain="[('on_hand_qty','!=',0)]"/>
+                    <separator/>
+
+                    <group expand="0" name="group_by" string="Group By">
+                        <filter name="product_id_gb" context="{'group_by' : 'product_id'}"/>
+                        <filter name="product_brand_id_gb" context="{'group_by' : 'product_brand_id'}"/>
+                        <filter name="vendor_id_gb" context="{'group_by' : 'vendor_id'}"/>
+                        <filter name="categ_id" context="{'group_by' : 'categ_id'}"/>
+                        <filter name="uom_id" context="{'group_by' : 'uom_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_mataa_in_house_report_per_vendor" model="ir.actions.act_window">
+            <field name="name">Per Vendor</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mataa.in.house.report.per.vendor</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="context"
+                   eval="{'create':False,'edit':False,'search_default_in_house': 1}">
+            </field>
+        </record>
+
+        <menuitem id="menu_mataa_in_house_per_vendor" name="Per Vendor"
+                  parent="mataa_order_management.menu_mataa_in_house" sequence="170"
+                  action="action_mataa_in_house_report_per_vendor"/>
+    </data>
+</odoo>

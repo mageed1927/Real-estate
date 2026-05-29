@@ -1,0 +1,11 @@
+<templates>
+    <t t-name="product_brand.PivotButtons" t-inherit="web.PivotView.Buttons" t-inherit-mode="extension">
+        <xpath expr="//button[1]" position="before">
+            
+            <button class="btn btn-primary btn-sm me-2 mataaa_export_btn">
+                <i class="fa fa-file-image-o me-1"/> Export Catalog
+            </button>
+            
+        </xpath>
+    </t>
+</templates>

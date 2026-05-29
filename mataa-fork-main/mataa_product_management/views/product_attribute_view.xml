@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+        <record id="product_attribute_view_form_inherit" model="ir.ui.view">
+        <field name="name">product.attribute.form.inherit</field>
+        <field name="model">product.attribute</field>
+        <field name="inherit_id" ref="product.product_attribute_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet//group[@name='sale_main_fields']" position="inside">
+                <group>
+                    <field name="mataa_variant_creation_mode"/>
+                    <field name="mataa_slug"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    </data>
+</odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+<data>
+    <record id="view_res_partner_form_inherit_suspended" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.suspended</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='is_customer']" position="after">
+                <field name="is_suspended" readonly="True" invisible="not is_customer or not is_suspended" widget="boolean_toggle"/>
+                <field name="suspension_reason" readonly="True" invisible="not is_customer or not is_suspended"/>
+            </xpath>
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="open_toggle_suspension_wizard" 
+                            type="object" 
+                            string="Suspend Customer" 
+                            class="btn-danger" 
+                            invisible="not is_customer or is_suspended"/>
+                    <button name="toggle_suspension"
+                            type="object"
+                            string="Unsuspend Customer"
+                            class="oe_right"
+                            invisible="not is_customer or not is_suspended"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+</data>
+</odoo>

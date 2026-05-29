@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!--Sale Order Line-->
+        <record id="view_order_line_tree_inherit" model="ir.ui.view">
+            <field name="name">sale.order.line.tree</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="sale.view_order_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="replace"/>
+            </field>
+        </record>
+
+        <!--Sale Order-->
+        <record id="mataa_view_order_form_inherit" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit.mataa</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header//button[@name='action_cancel']" position="replace">
+                    <button name="action_open_cancel_wizard"
+                            string="Cancel"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="not (state in ['draft', 'sent', 'sale'])"/>
+                </xpath>
+
+
+                <xpath expr="//page[@name='order_lines']//field[@name='order_line']/tree//field[@name='price_unit']"
+                       position="before">
+                    <field name="mataa_original_price" string="Price Before Desc." optional="show"/>
+                </xpath>
+                <xpath expr="//page[@name='order_lines']//field[@name='order_line']/tree//field[@name='price_unit']"
+                       position="attributes">
+                    <attribute name="string">Price After Desc.</attribute>
+                </xpath>
+
+                <xpath expr="//group[@name='sale_total']//field[@name='margin']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//group[@name='sale_total']//field[@name='margin_percent']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[@name='order_lines']//field[@name='order_line']/tree//field[@name='product_uom_qty']"
+                       position="after">
+                    <field name="refund_reason_id" string="Refund Reason" options="{'no_create_edit': True}" optional="show"/>
+                </xpath>
+                <xpath expr="//page[@name='order_lines']//field[@name='order_line']/tree//field[@name='price_unit']" position="after">
+                    <field name="margin" string="Margin (Value)" optional="hide"/>
+                    <field name="product_mataa_on_hand_qty" string="Mataa On Hand" optional="hide"/>
+                    <field name="product_last_purchase_date" string="Last Purchase Date" optional="hide"/>
+                </xpath>
+                <xpath expr="//group[@name='sale_total']/field[@name='tax_totals']" position="after">
+                    <div class="row mt-2">
+                        <div class="col-sm-6">
+                            <div class="d-flex justify-content-between">
+                                <span class="o_form_label">Total Before Discount</span>
+                                <span class="fw-bold">
+                                    <field name="amount_total_before_discount" widget="monetary" nolabel="1"
+                                           readonly="1" optional="1"/>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex justify-content-between">
+                                <span class="o_form_label">Total After Discount</span>
+                                <span class="fw-bold">
+                                    <field name="amount_total_after_discount" widget="monetary" nolabel="1" readonly="1"
+                                           optional="1"/>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+
+                <field name="state" position="before">
+                    <field name="show_cod_to_wallet_button" invisible="1"/>
+                    <field name="show_wallet_to_cod_button" invisible="1"/>
+                    <field name="is_suspended" invisible="1"/>
+                    <button name="create_wallet_reservation" type="object"
+                            string="Wallet Reservation"
+                            invisible="not show_reservation_button"/>
+                    <button name="finalize_mataa_order" type="object"
+                            string="Close Order"
+                            confirm="Are you sure you want to manually close this order?"
+                            invisible="not show_closing_button"/>
+                    <button name="create_ticket" type="object"
+                            string="New Ticket"/>
+                    <button name="action_reject_lines" type="object"
+                            invisible="state == 'cancel'"
+                            string="Reject Lines"/>
+                    <button name="refund_mataa_order" type="object"
+                            string="Refund"
+                            invisible="not show_refund_button"/>
+                    <button name="action_compensation_wizard" type="object"
+                            string="Compensation"
+                            class="btn-primary"
+                            invisible="not show_compensation_button"/>
+                    <button name="%(mataa_order_management.action_switch_payment_method_wizard)d" type="action"
+                            string="COD → Wallet"
+                            class="btn-secondary"
+                            context="{'conversion_type': 'cod_to_wallet'}"
+                            invisible="not show_cod_to_wallet_button"/>
+                    <button name="%(mataa_order_management.action_switch_payment_method_wizard)d" type="action"
+                            string="Wallet → COD"
+                            class="btn-secondary"
+                            context="{'conversion_type': 'wallet_to_cod'}"
+                            invisible="not show_wallet_to_cod_button"/>
+                    <button name="action_open_sale_suspension_wizard"
+                            string="Suspend Order"
+                            type="object"
+                            class="btn-danger"
+                            invisible="is_suspended" />
+                    <button name="action_toggle_suspended"
+                            string="Resume Order"
+                            type="object"
+                            class="btn-success"
+                            invisible="not is_suspended" />
+                </field>
+
+                <!--                if you want to activate the Ecommerce part you can enable the below code-->
+                <!--                <xpath expr="//header" position="after">-->
+                <!--                    <field name="ecommerce_status" widget="statusbar"/>-->
+                <!--                </xpath>-->
+
+                <xpath expr="//div[@name='button_box']" position="after">
+                    <widget
+                            name="web_ribbon"
+                            title="Archived"
+                            bg_color="bg-danger"
+                            invisible="active"
+                    />
+                </xpath>
+
+                <div class="oe_button_box" name="button_box" position="inside">
+                    <field name="show_reservation_button" invisible="1"/>
+                    <field name="reservation_entry_id" invisible="1"/>
+                    <field name="show_closing_button" invisible="1"/>
+                    <field name="show_refund_button" invisible="1"/>
+                    <field name="show_update_payment_button" invisible="1"/>
+                    <field name="shipment_bill_id" invisible="1"/>
+                    <field name="is_refund_order" invisible="1"/>
+                    <field name="mata_order_id" invisible="1"/>
+                    <field name="is_handled" invisible="1"/>
+                    <field name="active" invisible="1"/>
+                    <field name="mataa_purchases_count" invisible="1"/>
+                    <field name="mataa_tickets_count" invisible="1"/>
+                    <field name="mataa_sales_count" invisible="1"/>
+                    <field name="show_compensation_button" invisible="1"/>
+                    <button name="action_open_reservation_entry"
+                            type="object"
+                            string="Reservation Entry"
+                            class="oe_highlight"
+                            invisible="not reservation_entry_id"
+                    />
+                    <button name="action_open_shipment_bill"
+                            type="object"
+                            string="Shipment Bill"
+                            class="oe_highlight"
+                            invisible="not shipment_bill_id"
+                    />
+                    <button class="oe_stat_button" name="action_view_mataa_purchase_orders" type="object"
+                            icon="fa-credit-card" invisible="mataa_purchases_count == 0">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="mataa_purchases_count"/>
+                            </span>
+                            <span class="o_stat_text">Purchase</span>
+                        </div>
+                    </button>
+                    <button class="oe_stat_button" name="action_view_mataa_sales_orders" type="object"
+                            icon="fa-usd" invisible="mataa_sales_count == 0">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="mataa_sales_count"/>
+                            </span>
+                            <span class="o_stat_text">Orders</span>
+                        </div>
+                    </button>
+                    <button class="oe_stat_button" name="action_view_mataa_active_sales_orders" type="object"
+                            icon="fa-usd" invisible="mataa_active_sales_count == 0">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="mataa_active_sales_count"/>
+                            </span>
+                            <span class="o_stat_text">Active Orders</span>
+                        </div>
+                    </button>
+                    <button class="oe_stat_button" name="action_view_mataa_sales_quotations" type="object"
+                            icon="fa-usd" invisible="mataa_quotations_count == 0">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="mataa_quotations_count"/>
+                            </span>
+                            <span class="o_stat_text">Quotations</span>
+                        </div>
+                    </button>
+                    <button class="oe_stat_button" name="action_view_mataa_sales_bundles" type="object"
+                            icon="fa-usd" invisible="mataa_bundles_count == 0">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="mataa_bundles_count"/>
+                            </span>
+                            <span class="o_stat_text">Bundled Orders</span>
+                        </div>
+                    </button>
+                    <button class="oe_stat_button" name="action_view_mataa_related_tickets" type="object"
+                            icon="fa-life-ring" invisible="mataa_tickets_count == 0">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="mataa_tickets_count"/>
+                            </span>
+                            <span class="o_stat_text">Tickets</span>
+                        </div>
+                    </button>
+                    <button class="oe_stat_button" name="action_view_mataa_related_refunds" type="object"
+                            icon="fa-usd" invisible="mataa_refunds_count == 0">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="mataa_refunds_count"/>
+                            </span>
+                            <span class="o_stat_text">Refunds</span>
+                        </div>
+                    </button>
+                    <button class="oe_stat_button" name="action_view_mataa_related_payments" type="object"
+                            icon="fa-usd" invisible="mataa_related_payment_count == 0">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="mataa_related_payment_count"/>
+                            </span>
+                            <span class="o_stat_text">Payments</span>
+                        </div>
+                        <xpath expr="//div[@name='button_box']" position="after">
+                            <field name="inhouse_line_count" invisible="1"/>
+                            <field name="inhouse_total_qty" invisible="1"/>
+                        </xpath>
+                    </button>
+                    <button class="oe_stat_button" name="action_view_time_taken" type="object">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="time_taken" widget="duration" nolabel="1"/>
+                            </span>
+                            <span class="o_stat_text">Time Taken(hours)</span>
+                        </div>
+                        <xpath expr="//div[@name='button_box']" position="after">
+                            <field name="time_taken" invisible="1"/>
+                        </xpath>
+                    </button>
+                </div>
+
+
+                <xpath expr="//sheet//group[@name='sale_header']" position="before">
+                    <group>
+                        <group>
+                            <field name="mata_order_id"/>
+                            <field name="create_date"/>
+                            <field name="mataa_order_create_date" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="internal_note"/>
+                            <field name="mataa_customer_note"/>
+                        </group>
+                    </group>
+
+                </xpath>
+                <xpath expr="//sheet//group[@name='sale_header']" position="after">
+                    <group string="Cancellation Details"
+                           invisible="state != 'cancel'">   <!-- Odoo 17 requires this syntax -->
+                        <field name="cancel_reason_ids" widget="many2many_tags" readonly="1"/>
+                        <field name="cancel_note" readonly="1"/>
+                    </group>
+                </xpath>
+                <field name="partner_id" position='after'>
+                    <field name="customer_phone"/>
+                </field>
+
+                <group name="sale_info" position="inside">
+                    <!--                    removed the mata_order_state and mata_shipment_state from here-->
+                </group>
+
+                <field name="partner_invoice_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+
+                <field name="partner_shipping_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+
+                <group name="order_details" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </group>
+                <group name="order_details" position="after">
+                    <group name="mataa_order_details">
+                        <field name="refunded_order_id" invisible="is_refund_order == False"/>
+                        <field name="mataa_bundle_id"/>
+                        <field name="mataa_tag_ids" widget="many2many_tags"
+                               options="{'color_field': 'color', 'no_create_edit': True}"/>
+                        <field name="offer_tag_ids" widget="many2many_tags"
+                               string="Offer Tags"
+                               options="{'no_create_edit': True}"/>
+                        <field name="customer_tag_ids" widget="many2many_tags"
+                               options="{'color_field': 'color', 'no_create_edit': True}"/>
+                        <field name="mataa_coupon_ids" widget="many2many_tags" readonly="1"/>
+                        <field name="shipping_offer_name" readonly="1" widget="badge"/>
+                        <field name="mataa_payment_ids" widget="many2many_tags" readonly="1"/>
+                        <field name="mata_order_state"/>
+                        <field name="mata_shipment_state"/>
+                        <field name="total_quantity"/>
+                    </group>
+                </group>
+
+                <group name="sales_person" position="before">
+                    <group string="Main">
+                        <field name="partner_invoice_id"
+                               groups="account.group_delivery_invoice_address"
+                               context="{'default_type':'invoice', 'show_address': False, 'show_vat': False}"
+                               readonly="state == 'cancel' or locked"/>
+                        <field name="partner_shipping_id"
+                               groups="account.group_delivery_invoice_address"
+                               context="{'default_type':'delivery', 'show_address': False, 'show_vat': False}"
+                               readonly="state == 'cancel' or locked"/>
+
+                        <field name="validity_date" invisible="state == 'sale'" readonly="state in ['cancel', 'sale']"/>
+                        <div class="o_td_label" groups="base.group_no_one" invisible="state in ['sale', 'cancel']">
+                            <label for="date_order" string="Quotation Date"/>
+                        </div>
+                        <field name="date_order" nolabel="1" groups="base.group_no_one"
+                               invisible="state in ['sale', 'cancel']" readonly="state in ['cancel', 'sale']"/>
+                        <div class="o_td_label" invisible="state in ['draft', 'sent']">
+                            <label for="date_order" string="Order Date"/>
+                        </div>
+                        <field name="date_order" invisible="state in ['draft', 'sent']"
+                               readonly="state in ['cancel', 'sale']" nolabel="1"/>
+
+                        <field name="has_active_pricelist" invisible="1"/>
+                        <field name="show_update_pricelist" invisible="1"/>
+                        <label for="pricelist_id"
+                               groups="product.group_product_pricelist"
+                               invisible="not has_active_pricelist"/>
+                        <div groups="product.group_product_pricelist"
+                             class="o_row"
+                             invisible="not has_active_pricelist">
+                            <field name="pricelist_id" options="{'no_open':True,'no_create': True}"
+                                   readonly="state in ['cancel', 'sale']"/>
+                            <button name="action_update_prices" type="object"
+                                    string=" Update Prices"
+                                    help="Recompute all prices based on this pricelist"
+                                    class="btn-link mb-1 px-0" icon="fa-refresh"
+                                    confirm="This will update the unit price of all products based on the new pricelist."
+                                    invisible="not show_update_pricelist or state in ['sale', 'cancel']"/>
+                        </div>
+                        <field name="country_code" invisible="1"/>
+                        <field name="company_id" invisible="1"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="pricelist_id" invisible="1" readonly="state in ['cancel', 'sale']"
+                               groups="!product.group_product_pricelist"/>
+                        <field name="tax_country_id" invisible="1"/>
+                        <field name="tax_calculation_rounding_method" invisible="1"/>
+                        <field name="payment_term_id" options="{'no_open': True, 'no_create': True}"/>
+
+
+                    </group>
+                </group>
+
+                <!-- Add a new page for Mataa Payments -->
+                <xpath expr="//notebook" position="inside">
+                    <page string="Mataa Payments">
+                        <field name="mataa_payment_ids" readonly="mata_order_id or reservation_entry_id">
+                            <tree editable="bottom">
+                                <field name="payment_transaction_id"/>
+                                <field name="payment_state"/>
+                                <field name="code"/>
+                                <field name="amount"/>
+                                <field name="journal_description" readonly="1"/>
+                                <field name="currency_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Mataa Coupons">
+                        <field name="mataa_coupon_ids" readonly="mata_order_id">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="amount_deducted"/>
+                                <field name="currency_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Addresses">
+                        <group>
+                            <group name="mataa_billing_address" string="Billing Address">
+                                <field name="mata_billing_first_name"/>
+                                <field name="mata_billing_last_name"/>
+                                <field name="mata_billing_address_1"/>
+                                <field name="mata_billing_address_2"/>
+                                <field name="mata_billing_company"/>
+                                <field name="mata_billing_city"/>
+                                <field name="mata_billing_state"/>
+                                <field name="mata_billing_country"/>
+                                <field name="mata_billing_phone"/>
+                                <field name="mata_billing_postcode"/>
+                                <field name="mata_billing_email"/>
+                                <field name="mata_billing_link" widget="url"/>
+                            </group>
+                            <group name="mataa_shipping_address" string="Shipping Address">
+                                <field name="mata_shipping_first_name"/>
+                                <field name="mata_shipping_last_name"/>
+                                <field name="mata_shipping_address_1"/>
+                                <field name="mata_shipping_address_2"/>
+                                <field name="mata_shipping_company"/>
+                                <field name="mata_shipping_city"/>
+                                <field name="mata_shipping_state"/>
+                                <field name="mata_shipping_country"/>
+                                <field name="mata_shipping_phone"/>
+                                <field name="mata_shipping_postcode"/>
+                                <field name="mata_shipping_email"/>
+                                <field name="mata_shipping_link" widget="url"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Compensation">
+                        <group>
+                            <group>
+                                <field name="compensation_reason_id" readonly="1"/>
+                                <field name="compensation_amount" readonly="1"/>
+                                <field name="compensation_user_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="compensation_journal_entry_id" readonly="1"/>
+                                <field name="compensation_date" readonly="1"/>
+                                <field name="compensation_description" readonly="1"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//notebook//page[@name='order_lines']//field[@name='order_line']//tree//field[@name='name']"
+                       position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </xpath>
+                <xpath expr="//notebook//page[@name='order_lines']//field[@name='order_line']//tree//field[@name='qty_delivered']"
+                       position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </xpath>
+                <xpath expr="//notebook//page[@name='order_lines']//field[@name='order_line']//tree//field[@name='tax_id']"
+                       position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </xpath>
+                <xpath expr="//notebook//page[@name='order_lines']//field[@name='order_line']//tree//field[@readonly='product_uom_readonly']"
+                       position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//notebook//page[@name='order_lines']//field[@name='order_line']//tree//field[@name='sequence']"
+                       position="after">
+                    <field name="so_line_main_image" widget="image_url" class="oe_avatar"/>
+                </xpath>
+
+                <xpath expr="//notebook//page[@name='order_lines']//field[@name='order_line']//tree//field[@name='product_template_id']"
+                       position="after">
+                    <field name="status"/>
+                    <field name="within_city" column_invisible="1"/>
+                    <field name="vendor_id"/>
+                    <field name="inhouse_location" optional="show"/>
+                    <field name="mataa_id"/>
+                    <field name="reversed_qty"/>
+                    <field name="mataa_qty_delivered"/>
+                </xpath>
+                <!--                <xpath expr="//notebook//page[@name='order_lines']//group[@name='note_group']//field[@name='note']"-->
+                <!--                       position="after">-->
+                <!--                    <group>-->
+                <!--                        <field name="internal_note"/>-->
+                <!--                        <field name="mataa_customer_note"/>-->
+                <!--                    </group>-->
+                <!--                    <group>-->
+                <!--                        <field name="total_quantity" readonly="1"/>-->
+                <!--                    </group>-->
+                <!--                </xpath>-->
+
+                <xpath expr="///field[@name='order_line']/tree" position="attributes">
+                    <attribute name="delete">false</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='order_line']/tree" position="inside">
+                    <field name="check_access_to_delete" column_invisible="1"/>
+                    <button name="unlink" type="object" icon="fa-trash" title="Delete line"
+                            confirm="Please confirm that you want to delete this line."
+                            invisible="not check_access_to_delete"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sale_order_tree_inherit" model="ir.ui.view">
+            <field name="name">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.sale_order_tree"/>
+            <field name="arch" type="xml">
+
+
+                <xpath expr="//header" position="inside">
+                    <button name="action_open_external_system"
+                            type="object"
+                            string="Create internal Sale Order"
+                            class="btn-primary"
+                            icon="fa-external-link"/>
+                </xpath>
+
+                <field name="name" position="after">
+                    <field name="mata_order_id"/>
+                </field>
+                <field name="partner_id" position='after'>
+                    <field name="customer_phone"/>
+                </field>
+                <field name="amount_total" position="after">
+                    <field name="mataa_bundle_id"/>
+                    <field name="mataa_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                    <field name="customer_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                    <field name="mataa_coupon_ids" widget="many2many_tags"/>
+                    <field name="mataa_payment_ids" widget="many2many_tags"/>
+                    <field name="mata_order_state"/>
+                    <field name="mata_shipment_state"/>
+                    <field name="from_shipping_to_inwarehouse_duration" optional="hide"/>
+                    <field name="from_inwarehouse_to_delivered_duration" optional="hide"/>
+                    <field name="from_on_delivery_to_delivered_duration" optional="hide"/>
+                    <!--                if you want to activate the Ecommerce part you can enable the below code-->
+                    <!--                           decoration-warning="'in_' in ecommerce_status"-->
+                    <!--                           decoration-success="'out_' in ecommerce_status"-->
+                    <!--                           decoration-info="invoice_status == 'available_at_warehouse'"-->
+                    <!--                           decoration-muted="invoice_status == 'canceled'"-->
+                    <!--                           widget="badge"/>-->
+                </field>
+            </field>
+        </record>
+
+        <record id="mataa_view_sale_order_filter_inherit" model="ir.ui.view">
+            <field name="name">sale.order.filter.mataa</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="replace">
+                    <field name="name" string="Order"
+                           filter_domain="['|', '|', '|',
+                            ('name', 'ilike', self),
+                            ('client_order_ref', 'ilike', self),
+                            ('partner_id', 'child_of', self),
+                            ('mata_order_id', 'ilike', self)
+                        ]"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="customer_phone" string="Phone"
+                           filter_domain="['|', '|',
+                           ('customer_phone', 'ilike', self),
+                           ('mata_billing_phone', 'ilike', self),
+                           ('mata_shipping_address_2', 'ilike', self)
+                           ]"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="name" string="Tracking Reference"
+                           filter_domain="[('picking_ids.carrier_tracking_ref', 'ilike', self)]"/>
+                </xpath>
+                <!-- Add custom filter for Mataa Orders -->
+                <filter name="my_sale_orders_filter" position="after">
+                    <filter string="Mataa Orders" domain="[('mata_order_id', '!=', False)]"
+                            name="mataa_sale_orders_filter"/>
+                    <separator/>
+                    <filter string="Orders" domain="[('is_refund_order', '=', False)]"
+                            name="is_refund_order_false"/>
+                    <filter string="Refunds" domain="[('is_refund_order', '=', True)]"
+                            name="is_refund_order_true"/>
+                    <separator/>
+                    <filter
+                            string="Archived"
+                            name="inactive"
+                            domain="[('active','=',False)]"
+                    />
+                    <separator/>
+                    <filter string="Group by Inhouse Count" name="groupby_inhouse_count" domain="[]"
+                            context="{'group_by': 'inhouse_line_count'}"/>
+                    <filter string="Group by Inhouse Quantity" name="groupby_inhouse_qty" domain="[]"
+                            context="{'group_by': 'inhouse_total_qty'}"/>
+                    <separator/>
+                    <filter
+                            string="Incoming"
+                            name="ecommerce_status_in"
+                            domain="[('ecommerce_status', 'in', ['in_to_be_ordered','in_waiting_for_confirmation', 'in_preparing', 'in_picked_up', 'in_not_available', 'in_partially_available'])]"
+                    />
+                    <filter
+                            string="Available At Warehouse"
+                            name="ecommerce_status_available"
+                            domain="[('ecommerce_status','=','available_at_warehouse')]"
+                    />
+                    <filter
+                            string="Outgoing"
+                            name="ecommerce_status_out"
+                            domain="[('ecommerce_status','ilike','out_')]"
+                    />
+                    <filter
+                            string="Cancelled"
+                            name="ecommerce_status_cancelled"
+                            domain="[('ecommerce_status','=','canceled')]"
+                    />
+                    <separator/>
+                </filter>
+
+                <filter name="order_month" position="after">
+                    <separator/>
+                    <filter
+                        string="Suspended"
+                        name="is_suspended_filter"
+                        domain="[('is_suspended', '=', True)]"
+                    />
+                    <separator/>
+                    <filter string="E-commerce Status" name="ecommerce_status" domain="[]"
+                            context="{'group_by': 'ecommerce_status'}"/>
+
+                </filter>
+
+            </field>
+        </record>
+
+        <record id="sale.action_quotations_with_onboarding" model="ir.actions.act_window">
+            <field name="context">{'search_default_my_quotation': 1, 'copy': False}</field>
+        </record>
+        <!-- Restrict margin and cost to group-->
+        <record id="sale_order_line_tree_visibility" model="ir.ui.view">
+            <field name="name">sale.order.line.tree.visibility.group</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/tree//field[@name='margin']"
+                       position="attributes">
+                    <attribute name="groups">mataa_order_management.group_margin_viewer</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree//field[@name='purchase_price']"
+                       position="attributes">
+                    <attribute name="groups">mataa_order_management.group_margin_viewer</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_order_form_inherit_price_alert" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit.price.alert</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="before">
+                    <field name="price_below_cost_alert" widget="html" readonly="1" nolabel="1"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_mataa_order_state_tracking_tree" model="ir.ui.view">
+            <field name="name">mataa.order.state.tracking.tree</field>
+            <field name="model">mail.tracking.value</field>
+            <field name="arch" type="xml">
+                <tree string="Time Taken Timeline" create="false" edit="false" delete="false">
+                    <field name="create_date" string="Date &amp; Time"/>
+                    <field name="old_value_char" string="Previous State"/>
+                    <field name="new_value_char" string="New State"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

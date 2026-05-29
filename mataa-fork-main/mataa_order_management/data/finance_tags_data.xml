@@ -1,0 +1,7 @@
+<odoo>
+    <data noupdate="1">
+        <record id="tag_category_finance" model="res.partner.category">
+            <field name="name">Finance</field>
+        </record>
+    </data>
+</odoo>

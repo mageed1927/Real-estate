@@ -1,0 +1,46 @@
+<odoo>
+    <data>
+<!--        &lt;!&ndash; Form view for the model &ndash;&gt;-->
+<!--        <record id="view_mataa_s3_example_form" model="ir.ui.view">-->
+<!--            <field name="name">mataa.s3.example.form</field>-->
+<!--            <field name="model">mataa.s3.example</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="Example">-->
+<!--                    <sheet>-->
+<!--                        <group>-->
+<!--                            <field name="name"/>-->
+<!--                            <field name="file_data" filename="file_name" widget='image'/>-->
+<!--                        </group>-->
+<!--                    </sheet>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Tree view for the model &ndash;&gt;-->
+<!--        <record id="view_mataa_s3_example_tree" model="ir.ui.view">-->
+<!--            <field name="name">mataa.s3.example.tree</field>-->
+<!--            <field name="model">mataa.s3.example</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree string="Examples">-->
+<!--                    <field name="name"/>-->
+<!--                    <field name="file_name"/>-->
+<!--                    <field name="file_remote_url"/>-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Action to open the form view &ndash;&gt;-->
+<!--        <record id="action_mataa_s3_example" model="ir.actions.act_window">-->
+<!--            <field name="name">Examples</field>-->
+<!--            <field name="res_model">mataa.s3.example</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--            <field name="view_id" ref="view_mataa_s3_example_tree"/>-->
+<!--        </record>-->
+
+<!--        <menuitem name="examples" id="menu_mataa_s3_root"/>&ndash;&gt;-->
+<!--        &lt;!&ndash; Menu item to access the action &ndash;&gt;-->
+<!--        <menuitem name="Examples" id="menu_mataa_s3_example"-->
+<!--                  parent="menu_mataa_s3_root"-->
+<!--                  action="action_mataa_s3_example"/>-->
+    </data>
+</odoo>

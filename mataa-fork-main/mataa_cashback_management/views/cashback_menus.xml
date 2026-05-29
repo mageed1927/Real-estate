@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem
+        id="menu_cashback_programs"
+        name="Cashback Programs"
+        parent="sale.product_menu_catalog"
+        action="action_cashback_program"
+        sequence="100"/>
+</odoo>

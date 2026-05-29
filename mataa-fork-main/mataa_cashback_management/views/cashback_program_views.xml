@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="view_cashback_program_search" model="ir.ui.view">
+        <field name="name">cashback.program.search</field>
+        <field name="model">cashback.program</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Archived" name="archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_cashback_program" model="ir.actions.act_window">
+        <field name="name">Cashback Programs</field>
+        <field name="res_model">cashback.program</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_cashback_program_search"/>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+
+
+    <record id="view_cashback_program_search" model="ir.ui.view">
+        <field name="name">cashback.program.search</field>
+        <field name="model">cashback.program</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Archived" name="archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_cashback_program_tree" model="ir.ui.view">
+        <field name="name">cashback.program.tree</field>
+        <field name="model">cashback.program</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="cashback_percentage" widget="percentage"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="active"/>
+                <field name="usage_limit_per_customer"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_cashback_program_form" model="ir.ui.view">
+        <field name="name">cashback.program.form</field>
+        <field name="model">cashback.program</field>
+        <field name="arch" type="xml">
+            <form>
+                <header></header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Black Friday Offer"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="active"/>
+                            <field name="usage_limit_per_customer"/>
+                            <field name="cashback_percentage" widget="percentage"/>
+                            <field name="tag_to_apply_id"/>
+                            <field name="activity_user_id"/>
+                            <field name="helpdesk_team_id"/>
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                        <group string="Accounting Method">
+                            <field name="creation_method" widget="radio"/>
+                            <field name="journal_id" invisible="creation_method != 'payment'"/>
+                            <field name="entry_journal_id" invisible="creation_method != 'journal_entry'"/>
+                            <field name="expense_account_id" invisible="creation_method != 'journal_entry'"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Rules &amp; Conditions">
+                            <field name="rule_ids">
+                                <tree editable="bottom">
+                                    <field name="product_ids" widget="many2many_tags" optional="show"/>
+                                    <field name="category_id" optional="show"/>
+                                    <field name="partner_ids" widget="many2many_tags" optional="show"/>
+                                    <field name="brand_ids" widget="many2many_tags" optional="hide"/>
+                                    <field name="public_categ_ids" widget="many2many_tags" optional="hide"/>
+                                    <field name="vendor_ids" widget="many2many_tags" optional="hide"/>
+                                    <field name="minimum_amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,21 @@
+<odoo>
+    <record id="view_sale_coupon_wizard_inherit" model="ir.ui.view">
+        <field name="name">sale.loyalty.coupon.wizard.view.form.inherit</field>
+        <field name="model">sale.loyalty.coupon.wizard</field>
+        <field name="inherit_id" ref="sale_loyalty.sale_loyalty_coupon_wizard_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='coupon_code']" position="before">
+                <field name="option_type"/>
+                <field name="coupon_type" invisible="option_type != 'new'"/>
+                <field name="discount_amount" invisible="coupon_type != 'fixed_discount'"/>
+                <field name="discount_percentage" invisible="coupon_type != 'percentage_discount'"/>
+            </xpath>
+
+            <xpath expr="//field[@name='coupon_code']" position="attributes">
+                <attribute name="invisible">option_type == 'new'</attribute>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

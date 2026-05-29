@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form_zkteco" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.zkteco</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <app string="ZKTeco Settings" name="zkteco_settings">
+                        <block title="ZKTeco Attendance Device">
+                            <setting string="ZKTeco Base URL" help="The base URL to access the ZKTeco API" id="zkteco_url_setting">
+                                <field name="zkteco_url"/>
+                            </setting>
+                            <setting string="ZKTeco Username" help="The login username for the ZKTeco API" id="zkteco_username_setting">
+                                <field name="zkteco_username"/>
+                            </setting>
+                            <setting string="ZKTeco Password" help="The login password for the ZKTeco API" id="zkteco_password_setting">
+                                <field name="zkteco_password" password="True"/>
+                            </setting>
+                        </block>
+                    </app>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="action_unpack_multiple_packages" model="ir.actions.server">
+        <field name="name">Unpack Packages</field>
+        <field name="model_id" ref="stock.model_stock_quant_package"/>
+        <field name="binding_model_id" ref="stock.model_stock_quant_package"/>
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+
+        <field name="code">
+if not records:
+    raise UserError("No packages selected.")
+
+empty_packages = records.filtered(lambda p: not p.quant_ids)
+if empty_packages:
+    raise UserError(
+        "The following packages are already empty:\n%s"
+        % ", ".join(empty_packages.mapped("name"))
+    )
+
+for package in records:
+    package.unpack()
+        </field>
+    </record>
+
+</odoo>

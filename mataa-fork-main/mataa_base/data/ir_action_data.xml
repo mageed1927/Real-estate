@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record forcecreate="True" id="ir_cron_product_was_in_house" model="ir.cron">
+        <field name="name">Product: Was In House</field>
+        <field name="model_id" ref="product.model_product_product"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_compute_was_inhouse()</field>
+        <field name="active" eval="False"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+    </record>
+
+</odoo>

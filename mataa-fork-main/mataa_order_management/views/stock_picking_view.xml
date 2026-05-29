@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="stock_picking_barcode_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.form.view.barcode</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock_barcode.stock_picking_barcode"/>
+            <field name="arch" type="xml">
+                <field name="origin" position="before">
+                    <field name="mataa_sale_order_id"/>
+                    <field name="mataa_bundle_id"/>
+                </field>
+            </field>
+        </record>
+
+
+        <record id="view_picking_form_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+
+                <div class="oe_button_box" name="button_box" position="inside">
+                    <button class="oe_stat_button" name="action_view_mataa_sales_bundles" type="object"
+                            icon="fa-usd" invisible="mataa_bundles_count == 0">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="mataa_bundles_count"/>
+                            </span>
+                            <span class="o_stat_text">Bundled Orders</span>
+                        </div>
+                    </button>
+                </div>
+
+                <xpath expr="//field[@name='location_dest_id']" position="after">
+                    <field name="allow_done_exceed_demand"/>
+                </xpath>
+
+                <field name="owner_id" position="after">
+                    <field name="mataa_sale_order_id"/>
+                    <field name="mataa_tag_ids" widget="many2many_tags"
+                           options="{'color_field': 'color', 'no_create_edit': True}"/>
+                    <field name="customer_tag_ids" widget="many2many_tags"
+                           options="{'color_field': 'color', 'no_create_edit': True}"/>
+                </field>
+                <xpath expr="//page[@name='operations']/field[@name='move_ids_without_package']" position="after">
+                    <group name="picking_total_group" col="6" class="mt-2 mt-md-0" invisible="state != 'done' or picking_type_code != 'incoming'">
+                        <group colspan="4"/>
+                        <group class="oe_subtotal_footer oe_right" colspan="2" name="picking_total">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="total_received_value" 
+                                   widget="monetary" 
+                                   options="{'currency_field': 'currency_id'}"
+                                   decoration-bf="1"/> 
+                        </group>
+                        <div class="oe_clear"/>
+                    </group>
+                </xpath>
+                <button name="action_cancel" position="before">
+                    <button name="action_print_related_invoice" type="object" string="Print Invoice"/>
+                </button>
+                <header position="inside">
+                    <button name="export_move_lines" string="Export move lines"
+                            help="Export move lines with packages names" type="object"/>
+                    <button class="oe_action_button"
+                    name="action_resend_shipment"
+                    type="object"
+                    string="Resend Shipment"
+                    invisible="state != 'done' or picking_type_code != 'outgoing'"
+                    />
+                </header>
+
+                <xpath expr="//button[@name='button_validate' and contains(@class, 'oe_highlight')]" position="attributes">
+                    <attribute name="name">button_validate_with_wizard</attribute>
+                </xpath>
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="total_received_qty" string="Total Received Quantity" readonly="1" invisible="picking_type_id not in [1, 7]"/>
+                </xpath>
+
+                <xpath expr="//button[@name='button_validate' and contains(@class, 'o_btn_validate')]" position="attributes">
+                    <attribute name="name">button_validate_with_wizard</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='button_validate_with_wizard' and contains(@class, 'oe_highlight')]" position="before">
+                    <button name="action_verify"
+                            string="Verify"
+                            type="object"
+                            class="oe_highlight"
+                            invisible="state != 'assigned' or picking_type_code != 'incoming'"/>
+                </xpath>
+
+                <xpath expr="//button[@name='button_validate_with_wizard' and contains(@class, 'oe_highlight')]" position="attributes">
+                    <attribute name="invisible">state in ('draft', 'confirmed', 'done', 'cancel') or (state == 'assigned' and picking_type_code == 'incoming')</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='button_validate_with_wizard' and contains(@class, 'o_btn_validate')]" position="attributes">
+                    <attribute name="invisible">state in ('waiting', 'assigned', 'verified', 'done', 'cancel')</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='state' and @widget='statusbar' and contains(@invisible, '!=')]" position="attributes">
+                    <attribute name="statusbar_visible">draft,assigned,verified,done</attribute>
+                </xpath>
+
+
+                <xpath expr="//button[@name='action_cancel']" position="attributes">
+                    <attribute name="invisible">state not in ('assigned', 'confirmed', 'draft', 'waiting', 'verified')</attribute>
+                </xpath>
+
+                <xpath expr="//page[@name='operations']/field[@name='move_ids_without_package']" position="attributes">
+                    <attribute name="readonly">(state == 'done' and is_locked) or (state == 'verified' and picking_type_code == 'incoming')</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="stock_picking_kanban_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.kanban</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.stock_picking_kanban"/>
+            <field name="arch" type="xml">
+                <field name="json_popover" position="after">
+                    <b>
+                        <field name="mataa_sale_order_id"/>
+                    </b>
+                    <b>
+                        <field name="mataa_bundle_id"/>
+                    </b>
+                </field>
+                <field name="picking_properties" position="after">
+                    <field name="mataa_tag_ids" widget="many2many_tags"
+                           options="{'color_field': 'color', 'no_create_edit': True}"/>
+                    <field name="customer_tag_ids" widget="many2many_tags"
+                           options="{'color_field': 'color', 'no_create_edit': True}"/>
+                    <field name="on_hold" string="On Hold" readonly="1" widget="boolean_toggle"/>
+                </field>
+            </field>
+        </record>
+        <record id="action_print_so_from_picking_list" model="ir.actions.server">
+            <field name="name">Print Related Sales Orders</field>
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                action = records.action_print_related_so_bulk()
+            </field>
+        </record>
+
+        <record id="action_print_invoices_from_picking_list" model="ir.actions.server">
+            <field name="name">Print Related Invoices</field>
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                action = records.action_print_related_invoices_bulk()
+            </field>
+        </record>
+
+        <record id="view_picking_search_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.internal.search.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="arch" type="xml">
+                    <xpath expr="//filter[@name='internal']" position="after">
+                        <filter name="on_hold" string="On Hold" domain="[('on_hold', '=', True)]"/>
+                    </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

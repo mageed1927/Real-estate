@@ -1,0 +1,46 @@
+<odoo>
+  <data>
+<!--    &lt;!&ndash; List view definition &ndash;&gt;-->
+<!--    <record model="ir.ui.view" id="view_mataa_product_management_example_tree">-->
+<!--      <field name="name">mataa.product_management.example.tree</field>-->
+<!--      <field name="model">mataa.product_management.example</field>-->
+<!--      <field name="arch" type="xml">-->
+<!--        <tree>-->
+<!--          <field name="name"/>-->
+<!--          <field name="value"/>-->
+<!--          <field name="value2"/>-->
+<!--        </tree>-->
+<!--      </field>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Form view definition &ndash;&gt;-->
+<!--    <record model="ir.ui.view" id="view_mataa_product_management_example_form">-->
+<!--      <field name="name">mataa.product_management.example.form</field>-->
+<!--      <field name="model">mataa.product_management.example</field>-->
+<!--      <field name="arch" type="xml">-->
+<!--        <form>-->
+<!--          <sheet>-->
+<!--            <group>-->
+<!--              <field name="name"/>-->
+<!--              <field name="value"/>-->
+<!--              <field name="value2" readonly="1"/>-->
+<!--              <field name="description"/>-->
+<!--            </group>-->
+<!--          </sheet>-->
+<!--        </form>-->
+<!--      </field>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Action to open views &ndash;&gt;-->
+<!--    <record model="ir.actions.act_window" id="action_mataa_product_management_example">-->
+<!--      <field name="name">Example Products</field>-->
+<!--      <field name="res_model">mataa.product_management.example</field>-->
+<!--      <field name="view_mode">tree,form</field>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Menu items &ndash;&gt;-->
+<!--    <menuitem name="Products" id="menu_mataa_product_management_root"/>-->
+<!--    <menuitem name="Example Products" id="menu_mataa_product_management_example" parent="menu_mataa_product_management_root"-->
+<!--              action="action_mataa_product_management_example"/>-->
+  </data>
+</odoo>

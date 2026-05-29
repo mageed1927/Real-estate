@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit res.partner form view to add VMS fields -->
+        <record id="res_partner_vms_form" model="ir.ui.view">
+            <field name="name">res.partner.vms.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="category_id" position="after">
+                    <field name="is_vms_vendor"/>
+                </field>
+                <!-- Add VMS section after the Sales & Purchases section -->
+                <page name='sales_purchases' position="after">
+                    <page string="VMS Integration" name="vms_integration" invisible="not is_vms_vendor">
+                        <group>
+                            <group string="VMS Configuration">
+                                <field name="is_vms_vendor"/>
+                                <field name="vendor_type" required="is_vms_vendor"/>
+                                <field name="standard_vendor_partner_id"
+                                       required="vendor_type == 'in_house'"
+                                       invisible="vendor_type != 'in_house'"/>
+                            </group>
+                            <group string="VMS Balances">
+                                <field name="vms_total_balance" widget="monetary"/>
+                                <field name="vms_outstanding_balance" widget="monetary"/>
+                                <field name="vms_shipping_balance" widget="monetary"/>
+                                <field name="vms_cancelled_balance" widget="monetary"/>
+                            </group>
+                        </group>
+
+                        <!-- In-house vendors section -->
+                        <group string="In-House Vendor Partners"
+                               invisible="vendor_type != 'standard'">
+                            <field name="in_house_vendor_partner_ids" widget="many2many_tags"/>
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+        <!-- Inherit res.partner tree view to add VMS fields -->
+        <record id="res_partner_vms_tree" model="ir.ui.view">
+            <field name="name">res.partner.vms.tree</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='email']" position="after">
+                    <field name="is_vms_vendor" optional="hide"/>
+                    <field name="vendor_type" optional="hide"/>
+                </xpath>
+                <xpath expr="//field[@name='phone']" position="after">
+                    <field name="vms_total_balance" optional="hide" widget="monetary"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherit res.partner search view to add VMS filters -->
+        <record id="res_partner_vms_search" model="ir.ui.view">
+            <field name="name">res.partner.vms.search</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='supplier']" position="after">
+                    <filter string="VMS Vendors" name="vms_vendors" domain="[('is_vms_vendor', '=', True)]"/>
+                    <filter string="Standard Vendors" name="standard_vendors" domain="[('vendor_type', '=', 'standard')]"/>
+                    <filter string="In-House Vendors" name="inhouse_vendors" domain="[('vendor_type', '=', 'in_house')]"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

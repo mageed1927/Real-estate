@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_delivery_carrier_form_with_provider_camex" model="ir.ui.view">
+        <field name="name">delivery.carrier.form.provider.camex</field>
+        <field name="model">delivery.carrier</field>
+        <field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='destination']" position='before'>
+                <page string="CAMEX Configuration" name="camex_configuration"
+                      invisible="delivery_type != 'camex'">
+                    <group>
+                        <group>
+                            <field name="camex_base_url" required="delivery_type == 'camex'"/>
+                            <field name="camex_provider_key" required="delivery_type == 'camex'"/>
+                            <field name="camex_client_key" required="delivery_type == 'camex'"/>
+                        </group>
+                        <group>
+                            <field name="camex_store_name" required="delivery_type == 'camex'"/>
+                            <!-- TODO : this is just a temporary fix -->
+                            <button name="action_get_camex_cities" type="object" string="Fetch Cities" class="btn-primary"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

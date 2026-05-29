@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_filter_from_file_wizard_form" model="ir.ui.view">
+            <field name="name">filter.from.file.wizard.form</field>
+            <field name="model">filter.from.file.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Filter from File">
+                    <group>
+                        <field name="import_file" filename="file_name"/>
+                        <field name="file_name" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="filter_from_file" string="Apply Filter" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_filter_from_file_wizard" model="ir.actions.act_window">
+            <field name="name">Filter Unsynced Products from File</field>
+            <field name="res_model">filter.from.file.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_filter_from_file_wizard"
+        name="Filter Products from File"
+        parent="menu_mataa_external_sync_root"
+        action="action_filter_from_file_wizard"
+        sequence="20"/>
+    </data>
+</odoo>

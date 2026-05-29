@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- VMS Menu Action -->
+        <record id="action_vms_dashboard" model="ir.actions.act_window">
+            <field name="name">VMS Dashboard</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_vms_vendor', '=', True)]</field>
+            <field name="context">{'search_default_vms_vendors': 1, 'default_is_vms_vendor': True}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No VMS vendors found
+                </p>
+                <p>
+                    Create vendors and enable VMS integration to get started.
+                </p>
+            </field>
+        </record>
+
+        <!-- VMS Menu Item -->
+        <menuitem id="menu_vms_root"
+                  parent="purchase.menu_procurement_management"
+                  name="VMS Integration"
+                  sequence="100"/>
+
+        <menuitem id="menu_vms_dashboard"
+                  name="VMS Dashboard"
+                  parent="menu_vms_root"
+                  action="action_vms_dashboard"
+                  sequence="10"/>
+
+        <!-- VMS Configuration Menu -->
+        <menuitem id="menu_vms_config"
+                  name="Configuration"
+                  parent="menu_vms_root"
+                  sequence="100"/>
+
+
+    </data>
+</odoo>

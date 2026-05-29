@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="helpdesk_ticket_view_form_inherit" model="ir.ui.view">
+            <field name="name">helpdesk.ticket.form</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+            <field name="arch" type="xml">
+                <page name="extra_info" position="after">
+                    <page string="Mataa Order">
+                        <group>
+                            <group>
+                                <field name="mataa_customer_id"/>
+                                <field name="mataa_so_id"/>
+                                <field name="mataa_product_id"/>
+                            </group>
+                            <group>
+                                <field name="mataa_vendor_id"/>
+                                <field name="mataa_po_id"/>
+                            </group>
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+    </data>
+</odoo>

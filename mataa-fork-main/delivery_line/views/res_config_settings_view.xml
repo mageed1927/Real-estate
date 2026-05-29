@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="res_config_settings_view_form_delivery_line" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.delivery_line</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="stock.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <block name="shipping_setting_container" position="inside">
+                    <setting id="delivery_line_key" help="Line Secret Key" title="Line Secret Key">
+                        <field name="line_secret_key"/>
+                    </setting>
+                        <setting id="delivery_line_sender" help="Default sender contact for Line shipments" title="Default Sender">
+                        <field name="line_default_sender_id"/>
+                    </setting>
+                </block>
+            </field>
+        </record>
+
+    </data>
+</odoo>

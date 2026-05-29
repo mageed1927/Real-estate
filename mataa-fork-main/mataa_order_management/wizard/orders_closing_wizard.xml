@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_orders_closing_wizard_form" model="ir.ui.view">
+        <field name="name">orders.closing.wizard.form</field>
+        <field name="model">orders.closing.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Close Orders">
+                <group>
+                    <p colspan="2">
+                        Confirm to close all selected orders.
+                    </p>
+                </group>
+                <group>
+                    <group>
+                        <field name="number_of_orders"/>
+                    </group>
+                    <group>
+                        <field name="total_value_without_delivery"/>
+                        <field name="total_delivery_fee"/>
+                        <field name="total_value_with_delivery"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="sale_order_ids">
+                        <tree>
+                            <field name="name"/>
+                            <field name="amount_total"/>
+                        </tree>
+                    </field>
+                </group>
+                <footer>
+                    <button name="close_orders" type="object" string="Close Orders"
+                            class="oe_highlight"/>
+                    or
+                    <button string="Cancel" class="oe_highlight" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_orders_closing_wizard" model="ir.actions.act_window">
+        <field name="name">Close Orders</field>
+        <field name="res_model">orders.closing.wizard</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_orders_closing_wizard_form"/>
+        <field name="target">new</field>
+        <field name="context">{
+            "default_closing_method_name": "finalize_mataa_order"}</field>
+    </record>
+
+    <record id="action_orders_fully_returned_closing_wizard" model="ir.actions.act_window">
+        <field name="name">Fully Return</field>
+        <field name="res_model">orders.closing.wizard</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_orders_closing_wizard_form"/>
+        <field name="target">new</field>
+        <field name="context">{
+            "default_closing_method_name": "close_fully_returned_order"}</field>
+    </record>
+
+</odoo>

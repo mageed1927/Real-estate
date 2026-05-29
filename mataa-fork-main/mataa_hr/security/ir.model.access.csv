@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mataa_precreation_employee,mataa.precreation.employee,model_mataa_precreation_employee,mataa_hr.group_precreation_employee,1,1,1,0
+access_hr_contract_allowance,hr.contract.allowance access,model_hr_contract_allowance,base.group_user,1,1,1,1
+access_hr_contract_deduction,hr.contract.deduction access,model_hr_contract_deduction,base.group_user,1,1,1,1
+access_hr_payslip_payment_wizard,hr.payslip.payment.wizard,model_hr_payslip_payment_wizard,,1,1,1,1

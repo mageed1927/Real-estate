@@ -1,0 +1,41 @@
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form_external_sync" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.mataa.external.sync</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <app data-string="External Sync" string="External Sync" name="external_sync">
+                        <block title="External Sync Credentials" name="s3_settings_parameters">
+                            <setting string="Base URL"
+                                     help="External API Base Url"
+                                     id="external_api_base_url_setting">
+                                <field name="external_api_base_url"/>
+                            </setting>
+                            <!--TODO : to be reviewed after new system integration-->
+                            <setting string="Customer Key"
+                                     id="customer_key_setting">
+                                <field name="customer_key"/>
+                            </setting>
+                            <setting string="Customer secret"
+                                     id="customer_secret_setting">
+                                <field name="customer_secret"/>
+                            </setting>
+                            <setting string="Disable real time sync"
+                                     help="On modifying products, sync will be done by cron job"
+                                     id="asynchronous_sync_setting">
+                                <field name="asynchronous_sync"/>
+                            </setting>
+                            <setting string="Restricted Product Tags"
+                                     help="Tags that, when assigned to a product, restrict its syncing/creation"
+                                     id="restricted_product_tag_ids">
+                                <field name="restricted_product_tag_ids" widget="many2many_tags"/>
+                            </setting>
+                        </block>
+                    </app>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

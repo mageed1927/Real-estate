@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_form_inherit_print_out_invoice" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit.print.invoice</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[@name='action_open_label_type']" position="before">
+                <field name="is_pack_operation" invisible="1"/>
+
+                <button name="action_print_out_picking_report"
+                        string="Print Delivery Note (Original)"
+                        type="object"
+                        class="oe_highlight"
+                        invisible="is_pack_operation == False or state != 'done'"/>
+
+                <button name="action_print_out_picking_report"
+                        string="Print Delivery Note (Draft)"
+                        type="object"
+                        class="oe_highlight"
+                        invisible="is_pack_operation == False or state != 'assigned'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

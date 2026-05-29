@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_ztkeco_punch_tree" model="ir.ui.view">
+            <field name="name">ztkeco.punch.tree</field>
+            <field name="model">ztkeco.punch</field>
+            <field name="arch" type="xml">
+                <tree string="ZKTeco Punches">
+                    <field name="employee_id"/>
+                    <field name="punch_time"/>
+                    <field name="punch_state"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View for ZKTeco Punches -->
+        <record id="view_ztkeco_punch_form" model="ir.ui.view">
+            <field name="name">ztkeco.punch.form</field>
+            <field name="model">ztkeco.punch</field>
+            <field name="arch" type="xml">
+                <form string="ZKTeco Punch">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id"/>
+                                <field name="punch_time"/>
+                            </group>
+                            <group>
+                                <field name="punch_state"/>
+                                <field name="state" readonly="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

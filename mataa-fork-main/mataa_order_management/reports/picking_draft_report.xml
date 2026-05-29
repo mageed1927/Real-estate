@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_report_picking_draft" model="ir.actions.report">
+            <field name="name">Draft Delivery Slip</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mataa_order_management.template_standalone_picking_draft</field>
+            <field name="report_file">mataa_order_management.template_standalone_picking_draft</field>
+            <field name="print_report_name">'Draft Slip - %s' % (object.name)</field>
+            <field name="binding_model_id" eval="False"/>
+        </record>
+
+        <template id="template_standalone_picking_draft">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+
+                            <div class="row mb16 border">
+                                <div class="col-4" name="left_box">
+                                    <table class="table table-sm mt0 mb0" name="picking_meta_table">
+                                        <tbody>
+                                            <tr>
+                                                <th class="text-nowrap">Order</th>
+                                                <td><span t-field="o.origin"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-nowrap">Status</th>
+                                                <td><span t-field="o.state"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-nowrap">Scheduled Date</th>
+                                                <td><span t-field="o.scheduled_date"/></td>
+                                            </tr>
+                                            <tr t-if="o.carrier_id">
+                                                <th class="text-nowrap">Carrier</th>
+                                                <td><span t-field="o.carrier_id.name"/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-8 mt-8"  name="right_box">
+                                    <div t-field="o.name" t-options="{'widget': 'barcode', 'width': 900, 'height': 150, 'img_style': 'width:100%; height:auto;'}"/>
+                                    <h1 t-field="o.name" class="mt8 text-center"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6" name="div_outgoing_address">
+                                    <div t-if="o.should_print_delivery_address()">
+                                        <span><strong>Delivery Address:</strong></span>
+                                        <div t-out="o.move_ids[0].partner_id or o.partner_id" t-options="{'widget': 'contact', 'fields': ['address', 'name', 'phone'], 'no_marker': True, 'phone_icons': True}"/>
+                                        <div t-if="o.carrier_tracking_ref" class="mt8">
+                                            <div class="h2 text-nowrap">Tracking Reference:<br/><span t-field="o.carrier_tracking_ref"/></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table class="table table-sm mt32" name="stock_move_table_draft">
+                               <thead>
+                                    <tr>
+                                        <th name="th_product"><strong>Product</strong></th>
+                                        <th name="th_quantity" class="text-center"><strong>Quantity</strong></th>
+                                        <th name="th_from"><strong>From</strong></th>
+                                        <th name="th_barcode" class="text-center"><strong>Product Barcode</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.move_ids" t-as="move">
+                                        <td><span t-field="move.product_id.display_name"/></td>
+                                        <td class="text-center"><span t-field="move.product_uom_qty"/> <span t-field="move.product_uom.name"/></td>
+                                        <td><span t-field="move.location_id.display_name"/></td>
+                                        <td class="text-center">
+                                            <div t-if="move.product_id.barcode" t-field="move.product_id.barcode" t-options="{'widget': 'barcode', 'symbology': 'auto', 'width': 400, 'height': 100, 'quiet': 0, 'img_style': 'height:35px;'}"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <p t-field="o.note"/>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
+

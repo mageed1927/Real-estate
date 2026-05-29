@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_import_quick_wizard" model="ir.ui.view">
+            <field name="name">import.quick.wizard.form</field>
+            <field name="model">import.quick.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Import Quick">
+                    <group>
+                        <field name="import_file" widget="binary" filename="file_name"/>
+                        <field name="file_name"/>
+
+                        <p style="text-align: justify; margin-left: 20px; margin-top: 10px; width: 300px;">
+                            You can download an example Excel template by clicking:
+                            <br/>
+                            <a href="/mataa_advanced_import/static/src/downloads/quick_import_template.xlsx"
+                               target="_blank"
+                               style="display: inline-block; margin-top: 10px; text-decoration: underline; font-weight: bold;">
+                                Download Template
+                            </a>.
+                        </p>
+                    </group>
+                    <footer>
+                        <button string="Import" type="object" name="import_quick" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_import_quick" model="ir.actions.act_window">
+            <field name="name">Import Quick Update</field>
+            <field name="res_model">import.quick.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_import_quick"
+                  name="Import Quick"
+                  parent="menu_advanced_import_root"
+                  action="action_import_quick"
+                  sequence="14"/>
+    </data>
+</odoo>

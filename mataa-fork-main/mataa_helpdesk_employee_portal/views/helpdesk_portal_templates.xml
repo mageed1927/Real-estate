@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_helpdesk_ticket_stage_statusbar_final" name="Helpdesk Ticket Page Stage Statusbar" inherit_id="helpdesk.tickets_followup">
+
+        <xpath expr="//div[@id='ticket_content']" position="before">
+            <div class="o_portal_statusbar btn-group d-flex flex-wrap mb-3" role="toolbar" t-if="ticket.team_id.stage_ids">
+                <t t-foreach="ticket.team_id.stage_ids" t-as="stage">
+                    <t t-if="not stage.fold">
+                        <a t-attf-href="/my/ticket/stage/update?ticket_id=#{ticket.id}&amp;stage_id=#{stage.id}"
+                           t-att-class="'btn btn-secondary text-nowrap ' + ('btn-primary' if stage.id == ticket.stage_id.id else '')">
+                            <t t-esc="stage.name"/>
+                        </a>
+                    </t>
+                </t>
+            </div>
+        </xpath>
+    </template>
+    <template id="portal_helpdesk_ticket_add_employee_field" name="Helpdesk Ticket Page Add Employee" inherit_id="helpdesk.portal_helpdesk_ticket">
+        <xpath expr="//div[hasclass('o_portal_record_details')]//strong[contains(text(),'Email')]/.." position="after">
+            <t t-if="ticket.employ">
+                <div class="mb-3">
+                    <strong>Assigned Employee:</strong>
+                    <!-- We display the employee's name -->
+                    <span class="ms-1" t-field="ticket.employ.name"/>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>

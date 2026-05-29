@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_product_brand_form_inherit" model="ir.ui.view">
+            <field name="name">product.brand.form.inherit</field>
+            <field name="model">product.brand</field>
+            <field name="inherit_id" ref="product_brand.view_product_brand_form"/>
+            <field name="arch" type="xml">
+
+                <div name="button_box" position="inside">
+                    <button class="oe_stat_button" name="action_view_related_vendors" type="object"
+                            icon="fa-list" invisible="vendor_count == 0">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="vendor_count"/>
+                            </span>
+                            <span class="o_stat_text">Vendors</span>
+                        </div>
+                    </button>
+                </div>
+
+                <group name="main" position="inside">
+                    <group name="Vendors">
+                        <field name="vendor_ids" widget="many2many_tags"
+                               options="{'no_create': True,'no_quick_create': True,'no_open': True, 'no_create_edit': True}"/>
+                    </group>
+                </group>
+
+            </field>
+        </record>
+    </data>
+</odoo>

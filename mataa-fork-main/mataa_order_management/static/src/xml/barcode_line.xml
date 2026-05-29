@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="stock_barcode.LineQuantity" t-inherit-mode="extension" owl="1" t-translation="off">
+        <xpath expr="//div[@name='quantity']" position="after">
+            <div t-if="env.model.resModel == 'stock.picking.batch' and env.model.record.is_customer_return_batch and line.mataa_vendor_name and !line.mataa_is_inhouse_line">
+                <i class="fa fa-fw fa-industry"/>
+                <span class="o_line_vendor text-muted" t-esc="line.mataa_vendor_name"/>
+            </div>
+        </xpath>
+    </t>
+</templates>

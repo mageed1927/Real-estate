@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position='after'>
+                 <field name="mata_billing_phone" string="Billing phone"/>
+                 <field name="mata_shipping_address_2" string="Shipping phone"/>
+                <field name="mataa_city_id"/>
+                <field name="mataa_parent_city_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_sales_order_city_filter_inherit" model="ir.ui.view">
+        <field name="name">sale.order.city.filter.mataa</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+
+            <filter name="order_month" position="after">
+                <separator/>
+                <filter string="City" name="mataa_parent_city_id" domain="[]"
+                        context="{'group_by': 'mataa_parent_city_id'}"/>
+                <filter string="Area" name="mataa_city_id" domain="[]"
+                        context="{'group_by': 'mataa_city_id'}"/>
+
+            </filter>
+
+        </field>
+    </record>
+
+
+</odoo>

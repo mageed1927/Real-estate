@@ -1,0 +1,19 @@
+<odoo>
+    <record id="my_app_category" model="ir.module.category">
+        <field name="name">al Mohamady</field>
+        <field name="description">al mohamady my app category</field>
+        <field name="sequence">7</field>
+    </record>
+
+    <record id="my_app_category_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="testapp.my_app_category"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+    </record>
+
+    <record id="my_app_category_admin" model="res.groups">
+        <field name="name">Admin</field>
+        <field name="category_id" ref="testapp.my_app_category"/>
+        <field name="implied_ids" eval="[(4, ref('testapp.my_app_category_user'))]" />
+    </record>
+</odoo>

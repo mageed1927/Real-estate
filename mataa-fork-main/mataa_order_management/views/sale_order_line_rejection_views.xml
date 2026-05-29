@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- New Tree View for Rejection Records -->
+        <record id="rejection_records_view_tree" model="ir.ui.view">
+            <field name="name">rejection.records.view.tree</field>
+            <field name="model">sale.order.line.rejection</field>
+            <field name="arch" type="xml">
+                <tree string="Rejection Records">
+                    <field name="related_sale_order_id" widget="many2one_clickable" string="Related Sale Order"/>
+                    <field name="sale_order_line_id" widget="many2one_clickable" string="Sale Order Line"/>
+                    <field name="related_customer_id" widget="many2one_clickable" string="Related Customer"/>
+                    <field name="related_vendor_id" widget="many2one_clickable" string="Related Vendor"/>
+                    <field name="related_product_id" widget="many2one_clickable" string="Product"/>
+                    <field name="related_product_default_code" string="Product Internal Reference"/>
+                    <field name="related_product_brand_id" widget="many2one_clickable" string="Brand"/>
+                    <field name="related_product_categ_id" widget="many2one_clickable" string="Category"/>
+                    <field name="rejected_qty" string="Rejected Qty"/>
+                    <field name="was_inhouse_available" string="In-house Available"/>
+                    <field name="reason" string="Reason"/>
+                    <field name="rejection_date" string="Rejection Date"/>
+                    <field name="user_id" string="Rejected By"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Search View for Rejection Records -->
+        <record id="rejection_records_view_search" model="ir.ui.view">
+            <field name="name">rejection.records.view.search</field>
+            <field name="model">sale.order.line.rejection</field>
+            <field name="arch" type="xml">
+                <search string="Search Rejection Records">
+                    <field name="related_product_id" string="Product"/>
+                    <field name="related_product_brand_id" string="Brand"/>
+                    <field name="related_product_categ_id" string="Category"/>
+                    <field name="related_sale_order_id" string="Order"/>
+                    <field name="related_vendor_id" string="Vendor"/>
+                    <field name="related_customer_id" string="Customer"/>
+                    <separator/>
+                    <group expand="0" name="group_by" string="Group By">
+                        <filter name="related_product_id_gb" context="{'group_by' : 'related_product_id'}" string="Product"/>
+                        <filter name="related_product_brand_id_gb" context="{'group_by' : 'related_product_brand_id'}" string="Brand"/>
+                        <filter name="related_product_categ_id_gb" context="{'group_by' : 'related_product_categ_id'}" string="Category"/>
+                        <separator/>
+                        <filter name="related_vendor_id_gb" context="{'group_by' : 'related_vendor_id'}" string="Vendor"/>
+                        <filter name="related_customer_id_gb" context="{'group_by' : 'related_customer_id'}" string="Customer"/>
+                        <filter name="related_sale_order_id_gb" context="{'group_by' : 'related_sale_order_id'}" string="Order"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- New Action for Rejection Records -->
+        <record id="action_rejection_records" model="ir.actions.act_window">
+            <field name="name">Rejection Records</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order.line.rejection</field>
+            <field name="view_mode">tree</field>
+            <field name="context" eval="{'create': False, 'edit': False}"/>
+            <field name="view_ids" eval="[(5, 0, 0),
+                                          (0, 0, {'view_mode': 'tree', 'view_id': ref('rejection_records_view_tree')}),]"/>
+        </record>
+
+        <!-- Updated Menu Items -->
+        <menuitem id="menu_rejection_records" name="Rejection Records"
+                  parent="sale.menu_sale_report" sequence="12"
+                  action="action_rejection_records"/>
+    </data>
+</odoo>

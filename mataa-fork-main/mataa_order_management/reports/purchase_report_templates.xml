@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit RFQ/Quotation PDF Template -->
+        <template id="report_purchasequotation_document_inherit"
+                  inherit_id="purchase.report_purchasequotation_document"
+                  name="Purchase Quotation: Add Product Image and Product Name">
+
+            <!-- Add new column headers -->
+            <xpath expr="//thead//th[1]" position="before">
+                <th class="text-center">
+                    <strong>Image</strong>
+                </th>
+                <th>
+                    <strong>Product Name</strong>
+                </th>
+            </xpath>
+
+            <!-- Add image and product name to product lines -->
+            <xpath expr="//tbody//td[1]" position="before">
+
+                <!-- Product Image -->
+                <td class="text-center">
+                    <t t-if="order_line.product_id and order_line.product_id.product_tmpl_id.main_image">
+                        <img t-att-src="order_line.product_id.product_tmpl_id.main_image"
+                             style="width: 50px; height: 50px; object-fit: contain;"/>
+                    </t>
+                    <t t-else="">
+                        <span style="color: #999; font-size: 12px;">No Image</span>
+                    </t>
+                </td>
+
+                <!-- Vendor Product Name -->
+                <td>
+                    <t t-set="vendor_info"
+                       t-value="order_line.product_id.seller_ids.filtered(lambda s: s.partner_id.id == order_line.order_id.partner_id.id)"/>
+
+                    <t t-if="vendor_info">
+                        <span t-esc="vendor_info[0].product_name or order_line.product_id.display_name"/>
+                    </t>
+                    <t t-else="">
+                        <span t-esc="order_line.product_id.display_name"/>
+                    </t>
+                </td>
+
+            </xpath>
+        </template>
+    </data>
+</odoo>

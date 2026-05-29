@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="res_config_settings_view_form_delivery_camex" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.delivery_camex</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="stock.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <block name="shipping_setting_container" position="inside">
+                    <setting id="delivery_camex_key" help="CAMEX Secret Key" title="CAMEX Secret Key">
+                        <field name="camex_secret_key"/>
+                        <div class="mt-2">
+                           <label for="camex_responsible_user_id" class="o_light_label"/>
+                           <field name="camex_responsible_user_id" widget="many2one_avatar_user"/>
+                        </div>
+                    </setting>
+                </block>
+            </field>
+        </record>
+
+    </data>
+</odoo>

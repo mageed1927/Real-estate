@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_warehouse_orderpoint_search_inherit_manual" model="ir.ui.view">
+        <field name="name">stock.warehouse.orderpoint.search.inherit.manual</field>
+        <field name="model">stock.warehouse.orderpoint</field>
+        <field name="inherit_id" ref="stock.stock_reorder_report_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search/filter[@name='filter_not_snoozed']" position="after">
+                <filter string="Snoozed Manually" name="snoozed_manual" domain="[('snooze_manual', '=', True)]"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_warehouse_orderpoint_tree_inherit_manual" model="ir.ui.view">
+        <field name="name">stock.warehouse.orderpoint.tree.inherit.manual</field>
+        <field name="model">stock.warehouse.orderpoint</field>
+        <field name="inherit_id" ref="stock.view_warehouse_orderpoint_tree_editable"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//tree" position="attributes">
+                <attribute name="expand">1</attribute>
+            </xpath>
+
+             <xpath expr="//field[@name='product_id']" position="before">
+                <field name="product_image_url" widget="image_url" class="oe_avatar" options="{'size': [40, 40]}" optional="hide"/>
+            </xpath>
+
+            <field name="product_uom_name" position="after">
+                <field name="snooze_manual"/>
+            </field>
+            <xpath expr="//field[@name='route_id']" position="after">
+                <field name="last_sale_date" string="Last SO Date" readonly="1" optional="show"/>
+                <field name="last_purchase_date" string="Last PO Date" readonly="1" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+<record id="view_warehouse_orderpoint_search_inherit_last_po_date" model="ir.ui.view">
+    <field name="name">stock.warehouse.orderpoint.search.inherit.last.po.date</field>
+    <field name="model">stock.warehouse.orderpoint</field>
+    <field name="inherit_id" ref="stock.stock_reorder_report_search"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='product_id']" position="after">
+            <field name="last_sale_date"/>
+            <field name="last_purchase_date"/>
+        </xpath>
+
+        <xpath expr="//filter[@name='snoozed_manual']" position="after">
+            <separator/>
+            <filter string="Last Sale: This Month" name="last_sale_this_month"
+                    domain="[('last_sale_date', '&gt;=', context_today().strftime('%Y-%m-01'))]"/>
+            <filter string="Last Sale: This Year" name="last_sale_this_year"
+                    domain="[('last_sale_date', '&gt;=', context_today().strftime('%Y-01-01'))]"/>
+            <filter string="Last Purchase: This Month" name="last_purchase_this_month"
+                    domain="[('last_purchase_date', '&gt;=', context_today().strftime('%Y-%m-01'))]"/>
+            <filter string="Last Purchase: This Year" name="last_purchase_this_year"
+                    domain="[('last_purchase_date', '&gt;=', context_today().strftime('%Y-01-01'))]"/>
+        </xpath>
+    </field>
+</record>
+</odoo>

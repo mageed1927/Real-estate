@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sale_suspension_wizard_form" model="ir.ui.view">
+        <field name="name">sale.suspension.wizard.form</field>
+        <field name="model">sale.suspension.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Suspend Order">
+                    <group>
+                        <field name="suspension_reason" placeholder="Suspension reason for this sale order"/>
+                    </group>
+                <footer>
+                    <button name="action_confirm_suspension" 
+                            string="Confirm" 
+                            type="object" 
+                            class="btn-primary" 
+                            data-hotkey="q"/>
+                    <button string="Cancel" 
+                            class="btn-secondary" 
+                            special="cancel" 
+                            data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_sale_suspension_wizard" model="ir.actions.act_window">
+        <field name="name">Suspend Sale Order</field>
+        <field name="res_model">sale.suspension.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

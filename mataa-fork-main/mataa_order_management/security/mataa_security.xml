@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="group_allow_stock_nagatif" model="res.groups">
+            <field name="name">Allow stock negatif on confirming picking</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+    <!-- Margin Viewer group -->
+        <record id="group_margin_viewer" model="res.groups">
+            <field name="name">Margin Viewer</field>
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>-->
+            <field name="category_id" ref="base.module_category_sales"/>
+            <field name="comment">Users in this group can see unit margins on sale order lines</field>
+        </record>
+    </data>
+
+    <data noupdate="1">
+
+        <record id="access_sale_bulk_filter_wizard_base_user" model="ir.model.access">
+            <field name="name">sale.bulk.filter.wizard.base.user</field>
+            <field name="model_id" ref="model_sale_bulk_filter_wizard"/>
+            <field name="group_id" ref="base.group_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+    </data>
+</odoo>

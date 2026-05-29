@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_salary_rule_view_form_inherit_take_partner" model="ir.ui.view">
+        <field name="name">hr.salary.rule.form.inherit.take.partner</field>
+        <field name="model">hr.salary.rule</field>
+        <field name="inherit_id" ref="hr_payroll_account.hr_salary_rule_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='appears_on_payroll_report']" position="after">
+                <field name="take_partner"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

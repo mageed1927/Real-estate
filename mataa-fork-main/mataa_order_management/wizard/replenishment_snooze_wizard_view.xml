@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_orderpoint_snooze_form_inherit_manual" model="ir.ui.view">
+        <field name="name">stock.orderpoint.snooze.form.inherit.manual</field>
+        <field name="model">stock.orderpoint.snooze</field>
+        <field name="inherit_id" ref="stock.view_stock_orderpoint_snooze"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='predefined_date']" position="before">
+                <field name="snooze_manual"/>
+            </xpath>
+
+            <xpath expr="//field[@name='snoozed_until']" position="attributes">
+                <attribute name="column_invisible">[('snooze_manual', '=', True)]</attribute>
+                <attribute name="required">[('snooze_manual', '=', False)]</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

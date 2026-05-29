@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <templates xml:space="preserve">
+      <t t-name="mataa_order_management.StockOrderpointExpandButtons"
+         t-inherit="stock.StockOrderpoint.Buttons"
+         t-inherit-mode="extension">
+          <xpath expr="//div[hasclass('o_list_buttons')]" position="inside">
+            <t t-if="model.root.isGrouped">
+              <button type="button"
+                      class="btn btn-secondary me-1"
+                      t-on-click="onClickExpand">
+                  Expand All
+              </button>
+            </t>
+          </xpath>
+      </t>
+  </templates>

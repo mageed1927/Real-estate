@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_mataa_city_tree_inherit" model="ir.ui.view">
+        <field name="name">mataa.city.tree</field>
+        <field name="model">mataa.city</field>
+        <field name="inherit_id" ref="mataa_base_delivery.view_mataa_city_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position='after'>
+                <field name="camex_total_cost"/>
+                <field name="camex_city_name"/>
+                <field name="camex_area_name"/>
+                <field name="camex_city_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_mataa_city_form_inherit" model="ir.ui.view">
+        <field name="name">mataa.city.form</field>
+        <field name="model">mataa.city</field>
+        <field name="inherit_id" ref="mataa_base_delivery.view_mataa_city_form"/>
+        <field name="arch" type="xml">
+            <group name="city_base_name" position="after">
+                <group string="CAMEX">
+                    <field name="camex_total_cost"/>
+                    <field name="camex_city_name"/>
+                    <field name="camex_area_name"/>
+                    <field name="camex_city_id"/>
+                </group>
+            </group>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="model_ztkeco_sync" model="ir.model">
+        <field name="name">ZKTeco Sync</field>
+        <field name="model">ztkeco.sync</field>
+    </record>
+
+    <record id="model_ztkeco_punch" model="ir.model">
+        <field name="name">ZKTeco Punch</field>
+        <field name="model">ztkeco.punch</field>
+    </record>
+
+
+    <record id="ir_cron_fetch_zkteco_punches" model="ir.cron">
+        <field name="name">Fetch ZKTeco Punches</field>
+        <field name="model_id" ref="model_ztkeco_sync"/>
+        <field name="state">code</field>
+        <field name="code">model.fetch_zkteco_punches()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+    </record>
+
+
+    <record id="ir_cron_process_zkteco_punches" model="ir.cron">
+        <field name="name">Process ZKTeco Punches</field>
+        <field name="model_id" ref="model_ztkeco_punch"/>
+        <field name="state">code</field>
+        <field name="code">model.process_zkteco_punches()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+    </record>
+
+
+    <record id="ir_cron_clean_zkteco_punches" model="ir.cron">
+        <field name="name">Clean Processed ZKTeco Punches</field>
+        <field name="model_id" ref="model_ztkeco_punch"/>
+        <field name="state">code</field>
+        <field name="code">model.clean_old_processed_punches()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+    </record>
+
+    <record id="ir_cron_increase_time_off_balance" model="ir.cron">
+        <field name="name">Increase Time Off Balance Monthly</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="state">code</field>
+        <field name="code">model.increase_time_off_balance_monthly()</field>
+        <field name="interval_type">months</field>
+        <field name="interval_number">1</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="mataa_view_account_journal_form_inherit" model="ir.ui.view">
+            <field name="name">account.journal.form.inherit.epayment</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <!-- Place under the 'Advanced Settings' tab -->
+                <xpath expr="//field[@name='currency_id']" position="after">
+                    <field name="payment_method_description"/>
+                </xpath>
+                <xpath expr="//page[@name='advanced_settings']" position="inside">
+                    <group>
+                        <field name="e_payment_journal"/>
+                    </group>
+                </xpath>
+                <xpath expr="//page[@name='advanced_settings']/group[1]" position="inside">
+                    <group name="fee_settings" string="Fee Settings" invisible="type != 'bank'">
+                        <field name="fee_percentage" class="oe_inline" widget="percentage"/>
+                        <field name="fee_account_id" class="oe_inline"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

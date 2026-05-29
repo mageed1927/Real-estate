@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_vendor_blacklist_form" model="ir.ui.view">
+            <field name="name">product.vendor.blacklist.form</field>
+            <field name="model">product.vendor.blacklist</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="product_id"/>
+                                <field name="vendor_id"/>
+                                <field name="purchase_order_id"/>
+                                <field name="sale_order_id"/>
+                            </group>
+                            <group>
+                                <field name="create_date"/>
+                                <field name="reason"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_vendor_blacklist_list" model="ir.ui.view">
+            <field name="name">product.vendor.blacklist.tree</field>
+            <field name="model">product.vendor.blacklist</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="product_id"/>
+                    <field name="vendor_id"/>
+                    <field name="create_date"/>
+                    <field name="purchase_order_id"/>
+                    <field name="sale_order_id"/>
+                    <field name="reason"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_vendor_blacklist_search" model="ir.ui.view">
+            <field name="name">product.vendor.blacklist.search</field>
+            <field name="model">product.vendor.blacklist</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="product_id" string="Product"/>
+                    <field name="vendor_id" string="Vendor"/>
+                    <field name="reason" string="Reason"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_vendor_blacklist_action" model="ir.actions.act_window">
+            <field name="name">Product Vendor Blacklist</field>
+            <field name="res_model">product.vendor.blacklist</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'create':0,'edit': 0}</field>
+        </record>
+
+
+        <menuitem id="product_vendor_blacklist_menu" parent="purchase.menu_purchase_products"
+                  sequence="100"
+                  action="product_vendor_blacklist_action"/>
+
+    </data>
+</odoo>

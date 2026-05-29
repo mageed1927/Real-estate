@@ -1,0 +1,64 @@
+<odoo>
+    <data>
+
+        <record id="view_vendor_form_inherit" model="ir.ui.view">
+            <field name="name">res.partner.form.vendor.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='category_id']" position="after">
+                    <field name="supplier_rank" invisible="1"/>
+                    <field name="working_hours_start" widget="float_time" invisible="supplier_rank == 0"/>
+                    <field name="working_hours_end" widget="float_time" invisible="supplier_rank == 0"/>
+                    <field name="vendor_status" widget="statusbar" statusbar_visible="ongoing,stopped,partial" options="{'clickable': True}"/>
+                </xpath>
+                <xpath expr="//field[@name='category_id']" position="after">
+                    <field name="category_id"
+                           string="Finance Tags"
+                           widget="many2many_tags"
+                           options="{'color_field': 'color', 'no_create_edit': True}"
+                           placeholder="Finance Tags (e.g. VIP)..."
+                           context="{'default_parent_id': %(mataa_order_management.tag_category_finance)d}"
+                           domain="[('parent_id', '=', %(mataa_order_management.tag_category_finance)d)]"/>
+                </xpath>
+                <xpath expr="//sheet" position="inside">
+                    <group>
+                        <field name="is_deleted" readonly="True"/>
+                    </group>
+                </xpath>
+                <xpath expr="//group[@name='purchase']" position="inside">
+                    <field name="payment_due_days"/>
+                    <field name="payment_policy_desc" placeholder="e.g. Every Saturday / After 2 Bills"/>
+                    <field name="last_payment_date"/>
+                    <field name="last_matching_date"/>
+                    <field name="blanket_order_qty_limit"/>
+                    <field name="min_amount"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_vendor_tree_inherit" model="ir.ui.view">
+            <field name="name">res.partner.tree.vendor.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <field name="is_deleted" readonly="True"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_res_partner_filter_inherit_due_date" model="ir.ui.view">
+            <field name="name">res.partner.filter.inherit.due_date</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='supplier']" position="after">
+                    <separator/>
+                    <filter string="Payment Due Today" name="payment_due_today_filter" domain="[('is_payment_due_today', '=', True)]"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,61 @@
+<odoo>
+    <data>
+        <!-- Inherit the existing res.config.settings form view to add custom s3 settings -->
+        <record id="res_config_settings_view_form_s3" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.mataa.s3</field>
+            <field name="model">res.config.settings</field>
+<!--            <field name="priority" eval="15"/>-->
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <!-- Define a new app section for S3 settings -->
+                    <app data-string="S3 Settings" string="S3 Settings" name="s3_settings">
+                        <block title="S3 Settings Parameters" name="s3_settings_parameters">
+                            <setting string="Endpoint Url"
+                                     help="S3 Endpoint Url"
+                                     id="endpoint_url_setting">
+                                <field name="endpoint_url"/>
+                            </setting>
+                            <setting string="Region"
+                                     help="S3 Region"
+                                     id="region_setting">
+                                <field name="region"/>
+                            </setting>
+                            <setting string="Access Key ID"
+                                     help="S3 Access Key ID"
+                                     id="access_key_id_setting">
+                                <field name="access_key_id"/>
+                            </setting>
+                            <setting string="Secret Access Key"
+                                     help="S3 Secret Access Key"
+                                     id="secret_access_key_setting">
+                                <field name="secret_access_key"/>
+                            </setting>
+                            <setting string="Bucket"
+                                     help="S3 Bucket"
+                                     id="bucket_setting">
+                                <field name="bucket"/>
+                            </setting>
+                            <setting string="Public CDN Url"
+                                     help="Public CDN Url"
+                                     id="public_cdn_url_setting">
+                                <field name="public_cdn_url"/>
+                            </setting>
+                        </block>
+                    </app>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Define the action for res.config.settings -->
+        <record id="res_config_settings_action" model="ir.actions.act_window">
+            <field name="name">Configuration</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module': 'mataa_s3'}</field>
+        </record>
+
+    </data>
+</odoo>

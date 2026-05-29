@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_template_mataa,access.product.template.mataa,model_product_template,,1,1,1,1
+access_product_product_mataa,access.product.product.mataa,model_product_product,,1,1,1,1
+access_product_url_mataa,access.product.url.mataa,model_product_url,,1,1,1,1
+access_product_seo_keyword_mataa,access.product.seo.keyword.mataa,model_product_seo_keyword,,1,1,1,1
+access_product_true_reference_mataa,access.product.true.reference.mataa,model_product_true_reference,,1,1,1,1
+access_vendor_credit_difference_tracker_mataa,access.vendor.credit.difference.tracker.mataa,model_vendor_credit_difference_tracker,,1,1,1,1
+access_product_brand_mataa,access.product.brand.mataa,model_product_brand,,1,1,1,1
+access_product_public_category_mataa,access.product.public.category.mataa,model_product_public_category,,1,1,1,1
+access_product_offer_tag,access_product_offer_tag,model_product_offer_tag,,1,1,1,1
+access_product_product_custom,access_product_product_custom,model_product_product,base.group_user,1,1,1,1
+access_product_image_bulk_wizard,product.image.bulk.wizard,model_product_image_bulk_wizard,base.group_user,1,1,1,1
+access_product_filter_alert,product.filter.alert,model_product_filter_alert,base.group_user,1,1,1,1

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sol_reject_wizard_wizard_form" model="ir.ui.view">
+        <field name="name">Reject Sale Order Lines.wizard.form</field>
+        <field name="model">sol.reject.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reject Sale Order Lines">
+                <group>
+                    <p colspan="2">
+                        Use this popup in case you would like to reject order lines.
+                    </p>
+                </group>
+                <group>
+                    <field name="sale_order_id"/>
+                    <field name="sale_order_line_ids" domain="[('order_id', '=', sale_order_id), ('product_uom_qty', '>', 0)]">
+                        <tree editable="bottom">
+                            <field name="product_id" readonly="1"/>
+                            <field name="product_uom_qty"/>
+                        </tree>
+                    </field>
+                </group>
+                <footer>
+                    <button name="reject_selected_lines" type="object" string="Reject Selected Lines"
+                            class="oe_highlight"/>
+                    or
+                    <button string="Cancel" class="oe_highlight" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sol_reject_wizard" model="ir.actions.act_window">
+        <field name="name">Reject Sale Order Lines</field>
+        <field name="res_model">sol.reject.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_sol_reject_wizard_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

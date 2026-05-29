@@ -1,0 +1,70 @@
+<odoo>
+    <data>
+    <template id="report_picking_batch_inherit_custom" inherit_id="stock_picking_batch.report_picking_batch">  
+        <xpath expr="//table[hasclass('table')]/thead/tr/th[2]" position="after">
+            <th class="text-center">Source Doc</th>
+            <th class="text-center">Tracking Ref</th>
+        </xpath>
+        
+        <xpath expr="//table[hasclass('table')]/tbody/tr/td[2]" position="after">
+            <td class="text-center">
+                <span t-field="pick.origin"/>
+            </td>
+            <td class="text-center">
+                <span t-field="pick.carrier_tracking_ref"/>
+            </td>
+        </xpath>
+
+        <xpath expr="//table[hasclass('table')]" position="after">
+            <div class="row mt-4" style="border-top: 2px solid #000; padding-top: 10px; page-break-inside: avoid;">
+                
+                <div class="col-6">
+                    <strong>Done Date: </strong>
+                    
+                    <t t-set="final_finish_date" t-value="False"/>
+                    
+                    <t t-set="tracking_logs" t-value="request.env['mail.tracking.value'].sudo().search([
+                        ('mail_message_id.model', '=', 'stock.picking.batch'),
+                        ('mail_message_id.res_id', '=', o.id)
+                    ])"/>
+                    
+                    <t t-foreach="tracking_logs" t-as="log">
+                        <t t-if="log.field_id.name == 'state'">
+                            <t t-if="log.new_value_char == 'done' or log.new_value_char == 'Done'">
+                                <t t-set="final_finish_date" t-value="log.create_date"/>
+                            </t>
+                        </t>
+                    </t>
+
+                    <t t-if="final_finish_date">
+                        <span t-esc="final_finish_date" t-options='{"widget": "datetime", "format": "dd/MM/yyyy - HH:mm:ss"}' dir="ltr"/>
+                    </t>
+                    <t t-else="">
+                        <span class="text-muted">Pending</span>
+                    </t>
+                </div>
+
+                <div class="col-6 text-end">
+                    <strong>Total Moves Count: </strong>
+                    <t t-set="moves_count" t-value="len(o.picking_ids)"/>
+                    <span t-esc="moves_count" style="font-weight: bold; font-size: 1.1em;"/>
+                    <span> Lines</span>
+                </div>
+            </div>
+        </xpath>
+
+        <xpath expr="//table[.//span[@t-field='move_operation.display_name']]" position="replace">
+            </xpath>
+        
+        <xpath expr="//p[@style='page-break-after: always;']" position="replace">
+            </xpath>
+        
+        <xpath expr="(//h3[span[@t-field='o.name']])[last()]" position="replace">
+            </xpath>
+
+        <xpath expr="(//div[span[@t-field='o.user_id']])[last()]" position="replace">
+            </xpath>
+
+    </template>
+    </data>
+</odoo>

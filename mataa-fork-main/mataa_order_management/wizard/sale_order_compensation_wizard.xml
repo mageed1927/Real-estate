@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sale_order_compensation_wizard_form" model="ir.ui.view">
+        <field name="name">sale.order.compensation.wizard.form</field>
+        <field name="model">sale.order.compensation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Apply Order Compensation">
+                <sheet>
+                    <group>
+                        <field name="currency_id" invisible="1"/>
+                        <group>
+                            <field name="compensation_reason_id"
+                                    options="{'no_create': True,'no_create_edit': True}"
+                                    required="1"/>
+                            <field name="compensation_description" 
+                                    required="1"
+                                    placeholder="Describe the reason for compensation..."/>
+                        </group>
+
+                        <group>
+                            <field name="sale_order_id" readonly="1"/>
+                            <field name="order_total" readonly="1"/>
+                            <field name="compensation_amount" required="1"/>
+                        </group>
+
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button name="action_confirm_compensation"
+                            string="Apply Compensation"
+                            type="object"
+                            class="btn-primary"
+                            data-hotkey="q"/>
+                    <button string="Cancel"
+                            class="btn-secondary"
+                            special="cancel"
+                            data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sale_order_compensation_wizard" model="ir.actions.act_window">
+        <field name="name">Compensation Wizard</field>
+        <field name="res_model">sale.order.compensation.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_sale_order_compensation_wizard_form"/>
+    </record>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_picking_inherit_add_tracking_ref" inherit_id="stock.report_picking">
+
+            <xpath expr="//div[@name='div_sched_date']" position="after">
+
+                <div t-if="o.carrier_tracking_ref" class="col-auto" name="div_tracking_ref">
+                    <strong>Tracking Reference:</strong>
+                    <p t-field="o.carrier_tracking_ref"/>
+                </div>
+
+            </xpath>
+        </template>
+    </data>
+</odoo>

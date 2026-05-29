@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <record id="view_product_category_tree_mataa" model="ir.ui.view">
+            <field name="name">product.public.category.tree.mataa</field>
+            <field name="model">product.public.category</field>
+            <field name="inherit_id" ref="website_sale.product_public_category_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+<!--                    <field name="active" invisible="1"/>-->
+                    <field name="mataa_id" string="External System ID"/>
+                    <field name="is_synced" widget="boolean_toggle" readonly="1" groups="!__custom__.Allow_Editing_Is_Synced_Field"/>
+                    <field name="is_synced" widget="boolean_toggle" groups="__custom__.Allow_Editing_Is_Synced_Field"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_product_category_form_mataa" model="ir.ui.view">
+            <field name="name">product.public.category.form.mataa</field>
+            <field name="model">product.public.category</field>
+            <field name="inherit_id" ref="website_sale.product_public_category_form_view"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//sheet" position="inside">
+                    <field name="active" invisible="1"/>
+                </xpath>
+                <xpath expr="//sheet//field[@name='parent_id']" position="after">
+                    <field name="mataa_slug" string="Mataa Slug"/>
+                    <field name="mataa_id" string="External System ID"/>
+                    <field name="is_synced" widget="boolean_toggle"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

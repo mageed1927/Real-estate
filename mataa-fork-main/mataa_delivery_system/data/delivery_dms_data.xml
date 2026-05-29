@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="product_product_dms_delivery" model="product.product">
+            <field name="name">DMS Delivery</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="sale_ok">False</field>
+            <field name="purchase_ok">False</field>
+            <field name="list_price">0.0</field>
+            <field name="taxes_id" eval="False"/>
+            <field name="supplier_taxes_id" eval="False"/>
+        </record>
+
+        <record id="delivery_carrier_dms_default" model="delivery.carrier">
+            <field name="name">DMS Delivery</field>
+            <field name="delivery_type">dms</field>
+            <field name="product_id" ref="product_product_dms_delivery"/>
+            <field name="dms_base_url">http://188.245.187.196:5047</field>
+            <field name="dms_sender_name">Default Sender</field>
+            <field name="dms_payment_type_code">1</field>
+            <field name="dms_openable_code">Y</field>
+            <field name="integration_level">rate_and_ship</field>
+            <field name="can_generate_return">False</field>
+        </record>
+
+        <record id="dms_api_key_param" model="ir.config_parameter">
+            <field name="key">mataa_delivery_system.dms_api_key</field>
+            <field name="value"></field>
+        </record>
+
+        <record id="dms_base_url_param" model="ir.config_parameter">
+            <field name="key">mataa_delivery_system.dms_base_url</field>
+            <field name="value">http://188.245.187.196:5047</field>
+        </record>
+
+    </data>
+</odoo>

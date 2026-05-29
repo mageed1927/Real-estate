@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_delivery_carrier_form_with_provider_dms" model="ir.ui.view">
+        <field name="name">delivery.carrier.form.provider.dms</field>
+        <field name="model">delivery.carrier</field>
+        <field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='destination']" position='before'>
+                <page string="DMS Configuration" name="dms_configuration"
+                      invisible="delivery_type != 'dms'">
+                    <group>
+                        <group>
+                            <field name="dms_base_url" required="delivery_type == 'dms'"/>
+                            <field name="dms_api_key" required="delivery_type == 'dms'"/>
+                            <field name="dms_sender_name" required="delivery_type == 'dms'"/>
+                        </group>
+                        <group>
+                            <field name="dms_payment_type_code" required="delivery_type == 'dms'"/>
+                            <field name="dms_openable_code" required="delivery_type == 'dms'"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

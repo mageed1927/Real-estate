@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_product_public_category_form_mataa" model="ir.ui.view">
+            <field name="name">product.public.category.form.mataa</field>
+            <field name="model">product.public.category</field>
+            <field name="inherit_id" ref="website_sale.product_public_category_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='image_1920']" position="before">
+                    <field name="image_url" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='image_1920']" position="replace">
+                    <field name="image_url" widget="image_url" style="max-width: 300px; max-height: 300px;" invisible="image_url == False"/>
+                    <button name="clear_image" type="object" string="Clear Image" class="btn-link" invisible="image_url == False"/>
+                    <field name="image_1920" widget="image" style="max-width: 300px; max-height: 300px;" invisible="image_url != False"/>
+                </xpath>
+                <xpath expr="//field[@name='image_1920']" position="after">
+                    <field name="seo_keyword_ids" widget="many2many_tags" string="SEO Keywords" placeholder="Add SEO keywords..." options="{'no_create_edit': True}"/>
+                    <button name="force_propagate_seo_keywords" type="object" string="Force Propagate SEOs" class="btn-primary"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo> 

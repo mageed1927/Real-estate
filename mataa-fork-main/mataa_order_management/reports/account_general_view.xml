@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <record id="column_gl_sale_order" model="account.report.column">
+            <field name="name">Sale Order ID</field>
+            <field name="expression_label">sale_order_col</field>
+            <field name="figure_type">string</field>
+            <field name="report_id" ref="account_reports.general_ledger_report"/>
+            <field name="sequence">15</field>
+        </record>
+    </data>
+</odoo>

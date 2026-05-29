@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="so_tag_in_house" model="so.tag">
+        <field name="name">Inhouse Order</field>
+        <field name="color">2</field>
+    </record>
+    <record id="so_tag_camex_order" model="so.tag">
+        <field name="name">Camex Order</field>
+        <field name="color">4</field>
+    </record>
+
+</odoo>

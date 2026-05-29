@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_payslip_form_inherit_invoice_deduction" model="ir.ui.view">
+        <field name="name">hr.payslip.form.inherit.invoice.deduction</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='custom_hours_per_day']" position="after">
+                <field name="total_due_amount" widget="monetary" readonly="1" force_save="1"/>
+                <field name="apply_due_deduction" widget="boolean_toggle"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Accounting" name="accounting_info">
+                    <group>
+                        <group>
+                            <field name="journal_id" required="1"/>
+                            <field name="move_id" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+
+        </field>
+    </record>
+    <record id="view_hr_payslip_form_inherit_mataa_hr" model="ir.ui.view">
+        <field name="name">hr.payslip.form.inherit.mataa.hr</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//header" position="inside">
+
+                <button name="action_create_custom_payment"
+                        string="Pay Salary"
+                        type="object"
+                        class="oe_highlight"
+                        invisible="state != 'done'"/>
+
+                <button name="action_view_payments"
+                        string="Show Payment"
+                        type="object"
+                        invisible="state != 'paid'"/>
+
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

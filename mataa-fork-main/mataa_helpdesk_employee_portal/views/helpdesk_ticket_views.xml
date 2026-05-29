@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- PART 1: The Form View Inheritance -->
+    <record id="view_helpdesk_ticket_form_inherit_employee" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.form.inherit.employee</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+        <field name="arch" type="xml">
+            <!--
+              This is the definitive XPath. It finds the DIV that contains
+              the 'partner_phone' field and adds our new field right after it.
+              This places it perfectly under the phone field.
+            -->
+            <xpath expr="//div[hasclass('o_row')][field[@name='partner_phone']]" position="after">
+                <field name="employ"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- PART 2: The Kanban View Inheritance -->
+    <record id="view_helpdesk_ticket_kanban_inherit_employee" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.kanban.inherit.employee</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="employ" widget="many2one_avatar_employee"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       <record id="vendor_page_form" model="ir.ui.view">
+           <field name="name">vendor.page.form</field>
+           <field name="model">vendors.page</field>
+           <field name="arch" type="xml">
+               <form string="Vendor page">
+                   <sheet>
+                       <div name="button_box">
+                            <button class="oe_stat_button" type="object" name="action_view_related_products">
+                                <field string="Products related" name="product_related_count" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="action_view_blacklist_products">
+                                <field string="Blacklist products" name="product_blacklist_count" widget="statinfo"/>
+                            </button>
+                           <button class="oe_stat_button" type="object" name="action_view_related_products_with_qty">
+                               <field string="Available Product Qty" name="product_related_with_qty_count" widget="statinfo"/>
+                           </button>
+                           <button class="oe_stat_button" type="object" name="action_view_price_adjustement_history">
+                               <field string="Price adjustement history" name="product_price_adjustement_history_count" widget="statinfo"/>
+                           </button>
+                        </div>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+                       <group>
+                           <field name="min_amount" class="oe_inline"/>
+                       </group>
+                       <notebook>
+                           <page string="Products related">
+                               <field name="product_related_ids" readonly="1"/>
+                           </page>
+                       </notebook>
+                   </sheet>
+               </form>
+           </field>
+       </record>
+
+        <record id="vendor_page_list" model="ir.ui.view">
+            <field name="name">vendor.page.list</field>
+            <field name="model">vendors.page</field>
+            <field name="arch" type="xml">
+                <tree string="Vendors">
+                    <field name="name"/>
+                    <field name="vendor_tags" string="Vendor Tags" widget="many2many_tags" optional="show"/>
+                    <field name="product_related_count" optional="show"/>
+                    <field name="product_sold_count" optional="show"/>
+                    <field name="product_related_with_qty_count" string="Available Qty" optional="show"/>
+                    <field name="mataa_on_hand_total" string="Mataa On Hand" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="vendor_page_search" model="ir.ui.view">
+           <field name="name">vendor.page.search</field>
+           <field name="model">vendors.page</field>
+            <field name="arch" type="xml">
+                <search string="Vendor page">
+                    <field name="name" string="Vendor"/>
+
+                    <filter string="Has Min Amount" name="has_min_amount"
+                    domain="[('min_amount', '&gt;', 0)]"/>
+                    <filter string="No Min Amount" name="no_min_amount"
+                    domain="[('min_amount', '=', 0)]"/>
+
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_min_amount" string="Min Amount"
+                        domain="[]" context="{'group_by': 'min_amount'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="vendor_page_action" model="ir.actions.act_window">
+            <field name="name">Vendors page</field>
+            <field name="res_model">vendors.page</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- This Menu Item will appear in the Upper bar, That's why It needs NO parent or action -->
+        <menuitem id="vendor_page_root" name="Vendor page"/>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="vendor_page_menu" parent="vendor_page_root" action="vendor_page_action"/>
+
+        <record id="vendor_products_related_tree" model="ir.ui.view">
+            <field name="name">vendor.products.related.tree</field>
+            <field name="model">vendor.products.related</field>
+            <field name="arch" type="xml">
+               <tree string="Products related" editable="bottom">
+                    <header>
+                        <button name="set_publish" string="Publish" type="object" class="btn-primary ms-1"/>
+                        <button name="set_unpublish" string="Unpublish" type="object"/>
+                        <button name="open_adjustement_wizard" type="object" string="Price adjustement"/>
+                    </header>
+
+                   <field name="product_id" readonly="1"/>
+                   <button icon="oi-arrow-right" type="object" name="show_sale_orders" help="Sale orders"/>
+                   <field name="qty" readonly="1"/>
+                   <field name="mataa_qty" readonly="1"/>
+                   <field name="total_sold_qty" readonly="1"/>
+                   <field name="price" readonly="1"/>
+                   <field name="regular_price" readonly="1"/>
+                   <field name="sale_price" readonly="1"/>
+                   <field name="last_sale_date" optional="hide"/>
+                   <field name="last_purchase_date"/>
+                   <field name="published" widget="boolean_toggle"/>
+                   <field name="is_synced" widget="boolean_toggle" readonly="1"/>
+                   <button icon="oi-arrow-left" type="object" name="show_purchase_orders" help="Purchase orders"/>
+               </tree>
+            </field>
+        </record>
+
+
+        <record id="vendor_products_related_search" model="ir.ui.view">
+           <field name="name">vendor.products.related.search</field>
+           <field name="model">vendor.products.related</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="product_id" string="Product" filter_domain="['|', '|', ('product_id.default_code', 'ilike', self), ('product_id.name', 'ilike', self), ('product_id.barcode', 'ilike', self)]"/>
+                    <field name="product_id" string="Category" filter_domain="[('product_id.categ_id', 'child_of', raw_value)]"/>
+                    <field name="product_id" string="Brand" filter_domain="[('product_id.product_brand_id', 'ilike', self)]"/>
+                    <filter string="Synced" name="synced" domain="[('is_synced', '=', True)]"/>
+                    <filter string="Not synced" name="not_synced" domain="[('is_synced', '!=', True)]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="synced_group_by" string="Is synced" domain="[]" context="{'group_by': 'is_synced'}"/>
+                        <filter name="group_by_product_template" string="Product Template" domain="[]" context="{'group_by': 'product_tmpl_id'}"/>
+                    </group>
+                </search>
+           </field>
+        </record>
+
+        <record id="vendor_products_sold_tree" model="ir.ui.view">
+            <field name="name">vendor.products.sold.tree</field>
+            <field name="model">vendor.products.sold</field>
+            <field name="arch" type="xml">
+               <tree string="Products sold" editable="bottom">
+                   <field name="product_id" readonly="1"/>
+                   <button icon="oi-arrow-right" type="object" name="show_sale_orders" help="Sale orders"/>
+                   <field name="mataa_qty" readonly="1"/>
+                   <field name="qty" readonly="1"/>
+                   <field name="regular_price" readonly="1"/>
+                   <field name="sale_price" readonly="1"/>
+                   <field name="vendor_price" readonly="1"/>
+                   <field name="sold_qty" readonly="1"/>
+                   <field name="published" widget="boolean_toggle"/>
+                   <field name="is_synced" widget="boolean_toggle" readonly="1"/>
+                   <button icon="oi-arrow-left" type="object" name="show_purchase_orders" help="Purchase orders"/>
+               </tree>
+            </field>
+        </record>
+
+        <record id="vendor_products_sold_search" model="ir.ui.view">
+           <field name="name">vendor.products.sold.search</field>
+           <field name="model">vendor.products.sold</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="product_id" string="Product" filter_domain="['|', '|', ('product_id.default_code', 'ilike', self), ('product_id.name', 'ilike', self), ('product_id.barcode', 'ilike', self)]"/>
+                    <field name="product_id" string="Category" filter_domain="[('product_id.categ_id', 'child_of', raw_value)]"/>
+                    <field name="product_id" string="Brand" filter_domain="[('product_id.product_brand_id', 'ilike', self)]"/>
+                    <filter string="Synced" name="synced" domain="[('is_synced', '=', True)]"/>
+                    <filter string="Not synced" name="not_synced" domain="[('is_synced', '!=', True)]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="synced_group_by" string="Is synced" domain="[]" context="{'group_by': 'is_synced'}"/>
+                    </group>
+                </search>
+           </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_attribute_view_form_inherit_product_count" model="ir.ui.view">
+            <field name="name">Product Attribute - Add Product Count</field>
+            <field name="model">product.attribute</field>
+            <field name="inherit_id" ref="product.product_attribute_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='value_ids']/tree/field[@name='name']" position="after">
+
+                    <field name="products_count" string="Products Count"/>
+
+                    <button name="action_view_related_products"
+                            type="object"
+                            icon="fa-eye"
+                            aria-label="View Products"/>
+
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

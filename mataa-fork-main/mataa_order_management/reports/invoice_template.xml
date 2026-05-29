@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+
+            <span t-field="line.name" position="replace">
+                <span t-field="line.product_id"/>
+            </span>
+
+            <span t-field="o.narration" position="replace"/>
+
+        </template>
+
+<!--
+        <template id="mataa_report_invoice_document" inherit_id="account.report_invoice_document" primary="True">
+
+            <div id="informations" position="inside">
+                <div t-attf-class="#{'col-auto col-3 mw-100' if report_type != 'html' else 'col'} mb-2"
+                     name="paymeny_methods">
+                    <strong>Payment Methods:</strong>
+                    <br/>
+                    <t t-set="codes"
+                       t-value="', '.join(o.invoice_line_ids.mapped('sale_line_ids.order_id.mataa_payment_ids.code'))"/>
+                    <t t-if="codes">
+                        <span t-esc="', '.join(o.invoice_line_ids.mapped('sale_line_ids.order_id.mataa_payment_ids.code'))"/>
+                    </t>
+                    <t t-else="">
+                        <span>COD</span>
+                    </t>
+                </div>
+                <div t-attf-class="#{'col-auto col-3 mw-100' if report_type != 'html' else 'col'} mb-2"
+                     name="shipping_price">
+                    <strong>Shipping Price:</strong>
+                    <br/>
+                    <t t-set="order_ids"
+                       t-value="o.invoice_line_ids.mapped('sale_line_ids.order_id')"/>
+                    <t t-if="order_ids">
+                        <span t-esc="order_ids[0].get_shipping_price()"/>
+                    </t>
+                    <t t-else="">
+                        <span>0.00</span>
+                    </t>
+                </div>
+
+            </div>
+
+
+            <th name="th_discount" position="replace"/>
+            <td name="td_discount" position="replace"/>
+
+            <th name="th_taxes" position="replace"/>
+            <td name="td_taxes" position="replace"/>
+
+            <th name="th_description" position="replace">
+                <th name="th_variant" class="text-start">
+                    <span>Variant</span>
+                </th>
+                <th name="th_sku" class="text-start">
+                    <span>SKY</span>
+                </th>
+
+            </th>
+
+            <td name="account_invoice_line_name" position="replace">
+                <td>
+                    <span t-field="line.product_id"/>
+                </td>
+                <td>
+                    <span t-field="line.product_id.default_code"/>
+                </td>
+
+            </td>
+
+
+            <th name="th_priceunit" position="after">
+                <th class="text-end">
+                    <span>Discounted Price</span>
+                </th>
+            </th>
+            <td name="td_price_unit" position="after">
+                <td class="text-end">
+                    <span t-esc="line.price_unit - (line.price_unit * line.discount / 100)"/>
+                </td>
+            </td>
+
+            <div name="comment" position="after">
+                <br/>
+                <p><b> Customer Note:</b></p>
+                <t t-set="order_ids"
+                   t-value="o.invoice_line_ids.mapped('sale_line_ids.order_id')"/>
+                <t t-if="order_ids">
+                    <div t-esc="order_ids[0].mataa_customer_note"/>
+                </t>
+            </div>
+
+        </template>
+-->
+
+
+        <template id="mataa_report_invoice_document_1">
+            <t t-call="mataa_order_management.mataa_new_layout">
+                <t t-set="doc" t-value="o.with_context(lang=o.partner_id.lang)"/>
+
+                <t t-set="order_ids" t-value="o.invoice_line_ids.mapped('sale_line_ids.order_id')"/>
+                <t t-if="order_ids">
+                    <t t-set="so_id" t-value="order_ids[0]"/>
+                </t>
+                <t t-else="">
+                    <t t-set="so_id" t-value="order_ids"/>
+                </t>
+
+
+                <div class="page" dir="rtl" style="font-size:12px; font-family: Calibiri;">
+                    <div class="oe_structure"/>
+
+                    <div t-if="so_id.mataa_customer_note">
+                        <p>ملاحظة العميل:</p>
+                        <span t-field="so_id.mataa_customer_note"/>
+                    </div>
+                    <t t-set="lines" t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)"/>
+
+                    <div class="oe_structure"/>
+                    <table class="table table-sm o_main_table mt-4">
+                        <!-- In case we want to repeat the header, remove "display: table-row-group" -->
+                        <thead style="background-color: #f0f1f2; table-borderless">
+                            <tr>
+                                <th name="th_num" class="text-center">#</th>
+                                <th name="th_image" class="text-center"/>
+                                <th name="th_p_code" class="text-center">كود المنتج</th>
+                                <th name="th_p_name" class="text-center">اسم المنتج</th>
+                                <th name="th_quantity" class="text-center">الكمية</th>
+                                <th name="th_priceunit" class="text-center">سعر الوحدة</th>
+                                <th name="th_subtotal" class="text-center">السعر</th>
+                            </tr>
+                        </thead>
+                        <tbody class="sale_tbody">
+                            <t t-set="i" t-value="0"/>
+                            <t t-set="total_qty" t-value="0"/>
+                            <t t-set="total_amount" t-value="0"/>
+                            <t t-set="i" t-value="0"/>
+                            <t t-foreach="lines.filtered(lambda x: not x.sale_line_ids[0].is_delivery if x.sale_line_ids else True)" t-as="line">
+                                <t t-set="i" t-value="i + 1"/>
+                                <tr>
+                                    <t t-if="line.display_type == 'product'">
+                                        <t t-set="total_qty" t-value="total_qty + line.quantity"/>
+                                        <t t-set="total_amount" t-value="total_amount + line.price_subtotal"/>
+                                        <td name="td_num">
+                                            <span t-esc="i"/>
+                                        </td>
+                                        <td name="td_image">
+                                            <span>
+                                                <t t-if="line.sale_line_ids">
+                                                    <img t-att-src="line.sale_line_ids[0].so_line_main_image"
+                                                     alt="Product Image" style="max-height:100px; max-width:80px;"/>
+                                                </t>
+                                            </span>
+                                        </td>
+                                        <td name="td_p_code">
+                                            <span t-field="line.product_id.default_code"/>
+                                        </td>
+                                        <td name="td_p_name">
+                                            <span t-field="line.product_id.name"/>
+                                        </td>
+                                        <td name="td_quantity" class="text-end">
+                                            <span t-field="line.quantity" t-options='{"widget": "integer"}'/>
+                                        </td>
+                                        <td name="td_priceunit" class="text-end">
+                                            <t t-if="line.discount">
+                                                <p t-esc="int(line.price_unit - (line.price_unit * line.discount / 100))"/>
+                                                <s t-field="line.price_unit" style="color: red;" t-options='{"widget": "integer"}'/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-field="line.price_unit" t-options='{"widget": "integer"}'/>
+                                            </t>
+                                        </td>
+                                        <td name="td_subtotal" class="text-end o_price_total">
+                                            <span t-field="line.price_subtotal" t-options='{"widget": "integer"}'/>
+                                            <span t-field="line.currency_id.symbol"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                            <tr style="background-color: #f0f1f2; table-borderless">
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td class="text-end">
+                                    <span t-esc="int(total_qty)"/>
+                                </td>
+                                <td/>
+                                <td class="text-end o_price_total">
+                                    <span t-esc="int(total_amount)"/>
+                                    <span t-field="o.currency_id.symbol"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="clearfix" style="page-break-inside: avoid;" name="so_total_summary" dir="rtl">
+                        <div class="row">
+                            <div class="col-6" style="padding: 5px">
+                                <table style="background-color: #f0f1f2;" class="table table-sm table-borderless">
+                                    <tr>
+                                        <td>طريقة الدفع</td>
+                                        <td>
+                                            <t t-set="codes"
+                                               t-value="', '.join(so_id.mapped('mataa_payment_ids.code'))"/>
+                                            <t t-if="codes">
+                                                <span t-esc="', '.join(so_id.mapped('mataa_payment_ids.code'))"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span>COD</span>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>كوبون</td>
+                                        <td>
+                                            <span t-esc="', '.join(so_id.mapped('mataa_coupon_ids.display_name'))"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-6" style="padding: 5px">
+                                <div style="float: left; border-right: 2px solid #a1a6ad;">
+                                    <table class="text-right table-borderless"
+                                           style="margin-right:5px;padding-right:5px;">
+                                        <tr>
+                                            <td style="width: 100px; height:20px;">التخفيض</td>
+                                            <td style="width: 40px;">
+                                                <t t-set="coupon" t-value="sum(so_id.mapped('mataa_coupon_ids.amount_deducted'))"/>
+                                                <span t-if="coupon>0">-</span>
+                                                <span t-esc="int(coupon)"/>
+                                            </td>
+                                        </tr>
+                                        <tr t-if="so_id.get_total_e_payments() > 0">
+                                            <td style="width: 100px;height:20px;">اﻟﻤﺤﻔﻈﺔ</td>
+                                            <td style="width: 40px;">
+                                                <span>-</span>
+                                                <span t-esc="int(so_id.get_total_e_payments())"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 100px;height:20px;">التوصيل</td>
+                                            <td style="width: 40px;">
+                                                <t t-set="shipping" t-value="so_id.get_shipping_price()"/>
+                                                <span t-if="shipping>0">+</span>
+                                                <span t-esc="int(shipping)"/>
+                                            </td>
+                                        </tr>
+                                        <tr style="border-top: 2px solid #a1a6ad;">
+                                            <td style="width: 100px;height:20px;">
+                                                <b>المجموع</b>
+                                            </td>
+                                            <td style="width: 40px;">
+                                                <b t-esc="int(so_id.get_shipment_price())"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="oe_structure"/>
+
+                </div>
+            </t>
+        </template>
+
+
+        <template id="mataa_report_invoice_with_payments">
+
+            <t t-set="print_with_payments" t-value="True"/>
+
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.partner_id.lang"/>
+                    <t t-if="o._get_name_invoice_report() == 'account.report_invoice_document'"
+                       t-call="mataa_order_management.mataa_report_invoice_document_1"
+                       t-lang="lang"/>
+                </t>
+            </t>
+
+        </template>
+
+    </data>
+</odoo>

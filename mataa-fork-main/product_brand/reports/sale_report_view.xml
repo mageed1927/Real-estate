@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_order_product_search" model="ir.ui.view">
+        <field name="inherit_id" ref="sale.view_order_product_search" />
+        <field name="model">sale.report</field>
+        <field name="arch" type="xml">
+            <filter name="Customer" position="after">
+                <filter
+                    string="Brand"
+                    name="brand"
+                    context="{'group_by':'product_brand_id'}"
+                />
+            </filter>
+            <xpath expr="//filter[@name='brand']" position="after">
+                <filter name="discounted_products"
+                        string="Discounted Products"
+                        domain="[('is_discounted', '=', True)]"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='filter_order_date']" position="attributes">
+                <attribute name="string">Last 30 Days</attribute>
+                <attribute name="domain">[('date', '&gt;=', (context_today() - datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]</attribute>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

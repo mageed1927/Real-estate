@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_task_form2_multi_project_inherit" model="ir.ui.view">
+            <field name="name">project.task.form.multi.project.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='project_id'][@widget='project']" position="after">
+                    <field name="project_ids" widget="many2many_tags" options="{'no_create_edit': True}" placeholder="Add to other projects..."/>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="project.act_project_project_2_project_task_all" model="ir.actions.act_window">
+            <field name="domain">['|', ('project_id', '=', active_id), ('project_ids', 'in', active_id)]</field>
+        </record>
+    </data>
+</odoo>

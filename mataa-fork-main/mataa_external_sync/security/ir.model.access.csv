@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_template_mataa,access.product.template.mataa,model_product_template,,1,1,1,1
+access_product_product_mataa,access.product.product.mataa,model_product_product,,1,1,1,1
+access_filter_from_file_wizard,access.filter.from.file.wizard,model_filter_from_file_wizard,,1,1,1,1
+access_external_sync_public,external.sync,model_external_sync,base.group_public,1,1,1,1

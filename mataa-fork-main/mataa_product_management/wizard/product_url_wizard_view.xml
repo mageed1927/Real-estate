@@ -1,0 +1,28 @@
+<odoo>
+    <record id='view_product_image_bulk_wizard' model='ir.ui.view'>
+        <field name='name'>product.image.bulk.wizard.form</field>
+        <field name='model'>product.image.bulk.wizard</field>
+        <field name='arch' type='xml'>
+            <form string="Upload Multiple Images">
+
+                <group>
+                    <field name="attachment_ids" widget="many2many_binary" string="Select Images"
+                        options="{'accepted_file_extensions': '.jpeg,.jpg,.png,.gif,.bmp,.tiff,.tif,.svg,.ico,.webp'}"/>
+                </group>
+
+                <footer>
+                    <button string='Upload' name='action_upload_images' type='object' class='btn-primary'/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_product_image_bulk_upload" model="ir.actions.act_window">
+        <field name="name">Bulk Upload Images</field>
+        <field name="res_model">product.image.bulk.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field> 
+    </record>
+</odoo>

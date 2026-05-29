@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_vendor_return_location_report_tree" model="ir.ui.view">
+            <field name="name">vendor.return.location.report.tree</field>
+            <field name="model">vendor.return.location.report</field>
+            <field name="arch" type="xml">
+                <tree string="Vendors and Products at Return Location">
+                    <field name="product_id" widget="link_to_record[product.product,name]"/>
+                    <field name="vendor_id"/>
+                    <field name="purchase_order_id" widget="link_to_record[purchase.order,name]"/>
+                    <field name="sale_order_id" widget="link_to_record[sale.order,name]"/>
+                    <field name="quantity"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_vendor_return_create_batch" model="ir.actions.server">
+            <field name="name">Create Return Batch</field>
+            <field name="model_id" ref="model_vendor_return_location_report"/>
+            <field name="binding_model_id" ref="model_vendor_return_location_report"/>
+            <field name="binding_type">action</field>
+            <field name="state">code</field>
+            <field name="code">records.create_vendor_return_batch()</field>
+        </record>
+
+        <record id="view_vendor_return_location_report_search" model="ir.ui.view">
+            <field name="name">vendor.return.location.report.search</field>
+            <field name="model">vendor.return.location.report</field>
+            <field name="arch" type="xml">
+                <search string="Vendor Return Location Report">
+                    <field name="product_id"/>
+                    <field name="vendor_id"/>
+                    <field name="purchase_order_id"/>
+                    <field name="sale_order_id"/>
+                    <filter string="Zero Quantity" name="zero_qty" domain="[('quantity', '=', 0)]"/>
+                    <filter string="Has Quantity" name="has_qty" domain="[('quantity', '>', 0)]"/>
+                    <group expand="0" name="group_by" string="Group By">
+                        <filter string="Product" name="gb_product" context="{'group_by': 'product_id'}"/>
+                        <filter string="Vendor" name="gb_vendor" context="{'group_by': 'vendor_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_vendor_return_location_report" model="ir.actions.act_window">
+            <field name="name">Vendors and Products at Return Location</field>
+            <field name="res_model">vendor.return.location.report</field>
+            <field name="view_mode">tree,search</field>
+            <field name="context" eval="{'create': False, 'edit': False, 'group_by': ['vendor_id']}"/>
+        </record>
+
+        <menuitem id="menu_vwndor_product_return" name="Vendors reurn products"
+                  parent="stock.menu_warehouse_report" sequence="160"
+                  />
+
+        <menuitem id="menu_vendor_return_location_report" name="Vendors reurn products report"
+                  parent="mataa_order_management.menu_vwndor_product_return" sequence="160"
+                  action="action_vendor_return_location_report"/>
+    </data>
+</odoo>

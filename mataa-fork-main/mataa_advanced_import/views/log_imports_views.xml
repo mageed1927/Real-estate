@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       <record id="log_imports_form" model="ir.ui.view">
+           <field name="name">log.imports.form</field>
+           <field name="model">log.imports</field>
+           <field name="arch" type="xml">
+               <tree string="History imports" create="false" edit="false">
+                   <field name="date"/>
+                   <field name="file_name"/>
+                   <field name="import_type"/>
+               </tree>
+           </field>
+       </record>
+        <record id="log_imports_search" model="ir.ui.view">
+           <field name="name">log.imports.search</field>
+           <field name="model">log.imports</field>
+            <field name="arch" type="xml">
+                <search string="Imports history">
+                    <filter string="Today imports" name="today"
+                        domain="[('date', '&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0))),
+                                 ('date', '&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]" />
+                </search>
+           </field>
+        </record>
+        <record id="log_imports_action" model="ir.actions.act_window">
+            <field name="name">History imports</field>
+            <field name="res_model">log.imports</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{
+                "search_default_today": 1}
+            </field>
+        </record>
+    </data>
+</odoo>

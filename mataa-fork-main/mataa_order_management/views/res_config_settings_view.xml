@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Inherit the existing res.config.settings form view to add custom s3 settings -->
+        <record id="res_config_settings_view_form_order_management" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.mataa.order.management</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <app data-string="Order Management Settings" string="Order Management Settings"
+                         name="order_management_settings">
+                        <block title="Order Management Settings Parameters" name="order_settings_parameters">
+                            <setting string="Mataa In-Stock Locations"
+                                     help="Mataa In-Stock Locations"
+                                     id="mataa_in_stock_locations">
+                                <field name="mataa_in_stock_locations_ids" widget="many2many_tags"/>
+                            </setting>
+                            <setting string="Validate Stock for API Orders"
+                                     help="If enabled, the system will block API sale order creation when any product has zero free quantity."
+                                     id="validate_api_stock_setting">
+                                <field name="validate_api_stock"/>
+                            </setting>
+                            <setting string="Default Vendor"
+                                     help="Default Vendor"
+                                     id="default_vendor_setting">
+                                <field name="mataa_vendor"/>
+                            </setting>
+                            <setting string="Default Blanket Order Quantity Limit"
+                                     help="The maximum quantity allowed for a blanket order before a new is created for the same vendor"
+                                     id="blanket_order_qty_limit_setting">
+                                <field name="blanket_order_qty_limit"/>
+                            </setting>
+                            <setting string="Base URL"
+                                     help="Dtrack API Base Url"
+                                     id="dtrack_api_base_url_setting">
+                                <field name="dtrack_api_base_url"/>
+                            </setting>
+                            <setting string="API key"
+                                     help="Dtrack API Base Url"
+                                     id="dtrack_api_key_setting">
+                                <field name="dtrack_api_key"/>
+                            </setting>
+                            <setting string="Endpoints API key"
+                                     help=" Value expected in the header"
+                                     id="api_key_setting">
+                                <field name="api_key" password="True"/>
+                            </setting>
+                            <setting string="Endpoints API key for External Systems"
+                                     help=" Value expected in the header"
+                                     id="api_key_external_setting">
+                                <field name="external_api_token" password="True"/>
+                            </setting>
+                            <setting string="Vendor Notification Webhook"
+                                     help="Vendor Notification Webhook"
+                                     id="vendor_notification_webhook_setting">
+                                <field name="vendor_notification_webhook"/>
+                            </setting>
+                            <setting string="Customer Wallet"
+                                     help="Customer Wallet"
+                                     id="customer_wallet_setting">
+                                <field name="wallet_reservation_journal_id"/>
+                                <field name="wallet_reservation_account_id"/>
+                            </setting>
+                            <setting string="Refund Journal"
+                                     help="Refund Journal"
+                                     id="refund_journal_setting">
+                                <field name="refund_orders_journal_id"/>
+                            </setting>
+                            <setting string="Vendor Support"
+                                     help="Select the support team for vendors related tickets."
+                                     id="vendor_support_team_id">
+                                <field name="vendor_support_team_id"/>
+                            </setting>
+                            <setting string="Customer Support"
+                                     help="Select the support team for customers related tickets."
+                                     id="customer_support_team_id">
+                                <field name="customer_support_team_id"/>
+                            </setting>
+                            <setting string="Refund Team" help="Select the team for refund tickets." id="refund_support_team_setting">
+                                <field name="refund_support_team_id"/>
+                            </setting>
+                            <setting string="Refund Stage" help="Select the stage for new refund tickets." id="refund_support_stage_setting">
+                                <field name="refund_support_stage_id" domain="[('team_ids', '=', refund_support_team_id)]"/>
+                            </setting>
+                            <setting string="Order Closing Support"
+                                     help="Select the support team will handel order closing tickets."
+                                     id="order_closing_support_team_id">
+                                <field name="order_closing_support_team_id"/>
+                            </setting>
+                            <setting id="activity_res_user" help="Default user for closing orders"
+                                     title="Default user for closing orders ">
+                                <field name="activity_default_res_id"/>
+                            </setting>
+                            <setting id="review_user_setting"
+                                     help="Default user for reviewing invoice prices when sale price is below cost."
+                                     title="Default user for review orders price">
+                                <field name="review_price_default_res_id"/>
+                            </setting>
+                            <setting id="external_sale_url"
+                                     help="url for internal sale order creation"
+                                     title="External Sale URL">
+                                <field name="external_sale_url"/>
+                            </setting>
+                            <setting id="shipping_deviation_threshold"
+                                     help="Allowable Shipping Deviation Percentage."
+                                     title="Allowable Shipping Deviation Percentage.">
+                                <field name="shipping_deviation_threshold"/>
+                            </setting>
+                            <setting string="Default Carrier for Batching"
+                                     help="Select the default carrier for automatic batching of outgoing shipments"
+                                     id="batch_carrier_id_setting">
+                                <field name="batch_carrier_id"/>
+                            </setting>
+                            <setting string="Prices control">
+                                <field name="prices_control"/>
+                                <div class="text-muted">
+                                    <p style="margin-bottom: 0">- Turned on : vendor price must be less than or equals
+                                        to sale price.
+                                    </p>
+                                    <p style="margin-bottom: 0">- Turned off : vendor price can be larger than sale
+                                        price.
+                                    </p>
+                                </div>
+                            </setting>
+                        </block>
+                        <block title="Vendor Payment Notifications" name="vendor_payment_notification_settings">
+                            <setting string="Notification Recipients"
+                                     help="Users who will receive notifications for vendor payment dues."
+                                     id="payment_due_notification_users_setting">
+                                <field name="payment_due_notification_user_ids" widget="many2many_tags"/>
+                            </setting>
+                        </block>
+                        <block title="Mataa Wallet Integration" name="order_settings_parameters">
+                            <setting string="Card on Delivery Setup"
+                                     help="Define the code used to identify Card on Delivery and the Journal to record these payments."
+                                     id="card_on_delivery_setup">
+                                <field name="card_on_delivery_trigger_code"/>
+                                <field name="card_on_delivery_journal_id" string="Destination Journal"/>
+                            </setting>
+                        </block>
+                        <block title="Auto Confirmation Rules" name="auto_confirmation_rules">
+                            <setting string="Enable Auto Confirmation"
+                                     help="If disabled, orders will not be auto-confirmed.">
+                                <field name="auto_confirm_enabled"/>
+                            </setting>
+                            <setting string="Auto Confirm In-House Orders Only"
+                                     help="If enabled, only in-house orders will be auto-confirmed.">
+                                <field name="auto_confirm_in_house_orders"/>
+                            </setting>
+                            <setting string="Exclude Orders with Customer Notes"
+                                     help="If enabled, orders with customer notes will not be auto-confirmed.">
+                                <field name="auto_confirm_enable_customer_note"/>
+                            </setting>
+                            <setting string="Auto Confirm Amount Limit"
+                                     help="Orders above this amount will not be auto-confirmed.">
+                                <field name="auto_confirm_amount_limit"/>
+                            </setting>
+                            <setting string="Auto Confirm Customer Orders Limit"
+                                     help="If customer has more than this number of orders, order will not be auto-confirmed.">
+                                <field name="auto_confirm_order_count_limit"/>
+                            </setting>
+                            <setting string="Exclude Customers with Active Orders"
+                                     help="If enabled, customers with active orders (output move not done) will be excluded from auto-confirmation.">
+                                <field name="auto_confirm_check_active_order"/>
+                            </setting>
+                            <setting string="Exclude Customers with Refund Orders"
+                                     help="If enabled, customers who have refund orders(incoming move not done) will be excluded from auto-confirmation.">
+                                <field name="auto_confirm_check_refunds"/>
+                            </setting>
+                            <setting string="Excluded Cities from Auto Confirmation"
+                                     help="Orders from these cities will not be auto-confirmed.">
+                                <field name="auto_confirm_excluded_city_ids" widget="many2many_tags"/>
+                            </setting>
+                        </block>
+                        <block title="Tags Automation" name="tags_automation">
+                            <setting string="Note to Tag Rules" help="Add tags automatically based on the words in the customer's note.">
+                                <field name="note_tag_rule_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="keyword"/>
+                                        <field name="tag_id" options="{'no_create': False}"/>
+                                    </tree>
+                                </field>
+                            </setting>
+                        </block>
+                        <block title="Price Adjustment" name="price_adjustment_settings">
+                             <setting string="Discount Reasons"
+                                     help="Manage the reasons available for price adjustments."
+                                     id="discount_reasons_setting">
+                                <field name="discount_reason_ids" nolabel="1" context="{'active_test': False}">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="active"/>
+                                    </tree>
+                                </field>
+                            </setting>
+                            <setting string="Mataa Discount Account"
+                                     help="Select the Account (Expense) to record the discount difference (e.g. 520003)."
+                                     id="mataa_discount_account_setting">
+                                <field name="mataa_discount_account_id"/>
+                            </setting>
+                            <setting string="Discount Label in Invoice"
+                                     help="The text that will appear in the invoice line (e.g., Marketing Discount)."
+                                     id="mataa_discount_label_setting">
+                                <field name="mataa_discount_label" placeholder="e.g. Marketing Discount (Coupon)"/>
+                            </setting>
+
+                            <setting string="Shipping Discount Account"
+                                     help="Select the Account (Expense) to record the shipping discount difference."
+                                     id="mataa_shipping_discount_account_setting">
+                                <field name="mataa_shipping_discount_account_id"/>
+                            </setting>
+                            <setting string="Shipping Discount Label"
+                                     help="The text that will appear in the invoice line for shipping discounts."
+                                     id="mataa_shipping_discount_label_setting">
+                                <field name="mataa_shipping_discount_label" placeholder="e.g. Shipment Discount (Coupon)"/>
+                            </setting>
+                        </block>
+                        <block title="Mataa Wallet Integration" name="order_settings_parameters">
+                            <setting string="Wallet URL"
+                                     help="Wallet API Base Url"
+                                     id="wallet_api_base_url_setting">
+                                <field name="wallet_api_base_url"/>
+                            </setting>
+                        </block>
+                        <block title="API Ticketing" name="api_ticketing_settings">
+                            <setting string="Bank Transfer Team Name"
+                                     help="Helpdesk team name used by /api/report_bank_transfer endpoint."
+                                     id="bank_transfer_team_name_setting">
+                                <field name="report_bank_transfer_team_name"/>
+                            </setting>
+                            <setting string="Bank Transfer Stage Name"
+                                     help="Helpdesk stage name used by /api/report_bank_transfer endpoint."
+                                     id="bank_transfer_stage_name_setting">
+                                <field name="report_bank_transfer_stage_name"/>
+                            </setting>
+                            <setting string="Bank Transfer Tag Name"
+                                     help="Helpdesk tag name used by /api/report_bank_transfer endpoint."
+                                     id="bank_transfer_tag_name_setting">
+                                <field name="report_bank_transfer_tag_name"/>
+                            </setting>
+                            <setting string="Bank Transfer Ticket Title"
+                                     help="Helpdesk ticket title used by /api/report_bank_transfer endpoint."
+                                     id="bank_transfer_ticket_name_setting">
+                                <field name="report_bank_transfer_ticket_name"/>
+                            </setting>
+                            <setting string="Order Issue Team Name"
+                                     help="Helpdesk team name used by /api/report_order_issue endpoint."
+                                     id="order_issue_team_name_setting">
+                                <field name="report_order_issue_team_name"/>
+                            </setting>
+                            <setting string="Order Issue Stage Name"
+                                     help="Helpdesk stage name used by /api/report_order_issue endpoint."
+                                     id="order_issue_stage_name_setting">
+                                <field name="report_order_issue_stage_name"/>
+                            </setting>
+                        </block>
+                        <block title="Compensation Settings" name="compensation_settings_parameters">
+                            <setting string="Compensation Window (Days)"
+                                     help="Number of days after delivery to allow compensation"
+                                     id="compensation_window_days_setting">
+                                <field name="compensation_window_days"/>
+                            </setting>
+                            <setting string="Compensation Allowable Percentage (%)"
+                                     help="Maximum percentage of order total that can be compensated (for regular users)"
+                                     id="compensation_allowable_percentage_setting">
+                                <field name="compensation_allowable_percentage"/>
+                            </setting>
+                            <setting string="Client Compensation Account"
+                                     help="Account to debit for client compensation"
+                                     id="compensation_account_id_setting">
+                                <field name="compensation_account_id"/>
+                            </setting>
+                            <setting string="Compensation Journal"
+                                     help="Journal to use for compensation entries"
+                                     id="compensation_journal_id_setting">
+                                <field name="compensation_journal_id"/>
+                            </setting>
+                        </block>
+                        <block title="Refunds/Returns Stock Flow" name="refund_settings_parameters">
+                            <setting string="Return Operation Type"
+                                     help="Return Operation Type"
+                                     id="mataa_return_picking_type_id">
+                                <field name="mataa_return_picking_type_id"/>
+                            </setting>
+                            <setting string="Default Return Inhouse Location"
+                                     help="Products found in the inhouse return destination will be returned to this location."
+                                     id="mataa_return_inhouse_location_id">
+                                <field name="mataa_return_inhouse_location_id"/>
+                            </setting>
+                            <setting string="Return Location"
+                                     help="Return Location"
+                                     id="mataa_return_location_id">
+                                <field name="mataa_return_location_id"/>
+                            </setting>
+                            <setting string="Refund Rute"
+                                     help="Refund Rute"
+                                     id="mataa_refund_route_id">
+                                <field name="mataa_refund_route_id"/>
+                            </setting>
+                        </block>
+                        <block>Add commentMore actions
+                            <setting string="Vendor API URL"
+                                     help="Base URL for the external vendor API"
+                                     id="external_vendor_api_url_setting">
+                                <field name="external_vendor_api_url"/>
+                            </setting>
+
+                            <setting string="Vendor API Username"
+                                     help="Username for authenticating with the external vendor API"
+                                     id="external_vendor_api_username_setting">
+                                <field name="external_vendor_api_username"/>
+                            </setting>
+
+                            <setting string="Vendor API Password"
+                                     help="Password for authenticating with the external vendor API"
+                                     id="external_vendor_api_password_setting">
+                                <field name="external_vendor_api_password" password="True"/>
+                            </setting>
+                        </block>
+                    </app>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

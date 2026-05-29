@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sale_bulk_filter_wizard_form_view" model="ir.ui.view">
+            <field name="name">sale.bulk.filter.wizard.form</field>
+            <field name="model">sale.bulk.filter.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="order_names_text" placeholder="e.g. S0001, S0002&#10;S0003"/>
+                        <field name="order_names_file" filename="file_name"/>
+                        <field name="file_name" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="apply_filter" string="Apply Filter" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_launch_sale_bulk_filter_wizard" model="ir.actions.act_window">
+            <field name="name">Filter by List</field>
+            <field name="res_model">sale.bulk.filter.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_sale_bulk_filter"
+                  name="Filter by List"
+                  parent="sale.sale_menu_root"
+                  action="action_launch_sale_bulk_filter_wizard"
+                  sequence="110"/>
+
+        <record id="action_sale_order_filter_by_list_context_menu" model="ir.actions.server">
+            <field name="name">Filter by List</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+# يستدعي نفس الإجراء الذي يفتح المعالج
+action = env.ref('mataa_order_management.action_launch_sale_bulk_filter_wizard').read()[0]
+            </field>
+        </record>
+
+    </data>
+</odoo>

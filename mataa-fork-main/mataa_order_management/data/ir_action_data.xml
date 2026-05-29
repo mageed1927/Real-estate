@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record forcecreate="True" id="ir_cron_sol_mataa_product_cost" model="ir.cron">
+        <field name="name">Sale/Invoice Lines: Product Cost</field>
+        <field name="model_id" ref="sale.model_sale_order_line"/>
+        <field name="state">code</field>
+        <field name="code">model.search([('mataa_product_cost', '=', False)], limit=5000)._compute_mataa_product_cost()</field>
+        <field name="active" eval="True"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">10</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+    </record>
+
+    <record forcecreate="True" id="ir_cron_redo_price_adjustement_history" model="ir.cron">
+        <field name="name">Price adjustement: redo prices automatically</field>
+        <field name="model_id" ref="mataa_order_management.model_price_adjustement_history"/>
+        <field name="state">code</field>
+        <field name="code">model.redo_prices_automatically()</field>
+        <field name="active" eval="True"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+    </record>
+
+    <record id="ir_cron_apply_scheduled_price_adjustments" model="ir.cron">
+        <field name="name">Price Adjustment: Apply Scheduled Promotions</field>
+        <field name="model_id" ref="mataa_order_management.model_price_adjustement_history"/>
+        <field name="state">code</field>
+        <field name="code">model.apply_scheduled_prices()</field>
+        <field name="active" eval="True"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="doall">False</field>
+    </record>
+
+</odoo>

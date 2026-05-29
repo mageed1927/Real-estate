@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="view_cancellation_reason_analysis_search" model="ir.ui.view">
+            <field name="name">sale.order.cancel.reason.analysis.search</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <search string="Cancellation Reason Analysis">
+
+                    <field name="name" string="Order Reference"/>
+                    <field name="partner_id" string="Customer"/>
+                    <field name="cancel_reason_ids" string="Cancellation Reason"/>
+                    <field name="cancel_note" string="Cancellation Note"/>
+
+                    <filter name="cancelled_filter" string="Cancelled Orders"
+                            domain="[('state', '=', 'cancel')]"/>
+
+                </search>
+            </field>
+        </record>
+
+        <record id="view_cancellation_reason_analysis_tree" model="ir.ui.view">
+            <field name="name">sale.order.cancel.reason.analysis.tree</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <tree string="Cancellation Reason Analysis" create="false" edit="false">
+                    <field name="name" string="Order Reference"/>
+                    <field name="date_order" string="Order Date"/>
+                    <field name="partner_id" string="Customer"/>
+                    <field name="cancel_reason_ids" widget="many2many_tags" string="Reason"/>
+                    <field name="cancel_note" string="Cancellation Note"/>
+                    <field name="amount_total" string="Total"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_cancellation_reason_analysis" model="ir.actions.act_window">
+            <field name="name">Cancellation Reason Analysis</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">tree,pivot,graph</field>
+            <field name="domain">[('state', '=', 'cancel')]</field>
+
+            <field name="view_id" ref="mataa_order_management.view_cancellation_reason_analysis_tree"/>
+            <field name="search_view_id" ref="mataa_order_management.view_cancellation_reason_analysis_search"/>
+
+            <field name="context">{}</field>
+        </record>
+
+        <!-- Menu Item under Sales → Reporting -->
+        <menuitem id="menu_cancellation_reason_analysis"
+                  name="Cancellation Reason Analysis"
+                  parent="sale.menu_sale_report"
+                  sequence="40"
+                  action="action_cancellation_reason_analysis"/>
+
+    </data>
+</odoo>

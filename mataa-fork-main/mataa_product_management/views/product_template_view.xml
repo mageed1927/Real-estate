@@ -1,0 +1,170 @@
+<odoo>
+    <data>
+        <record id="view_product_template_form_mataa" model="ir.ui.view">
+            <field name="name">product.template.form.mataa</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <field name="has_leaf_public_category" invisible="1"/>
+
+                    <div class="alert alert-warning text-center" role="alert"
+                         invisible="has_leaf_public_category or not public_categ_ids">
+                        <strong>تنبيه:</strong> هذا المنتج مرتبط بفئات رئيسية فقط. يرجى اختيار فئة فرعية دقيقة (Leaf Category) لضمان الفلترة الصحيحة.
+                    </div>
+                </xpath>
+                <xpath expr="//group[@name='product_template_images']/field[@name='product_template_image_ids']"
+                       position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='image_1920']" position="replace">
+                    <field name="main_image" widget="image_url" class="oe_avatar"/>
+                </xpath>
+                <xpath expr="//group[@name='product_template_images']" position="after">
+                    <field name="image_url_ids">
+                        <tree editable="bottom" default_order="sequence asc">
+                            <field name="sequence" widget="handle"/>
+                            <field invisible="id == False" name="link_html" widget="html"/>
+                            <field invisible="id == False" name="url" widget="image_url" string="Images"
+                                   style="width: 150px; height: 150px; object-fit: cover;"/>
+                            <field invisible="id != False" name="file_data" filename="file_name" widget="binary"
+                                   options="{'accepted_file_extensions': '.jpeg,.jpg,.png,.gif,.bmp,.tiff,.tif,.svg,.ico,.webp'}"/>
+                            <field name="file_name" invisible="1"/>
+                        </tree>
+                    </field>
+                </xpath>
+
+                <xpath expr="//field[@name='standard_price']" position="replace">
+                    <field name="standard_price" class="oe_inline" widget='monetary'
+                           options="{'currency_field': 'cost_currency_id', 'field_digits': True}" readonly="True"/>
+                </xpath>
+
+                <xpath expr="//label[@for='list_price']" position="before">
+                    <label for="regular_price" string="Regular Price"/>
+                    <div name="pricing" class="o_row">
+                        <field name="regular_price" class="oe_inline" widget='monetary'
+                               options="{'currency_field': 'currency_id'}"/>
+                    </div>
+                </xpath>
+                <xpath expr="//group[@name='group_standard_price']" position="inside">
+                    <field name="product_seo_keywords" widget="many2many_tags"
+                           string="SEO Keywords"
+                           placeholder="Add SEO keywords..."
+                           options="{'no_create_edit': True}"/>
+                    <field name="restricted_seo_keyword_ids" widget="many2many_tags"
+                           string="Restricted SEO Keywords"
+                           placeholder="Add restricted SEO keywords..."
+                           options="{'no_create_edit': True}"/>
+
+                    <field name="offer_tag_ids" widget="many2many_tags"
+                           string="Offer Tags"
+                           placeholder="Add offer tags..."
+                           options="{'no_create_edit': True}"/>
+
+                </xpath>
+
+                <xpath expr="//notebook" position="inside">
+                    <page string="Audit Trail" groups="mataa_product_management.group_product_audit_trail_viewer">
+                        <group>
+                            <group string="External System Tracking">
+                                <field name="created_by" readonly="1"/>
+                                <field name="last_modified_by" readonly="1"/>
+                                <field name="last_modified_date" readonly="1" string="Last Modified Date"/>
+                            </group>
+                            <group string="Internal System Tracking">
+                                <field name="create_uid" readonly="1" string="Created By Odoo User"/>
+                                <field name="create_date" readonly="1" string="Creation Date"/>
+                                <field name="write_uid" readonly="1" string="Last Updated By Odoo User"/>
+                                <field name="write_date" readonly="1" string="Last Update Date"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+
+                <!-- TODO : fix this -->
+                <!--                <field name="description_sale" position="attributes">-->
+                <!--                    <attribute name="widget">html</attribute>-->
+                <!--                    <attribute name="options">{'style-inline': true, 'codeview': true}</attribute>-->
+                <!--                </field>-->
+            </field>
+        </record>
+
+        <record id="view_product_template_kanban_mataa" model="ir.ui.view">
+            <field name="name">product.template.form.mataa</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('o_kanban_image')]" position="replace">
+                    <div class="o_kanban_image me-1">
+                        <field name="main_image" widget="image_url" class="oe_avatar"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_product_template_tree_mataa" model="ir.ui.view">
+            <field name="name">product.template.tree.mataa</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="main_image" widget="image_url" class="oe_avatar" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_product_template_supplier_inherit_mataa" model="ir.ui.view">
+            <field name="name">view.product.template.supplier.inherit.mataa</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="purchase.view_product_supplier_inherit"/>
+            <field name="arch" type="xml">
+                <!-- Make seller_ids always invisible -->
+                <xpath expr="//field[@name='seller_ids']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <!-- Make variant_seller_ids always visible and editable -->
+                <xpath expr="//field[@name='variant_seller_ids']" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="product_template_search_view_inherit_discount" model="ir.ui.view">
+            <field name="name">product.template.search.inherit.discount</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='filter_to_sell']" position="after">
+                    <separator/>
+                    <filter name="discounted_products"
+                            string="Discounted Products"
+                            domain="[('is_discounted', '=', True)]"/>
+                    <filter name="warning_parent_only"
+                            string="Categories Warning (Parent Only)"
+                            domain="[('public_categ_ids', '!=', False), ('has_leaf_public_category', '=', False)]"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_product_template_price_security_mataa" model="ir.ui.view">
+            <field name="name">product.template.price.security.mataa</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='list_price']" position="before">
+                    <field name="is_price_manager" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='list_price']" position="attributes">
+                    <attribute name="readonly">not is_price_manager</attribute>
+                </xpath>
+                <xpath expr="//field[@name='regular_price']" position="attributes">
+                    <attribute name="readonly">not is_price_manager</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

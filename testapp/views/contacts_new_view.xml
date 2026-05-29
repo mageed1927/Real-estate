@@ -1,0 +1,35 @@
+<odoo>
+   <record  id="contacts_new_add_extension" model="ir.ui.view">
+       <field name="name">contacts.new.add.extension</field>
+       <field name="model">res.partner</field>
+       <field name="inherit_id" ref="base.view_partner_form"/>
+       <field name="arch" type="xml">
+           <xpath expr="//field[@name='vat']" position="after" >
+                 <field name="my_notes" string="New Notes" />
+           </xpath>
+           <xpath expr="//group[@name='sale']" position="inside" >
+                 <field name="my_sales_team_phone" string="Team Phone" />
+           </xpath>
+           <!-- mobile -->
+           <xpath expr="//field[@name='mobile']" position="attributes" >
+                 <attribute name="required">1</attribute>
+           </xpath>
+           <xpath expr="//form//sheet//group[1]//group[2]" position="attributes" >
+                 <attribute name="string">Personal Info</attribute>
+           </xpath>
+       </field>
+   </record>
+
+   <record  id="contacts_new_add_extension_tree" model="ir.ui.view">
+       <field name="name">contacts.new.add.extension.tree</field>
+       <field name="model">res.partner</field>
+       <field name="inherit_id" ref="base.view_partner_tree"/>
+       <field name="arch" type="xml">
+            <xpath expr="//field[@name='phone']" position="after">
+                 <field name="my_notes" string="New Notes" />
+            </xpath>
+       </field>
+   </record>
+</odoo>
+
+<!-- after, before, inside, replace, attributes -->

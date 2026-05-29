@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_presync_main_wizard" model="ir.ui.view">
+            <field name="name">presync.main.wizard.form</field>
+            <field name="model">presync.main.wizard</field>
+            <field name="arch" type="xml">
+                <form string="PreSync Main Wizard">
+                    <group>
+                        <button name="action_open_presync_attributes"
+                                string="PreSync Attributes"
+                                type="object"
+                                class="btn-secondary"/>
+                        <button name="action_open_presync_brands"
+                                string="PreSync Brands"
+                                type="object"
+                                class="btn-secondary"/>
+                        <button name="action_open_presync_categories"
+                                string="PreSync Categories"
+                                type="object"
+                                class="btn-secondary"/>
+                        <button name="action_open_presync_vendors"
+                                string="PreSync Vendors"
+                                type="object"
+                                class="btn-secondary"/>
+                        <button name="action_open_presync_customers"
+                                string="PreSync Customers"
+                                type="object"
+                                class="btn-secondary"/>
+                        <button name="action_open_presync_products"
+                                string="PreSync Products"
+                                type="object"
+                                class="btn-secondary"/>
+                        <button name="action_open_presync_variants"
+                                string="PreSync Variants"
+                                type="object"
+                                class="btn-secondary"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action to open the main view with two buttons -->
+        <record id="action_presync_main_wizard" model="ir.actions.act_window">
+            <field name="name">PreSync Main Wizard</field>
+            <field name="res_model">presync.main.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_presync_main_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="Initial Sync"
+                  id="menu_initial_sync_root"
+                  sequence="10"/>
+
+        <!-- Menu item for the main wizard -->
+        <menuitem id="menu_presync_main_wizard"
+                  name="PreSync Main Wizard"
+                  parent="menu_initial_sync_root"
+                  action="action_presync_main_wizard"
+                  sequence="5"/>
+    </data>
+</odoo>

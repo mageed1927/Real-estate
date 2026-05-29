@@ -1,0 +1,22 @@
+<odoo>
+  <record id="view_payslip_form_inherit_net_amount" model="ir.ui.view">
+    <field name="name">hr.payslip.form.inherit.net.amount</field>
+    <field name="model">hr.payslip</field>
+    <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='worked_days_line_ids']/tree/field[@name='amount']" position="after">
+        <field name="absence_days" optional="show" class="text-center"/>
+        <field name="total_early_in" optional="show"/>
+        <field name="total_early_out" optional="show"/>
+        <field name="total_late_in" optional="show"/>
+        <field name="total_late_out" optional="show"/>
+        <field name="plus_hours" optional="show"/>
+        <field name="negative_hours" optional="show"/>
+        <field name="net_amount" optional="show"/>
+      </xpath>
+      <xpath expr="//field[@name='struct_id']" position="after">
+        <field name="custom_hours_per_day"/>
+      </xpath>
+    </field>
+  </record>
+</odoo>

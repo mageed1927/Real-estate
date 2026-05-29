@@ -1,48 +1,65 @@
 <odoo>
   <data>
     <!-- explicit list view definition -->
-    <record model="ir.ui.view" id="testapp_am_form">
-      <field name="name">Misurati form</field>
+
+    <record model="ir.ui.view" id="testapp_am_list">
+      <field name="name">alMohamady list</field>
       <field name="model">my.app</field>
       <field name="arch" type="xml">
-        <form string="my form">
-          <header>
-          <button name="event_reviewed" string="Reviewed" invisible="state != 'new'" type="object"/>
-          <button name="event_approved" string="Approved" invisible="state != 'new'" type="object"/>
-          <button name="event_refused" string="Refused" invisible="state != 'new'" type="object"/>
-          <button name="event_new" string="Reviewed" invisible="state != 'new'" type="object"/>
-
-            <field name="state" widget="statusbar"/>
-          </header>
-          <sheet>
-            <h1>hello</h1>
-            <h2><field name="name" default_focus="Enter name" placeholder='enter name'/></h2>
-            <hr/>
-            <group string="info 01">
+        <tree>
+          <field name="name"/>
           <field name="value" string="age"/>
           <field name="value2" string="salary" sum="salary"/>
           <field name="description" decoration-bf="1"/>
-            </group>
-            <group string="info 02">
-          <field name="truefalse" string="isActive"/>
-          <field name="date" optional="hide"/>
-          <field name="date_time" />
-          <button name="button_action" type="object" string="Email" icon="fa-envelope"/>
-            </group>
-            <group string="calculator">
-              <field name="cal1"/>
-              <field name="cal2"/>
-              <hr/><br/>
-              <field name="result"/>
+          <field name="trueFalse" string="isActive"/>
+          <field name="date" icon="fa-bell-slash" optional="show"/>
+          <field name="date_time" optional="hide"/>
+        </tree>
+      </field>
+    </record>
 
+    <record model="ir.ui.view" id="testapp_am_form">
+      <field name="name">alMohamady from</field>
+      <field name="model">my.app</field>
+      <field name="arch" type="xml">
+        <form string="My Form">
+          <header>
+            <!-- Fixed Odoo 17 States Here -->
+            <button name='event_reviewed' string='Reviewed' type='object' invisible="state != 'new'" />
+            <button name='event_approved' string='Approved' type='object' invisible="state != 'reviewed'" />
+            <button name='event_refused' string='Refused' type='object' invisible="state != 'reviewed'" />
+            <field name="state" widget="statusbar" />
+          </header>
+          <sheet>
+            <h1>hello world</h1>
+            <h2><field name="name" default_focus="1" placeholder="enter the name"/></h2>
+            <hr />
+             <group>
+               <group string="info 01">
+                 <field name="value" string="age" decoration-bf="1"/>
+                 <field name="value2" string="salary"/>
+                 <field name="selection" string="Select level"/>
+               </group>
+               <group string="info 02">
+                 <field name="trueFalse" string="isActive"/>
+                 <field name="date" icon="fa-bell-slash"/>
+                 <field name="date_time"/>
+               </group>
+             </group>
+            <group string="calculator">
+              <field name="col1"/>
+              <field name="col2"/>
+              <hr /><br />
+              <field name="result"/>
+              <field name="computed"/>
             </group>
             <notebook>
               <page string="html scheme">
                 <group>
-                  <field name="html" />
+                  <field name="html"/>
                 </group>
               </page>
-              <page string="notes">
+              <page string="notes" >
                 <group>
                   <field name="description" />
                 </group>
@@ -50,90 +67,74 @@
             </notebook>
           </sheet>
           <div class="oe_chatter">
-            <field name="message_follower_ids"/>
-            <field name="activity_ids"/>
-            <field name="message_ids"/>
+            <field name="message_follower_ids" />
+            <field name="activity_ids" />
+            <field name="message_ids" />
           </div>
         </form>
       </field>
     </record>
 
-
     <record model="ir.ui.view" id="testapp_am_orders_form">
-      <field name="name">orders form</field>
-      <field name="model">my.orders</field>
+      <field name="name">orders from</field>
+      <field name="model">my.order</field>
       <field name="arch" type="xml">
-        <form string="my order">
+        <form string="My Order">
           <header>
-          <button name="event_ready" string="Ready" type="object" invisible="state != 'new'"/>
-            <field name="state" widget="statusbar"/>
+            <button name="get_query" string="query" type="object" />
+            <!-- Fixed Odoo 17 States Here -->
+            <button name="add_item" string="add item" type="object" invisible="state != 'ready'" />
+            <button name='event_ready' string='Ready' type='object' invisible="state != 'new'" />
+            <field name="state" widget="statusbar" />
           </header>
           <sheet>
-            <group>
-          <field name="name" string="Order Name"/>
-          <field name="date_time" string="Order Date"/>
-          <field name="isActive" string="Is Active"/>
-
-            </group>
+             <group>
+                <field name="name" string="Oder Name" />
+                <field name="date_time" string="Order Date"/>
+                <field name="isActive" string="Is Active"/>
+                <field name="items_ids" string="Items" />
+             </group>
           </sheet>
         </form>
       </field>
     </record>
 
     <!-- actions opening views on models -->
-    <record model="ir.actions.act_window" id="testapp_misurati_action_window">
-      <field name="name">misurati</field>
+
+    <record model="ir.actions.act_window" id="testapp_almohamady_action_window">
+      <field name="name">almohamady</field>
       <field name="res_model">my.app</field>
       <field name="view_mode">tree,form,kanban,pivot,graph</field>
     </record>
 
     <record model="ir.actions.act_window" id="testapp_orders_action_window">
-      <field name="name">Orders</field>
-      <field name="res_model">my.orders</field>
+      <field name="name">orders</field>
+      <field name="res_model">my.order</field>
       <field name="view_mode">tree,form</field>
     </record>
 
     <record model="ir.actions.act_window" id="testapp_items_action_window">
-      <field name="name">Items</field>
+      <field name="name">items</field>
       <field name="res_model">my.orders.items</field>
       <field name="view_mode">tree,form</field>
     </record>
 
-
-    <!-- server action to the one above -->
-<!--
-    <record model="ir.actions.server" id="testapp.action_server">
-      <field name="name">testapp server</field>
-      <field name="model_id" ref="model_testapp_testapp"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": model._name,
-        }
-      </field>
-    </record>
--->
-
     <!-- Top menu item -->
 
-    <menuitem name="New apps" id="testapp.menu_root"/>
+    <menuitem name="almohamady" id="testapp.menu_root"/>
 
     <!-- menu categories -->
 
-    <menuitem name="main" id="testapp.menu_main" parent="testapp.menu_root"
-              action="testapp_misurati_action_window"/>
-    <menuitem name="My Orders" id="testapp.menu_orders" parent="testapp.menu_root"/>
+    <menuitem name="mohamady main" id="testapp_menu_am_main" parent="testapp.menu_root"
+              action="testapp_almohamady_action_window"/>
+    <menuitem name="My Orders" id="testapp_menu_am_orders" parent="testapp.menu_root"/>
 
     <!-- actions -->
 
-    <menuitem name="Orders" id="testapp.menu_order_list" parent="testapp.menu_orders"
+    <menuitem name="Orders" id="testapp_menu_am_order_list" parent="testapp_menu_am_orders"
               action="testapp_orders_action_window"/>
-    <menuitem name="items" id="testapp.menu_order_item_list" parent="testapp.menu_orders"
+    <menuitem name="Items" id="testapp_menu_am_order_item_list" parent="testapp_menu_am_orders"
               action="testapp_items_action_window"/>
-
-
 
   </data>
 </odoo>

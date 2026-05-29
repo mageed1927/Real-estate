@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_payslip_payment_wizard_form" model="ir.ui.view">
+        <field name="name">hr.payslip.payment.wizard.form</field>
+        <field name="model">hr.payslip.payment.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Batch Salary Payment">
+                <div class="alert alert-warning text-center" role="alert" invisible="not warning_message">
+                    <strong><field name="warning_message" nolabel="1"/></strong>
+                </div>
+                <group>
+                    <group>
+                        <field name="journal_id" options="{'no_create': True}"/>
+                        <field name="payment_date"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Selected Payslips">
+                        <field name="payslip_ids" readonly="1">
+                            <tree>
+                                <field name="employee_id"/>
+                                <field name="name"/>
+                                <field name="net_wage"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+
+                <group class="oe_subtotal_footer oe_right" colspan="2">
+                    <field name="employee_count"/>
+                    <field name="total_amount" class="oe_subtotal_footer_separator"/>
+                </group>
+
+                <footer>
+                    <button string="Create Payment" name="action_create_batch_payment" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_payslip_payment_wizard" model="ir.actions.act_window">
+        <field name="name">Batch Pay Salaries</field>
+        <field name="res_model">hr.payslip.payment.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="hr_payroll.model_hr_payslip"/>
+        <field name="binding_view_types">list,form</field>
+    </record>
+</odoo>

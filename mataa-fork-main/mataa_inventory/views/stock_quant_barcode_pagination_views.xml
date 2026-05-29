@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_stock_quant_barcode_pagination_tree" model="ir.ui.view">
+        <field name="name">stock.quant.barcode.pagination.tree</field>
+        <field name="model">stock.quant</field>
+        <field name="arch" type="xml">
+            <tree limit="50" create="0" edit="0" delete="0"
+            decoration-info="inventory_quantity_set and inventory_quantity > quantity"
+            decoration-danger="inventory_quantity_set and inventory_quantity &lt; quantity"
+            decoration-success="inventory_quantity_set and inventory_quantity == quantity">
+                <field name="inventory_quantity_set" column_invisible="True"/>
+                <field name="product_id"/>
+                <field name="product_barcode" optional="show"/>
+                <field name="location_id"/>
+                <field name="lot_id" groups="stock.group_production_lot"/>
+                <field name="package_id" groups="stock.group_tracking_lot"/>
+                <field name="quantity"/>
+                <field name="inventory_quantity"/>
+                <field name="user_id" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_stock_quant_barcode_pagination" model="ir.actions.act_window">
+        <field name="name">Inventory List</field>
+        <field name="res_model">stock.quant</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="mataa_inventory.view_stock_quant_barcode_pagination_tree"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

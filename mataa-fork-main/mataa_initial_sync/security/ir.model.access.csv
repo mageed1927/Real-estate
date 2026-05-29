@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_presync_main_wizard,access_presync_main_wizard,model_presync_main_wizard,base.group_user,1,1,1,1
+access_presync_categories_wizard,access_presync_categories_wizard,model_presync_categories_wizard,base.group_user,1,1,1,1
+access_presync_attributes_wizard,access_presync_attributes_wizard,model_presync_attributes_wizard,base.group_user,1,1,1,1
+access_presync_vendors_wizard,access_presync_vendors_wizard,model_presync_vendors_wizard,base.group_user,1,1,1,1
+access_presync_customers_wizard,access_presync_customers_wizard,model_presync_customers_wizard,base.group_user,1,1,1,1
+access_presync_products_wizard,access_presync_products_wizard,model_presync_products_wizard,base.group_user,1,1,1,1
+access_presync_variants_wizard,access_presync_variants_wizard,model_presync_variants_wizard,base.group_user,1,1,1,1
+access_presync_brands_wizard,access_presync_brands_wizard,model_presync_brands_wizard,base.group_user,1,1,1,1

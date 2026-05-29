@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="stock_barcode.MainComponent" t-inherit-mode="extension" owl="1" t-translation="off">
+        <xpath expr="//div[@t-if='state.displayNote']" position="after">
+                <div class="row" t-if="env.model.record.mataa_tickets_count">
+                    <button class="btn-lg btn btn-light text-uppercase row alert"
+                            t-on-click="() => env.model.showTickets()"><i class="fa fa-life-ring"/><span t-esc="env.model.record.mataa_tickets_count"/> Tickets</button>
+                </div>
+        </xpath>
+    </t>
+</templates>

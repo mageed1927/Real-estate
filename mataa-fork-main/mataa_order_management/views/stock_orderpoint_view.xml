@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_warehouse_orderpoint_filter_custom_complete" model="ir.ui.view">
+            <field name="name">stock.warehouse.orderpoint.search.inherit.complete</field>
+            <field name="model">stock.warehouse.orderpoint</field>
+            <field name="inherit_id" ref="stock.stock_reorder_report_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <separator/>
+                    <filter name="inhouse_to_order_complete"
+                            string="In-House Replenishment"
+                            domain="[('snoozed_until', '=', False), ('qty_to_order', '>', 0), ('location_id.complete_name', 'in', ['WH/Stock/Inhouse'])]"/>
+                </xpath>
+
+                <xpath expr="//group" position="inside">
+                    <filter string="Brand" name="groupby_brand" context="{'group_by': 'brand_id'}"/>
+                    <filter string="Product template" name="groupby_template" context="{'group_by':'template_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="stock.action_orderpoint_replenish" model="ir.actions.act_window">
+            <field name="context" eval="{'search_default_inhouse_to_order_complete': 1}"/>
+        </record>
+
+    </data>
+</odoo>

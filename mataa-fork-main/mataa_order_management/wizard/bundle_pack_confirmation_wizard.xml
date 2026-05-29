@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_bundle_pack_confirmation_wizard_form" model="ir.ui.view">
+        <field name="name">bundle.pack.confirmation.wizard.form</field>
+        <field name="model">bundle.pack.confirmation.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <p colspan="2">
+                        <field name="msg"/>
+                    </p>
+                </group>
+                <footer>
+                    <button name="validate_all_packs" type="object" string="Validated All PACKs"
+                            class="oe_highlight"/>
+                    or
+                    <button string="Cancel" class="oe_highlight" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
